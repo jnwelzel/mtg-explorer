@@ -13,6 +13,7 @@ const SearchForm: React.FC = () => {
     searchHistory,
     isInputFocused,
     setIsInputFocused,
+    isPending,
   } = useCardSearch();
 
   return (
@@ -66,9 +67,11 @@ const SearchForm: React.FC = () => {
           ) : null}
         </div>
 
-        <Button type="submit">Search</Button>
+        <Button type="submit" isLoading={isPending}>
+          Search
+        </Button>
       </form>
-      {cards.length > 0 ? <CardsList cards={cards} /> : null}
+      <CardsList cards={cards} isLoading={isPending} />
     </>
   );
 };

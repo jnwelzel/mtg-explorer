@@ -4,7 +4,7 @@ type Props = {
   className?: string;
 };
 
-const Skeleton = ({ className }: Props) => {
+const Skeleton: React.FC = ({ className }: Props) => {
   return (
     <div className={cn("flex-1", className)}>
       <div className="skeleton-animation mb-2 h-3 w-10 rounded-xs" />

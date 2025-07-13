@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useTransition } from "react";
 import { Cards, type Card } from "scryfall-api";
 import { useDebounce } from "./useDebounce";
 import { useCardSearchHistory } from "./useCardSearchHistory";
@@ -13,6 +13,7 @@ export type UseCardSearchResult = {
   searchHistory: Card[];
   isInputFocused: boolean;
   setIsInputFocused: (focused: boolean) => void;
+  isPending: boolean;
 };
 
 const useCardSearch = (): UseCardSearchResult => {
@@ -26,6 +27,7 @@ const useCardSearch = (): UseCardSearchResult => {
       : []
   );
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     if (debouncedQuery) {
@@ -54,21 +56,23 @@ const useCardSearch = (): UseCardSearchResult => {
   };
 
   const handleSearchSubmit = async (suggestion?: string) => {
-    const card = await Cards.byName(suggestion || cardName, true);
-    if (!card) {
-      setCards([]);
-      return;
-    }
-    // If a suggestion is provided, set the card name to that suggestion
-    if (suggestion) {
-      setCardName(suggestion);
-    }
-    // Clear suggestions if a card is found
-    setNameSuggestions([]);
-    // Set the found card
-    setCards([card]);
-    // Add the found card to the cards history
-    addCardToHistory(card);
+    startTransition(async () => {
+      const card = await Cards.byName(suggestion || cardName, true);
+      if (!card) {
+        setCards([]);
+        return;
+      }
+      // If a suggestion is provided, set the card name to that suggestion
+      if (suggestion) {
+        setCardName(suggestion);
+      }
+      // Clear suggestions if a card is found
+      setNameSuggestions([]);
+      // Set the found card
+      setCards([card]);
+      // Add the found card to the cards history
+      addCardToHistory(card);
+    });
   };
 
   const handleSuggestionClick = (suggestion: string): void => {
@@ -87,6 +91,7 @@ const useCardSearch = (): UseCardSearchResult => {
     searchHistory,
     isInputFocused,
     setIsInputFocused,
+    isPending,
   };
 };
 
