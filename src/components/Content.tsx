@@ -1,11 +1,9 @@
-import React from "react";
+import React from 'react'
 
 interface ContentProps {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }
 
-const Content: React.FC<ContentProps> = ({ children }) => (
-  <div className="bg-white">{children}</div>
-);
+const Content: React.FC<ContentProps> = ({ children }) => <div className="bg-white">{children}</div>
 
-export { Content };
+export { Content }

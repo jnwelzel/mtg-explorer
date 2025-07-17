@@ -1,10 +1,10 @@
 export const ImageFlipper: React.FC<{
-  frontImageUrl: string;
-  frontImageAltText: string;
-  backImageUrl: string;
-  backImageAltText: string;
-  handleImageClick: () => void;
-  imageIndex: number;
+  frontImageUrl: string
+  frontImageAltText: string
+  backImageUrl: string
+  backImageAltText: string
+  handleImageClick: () => void
+  imageIndex: number
 }> = ({
   frontImageUrl,
   frontImageAltText,
@@ -16,13 +16,11 @@ export const ImageFlipper: React.FC<{
   return (
     <div
       className="bg-transparent perspective-distant aspect-5/7 w-full"
-      onClick={handleImageClick}
-    >
+      onClick={handleImageClick}>
       <div
         className={`relative duration-700 transform-3d w-full h-full ${
-          imageIndex ? "rotate-y-180" : ""
-        }`}
-      >
+          imageIndex ? 'rotate-y-180' : ''
+        }`}>
         <img
           src={frontImageUrl}
           alt={frontImageAltText}
@@ -37,5 +35,5 @@ export const ImageFlipper: React.FC<{
         />
       </div>
     </div>
-  );
-};
+  )
+}

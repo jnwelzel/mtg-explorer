@@ -5,7 +5,7 @@ const MagicCardSkeleton: React.FC = () => {
         <div className="w-full h-auto aspect-5/7 object-cover" />
       </div>
     </li>
-  );
-};
+  )
+}
 
-export { MagicCardSkeleton };
+export { MagicCardSkeleton }

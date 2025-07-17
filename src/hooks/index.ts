@@ -1,8 +1,5 @@
-export { useApp, type UseAppResult } from "./useApp";
-export { useCardSearch, type UseCardSearchResult } from "./useCardSearch";
-export {
-  useCardSearchHistory,
-  type UseCardSearchHistoryResult,
-} from "./useCardSearchHistory";
-export { useDebounce } from "./useDebounce";
-export { useMagicCard, type UseMagicCardResult } from "./useMagicCard";
+export { useApp, type UseAppResult } from './useApp'
+export { useCardSearch, type UseCardSearchResult } from './useCardSearch'
+export { useCardSearchHistory, type UseCardSearchHistoryResult } from './useCardSearchHistory'
+export { useDebounce } from './useDebounce'
+export { useMagicCard, type UseMagicCardResult } from './useMagicCard'

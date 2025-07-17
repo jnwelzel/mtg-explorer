@@ -1,12 +1,10 @@
-import { createContext } from "react";
+import { createContext } from 'react'
 
-export type Currency = "usd" | "eur" | "tix";
+export type Currency = 'usd' | 'eur' | 'tix'
 
 export type CurrencyContextType = {
-  currency: Currency;
-  setCurrency: (currency: Currency) => void;
-};
+  currency: Currency
+  setCurrency: (currency: Currency) => void
+}
 
-export const CurrencyContext = createContext<CurrencyContextType>(
-  {} as CurrencyContextType
-);
+export const CurrencyContext = createContext<CurrencyContextType>({} as CurrencyContextType)

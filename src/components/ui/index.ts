@@ -1,6 +1,6 @@
-export { Button } from "./Button";
-export { ImageFlipper } from "./ImageFlipper";
-export { Input } from "./Input";
-export { MagicCard } from "./MagicCard";
-export { MagicCardSkeleton } from "./MagicCardSkeleton";
-export { Skeleton } from "./Skeleton";
+export { Button } from './Button'
+export { ImageFlipper } from './ImageFlipper'
+export { Input } from './Input'
+export { MagicCard } from './MagicCard'
+export { MagicCardSkeleton } from './MagicCardSkeleton'
+export { Skeleton } from './Skeleton'

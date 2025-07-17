@@ -1,1 +1,1 @@
-export { CurrencyContext, type CurrencyContextType } from "./CurrencyContext";
+export { CurrencyContext, type CurrencyContextType } from './CurrencyContext'

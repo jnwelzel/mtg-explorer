@@ -1,8 +1,8 @@
-import React from "react";
-import { NavItems } from "./NavItems";
+import React from 'react'
+import { NavItems } from './NavItems'
 
 interface HeaderProps {
-  onMenuClick: () => void;
+  onMenuClick: () => void
 }
 
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => (
@@ -14,8 +14,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => (
         <button
           className="md:hidden p-2 rounded bg-gray-600"
           onClick={onMenuClick}
-          aria-label="Open menu"
-        >
+          aria-label="Open menu">
           <svg width="24" height="24" fill="none" stroke="currentColor">
             <path
               strokeWidth="2"
@@ -28,6 +27,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => (
       </nav>
     </div>
   </header>
-);
+)
 
-export { Header };
+export { Header }
