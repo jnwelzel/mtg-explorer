@@ -5,7 +5,7 @@ interface ContentProps {
 }
 
 const Content: React.FC<ContentProps> = ({ children }) => (
-  <main className="bg-white p-4 col-span-12 md:col-span-10">{children}</main>
+  <div className="bg-white">{children}</div>
 );
 
 export { Content };

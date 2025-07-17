@@ -57,21 +57,20 @@ const useCardSearch = (): UseCardSearchResult => {
 
   const handleSearchSubmit = async (suggestion?: string) => {
     startTransition(async () => {
-      const card = await Cards.byName(suggestion || cardName, true);
-      if (!card) {
+      const cards = await Cards.search(suggestion || cardName).all();
+      if (!cards || cards.length === 0) {
         setCards([]);
         return;
       }
       // If a suggestion is provided, set the card name to that suggestion
       if (suggestion) {
         setCardName(suggestion);
+        addCardToHistory(cards[0]);
       }
       // Clear suggestions if a card is found
       setNameSuggestions([]);
       // Set the found card
-      setCards([card]);
-      // Add the found card to the cards history
-      addCardToHistory(card);
+      setCards(cards);
     });
   };
 

@@ -2,17 +2,17 @@ import React from "react";
 import { NavItems } from "./NavItems";
 
 interface MobileSideNavProps {
-  open: boolean;
+  isOpen: boolean;
   onClose: () => void;
 }
 
-const MobileSideNav: React.FC<MobileSideNavProps> = ({ open, onClose }) =>
-  open ? (
+const MobileSideNav: React.FC<MobileSideNavProps> = ({ isOpen, onClose }) =>
+  isOpen ? (
     <aside className="fixed inset-0 z-50 md:hidden">
       <div
         className={`absolute top-0 left-0 h-full w-full bg-gray-800 text-white p-4 shadow-lg flex flex-col
           transition-transform duration-300
-          ${open ? "translate-x-0" : "-translate-x-full"}`}
+          ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
         style={{ willChange: "transform" }}
       >
         <button
