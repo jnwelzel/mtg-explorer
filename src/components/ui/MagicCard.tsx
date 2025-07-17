@@ -1,5 +1,5 @@
 import type { Card } from 'scryfall-api'
-import { getCurrencySymbol } from '../../utils'
+import { getCardPrice } from '../../utils'
 import { useMagicCard } from '../../hooks'
 import { ImageFlipper } from './ImageFlipper'
 import clsx from 'clsx'
@@ -18,6 +18,7 @@ const MagicCard: React.FC<MagicCardProps> = ({
   variant = 'default',
 }) => {
   const { currency, imageUrl, handleImageClick, isDoubleFaced, faceIndex } = useMagicCard(card)
+
   return (
     <div className="flex flex-col">
       {isDoubleFaced ? (
@@ -51,18 +52,7 @@ const MagicCard: React.FC<MagicCardProps> = ({
       )}
       {shouldDisplayPrice ? (
         <span className="text-xs text-gray-600 text-center">
-          {(() => {
-            type PriceKey = keyof typeof card.prices
-            if (currency in card.prices) {
-              const price = card.prices[currency as PriceKey]
-              const symbol = getCurrencySymbol(currency)
-              if (typeof price === 'string') {
-                return `${symbol}${parseFloat(price).toFixed(2)}`
-              }
-              return null
-            }
-            return null
-          })()}
+          {getCardPrice(card.prices, currency as keyof typeof card.prices)}
         </span>
       ) : null}
     </div>

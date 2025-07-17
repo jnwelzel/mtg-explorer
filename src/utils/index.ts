@@ -1,2 +1,2 @@
 export { cn } from './cn'
-export { getCurrencySymbol } from './currency'
+export { getCurrencySymbol, getCardPrice } from './currency'

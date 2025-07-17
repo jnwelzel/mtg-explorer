@@ -15,7 +15,7 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const buttonClasses = {
     default: 'px-4 bg-blue-600 hover:bg-blue-700 text-white',
-    link: 'text-blue-600 hover:text-blue-700 hover:underline',
+    link: 'text-blue-600 hover:underline',
   }
   return (
     <button

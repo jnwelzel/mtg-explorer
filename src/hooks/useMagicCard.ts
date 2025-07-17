@@ -1,14 +1,7 @@
 import { useContext, useState } from 'react'
 import type { Card } from 'scryfall-api'
 import { CurrencyContext } from '../contexts'
-
-export type UseMagicCardResult = {
-  currency: string
-  imageUrl: string | undefined
-  isDoubleFaced: boolean
-  faceIndex: number
-  handleImageClick: () => void
-}
+import type { UseMagicCardResult } from '../types'
 
 export const useMagicCard = (card: Card): UseMagicCardResult => {
   const { currency } = useContext(CurrencyContext)
@@ -28,6 +21,7 @@ export const useMagicCard = (card: Card): UseMagicCardResult => {
       setFaceIndex(prev => (prev === 0 ? 1 : 0))
     }
   }
+
   return {
     currency,
     imageUrl,
