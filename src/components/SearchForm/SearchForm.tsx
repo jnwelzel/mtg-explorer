@@ -2,7 +2,7 @@ import { useCardSearch } from '../../hooks'
 import { Button, Input, MagicCard } from '../ui'
 import { CardsList } from './CardsList'
 
-const SearchForm: React.FC = () => {
+export const SearchForm: React.FC = () => {
   const {
     cards,
     cardName,
@@ -22,7 +22,7 @@ const SearchForm: React.FC = () => {
       <form
         className="grid gap-3 w-full mt-3 grid-cols-12"
         action={handleSearchSubmit.bind(null, cardName)}>
-        <div className="flex w-full relative col-span-9 md:col-span-3">
+        <div className="flex w-full relative col-span-9 md:col-span-4">
           <Input
             placeholder="Black Lotus"
             value={cardName}
@@ -68,7 +68,7 @@ const SearchForm: React.FC = () => {
         </Button>
       </form>
       {cards.length > 0 && !isPending ? (
-        <span className="flex items-center text-sm mt-4 gap-1">
+        <span className="flex items-center text-sm mt-3 gap-1">
           <p className="text-gray-500">
             Search for "{cardName}" returned {cards.length} result{cards.length > 1 ? 's' : ''}
           </p>
@@ -82,5 +82,3 @@ const SearchForm: React.FC = () => {
     </>
   )
 }
-
-export { SearchForm }

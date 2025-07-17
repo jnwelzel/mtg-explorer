@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import type { Card } from 'scryfall-api'
 import { CurrencyContext } from '../contexts'
-import type { UseMagicCardResult } from '../types'
+import type { CardBadges, UseMagicCardResult } from '../types'
 
 export const useMagicCard = (card: Card): UseMagicCardResult => {
   const { currency } = useContext(CurrencyContext)
@@ -22,11 +22,20 @@ export const useMagicCard = (card: Card): UseMagicCardResult => {
     }
   }
 
+  const badges: CardBadges[] = []
+  if (card.reprint) {
+    badges.push('Reprint')
+  }
+  if (card.reserved) {
+    badges.push('Reserved')
+  }
+
   return {
     currency,
     imageUrl,
     handleImageClick,
     isDoubleFaced,
     faceIndex,
+    badges,
   }
 }

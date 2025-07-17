@@ -3,6 +3,7 @@ import { getCardPrice } from '../../utils'
 import { useMagicCard } from '../../hooks'
 import { ImageFlipper } from './ImageFlipper'
 import clsx from 'clsx'
+import { Badge } from './Badge'
 
 interface MagicCardProps {
   card: Card
@@ -11,13 +12,14 @@ interface MagicCardProps {
   variant?: 'default' | 'compact'
 }
 
-const MagicCard: React.FC<MagicCardProps> = ({
+export const MagicCard: React.FC<MagicCardProps> = ({
   card,
   shouldDisplayName = true,
   shouldDisplayPrice = true,
   variant = 'default',
 }) => {
-  const { currency, imageUrl, handleImageClick, isDoubleFaced, faceIndex } = useMagicCard(card)
+  const { currency, imageUrl, handleImageClick, isDoubleFaced, faceIndex, badges } =
+    useMagicCard(card)
 
   return (
     <div className="flex flex-col">
@@ -50,13 +52,16 @@ const MagicCard: React.FC<MagicCardProps> = ({
           {isDoubleFaced && variant === 'default' ? card.card_faces?.[faceIndex]?.name : card.name}
         </span>
       )}
-      {shouldDisplayPrice ? (
-        <span className="text-xs text-gray-600 text-center">
-          {getCardPrice(card.prices, currency as keyof typeof card.prices)}
-        </span>
-      ) : null}
+      <div className="flex gap-1 items-center justify-center">
+        {badges.map((badge, i) => (
+          <Badge key={`${card.id.substring(0, 8)}--${i}`} text={badge} />
+        ))}
+        {shouldDisplayPrice ? (
+          <span className="text-xs text-gray-600 text-center">
+            {getCardPrice(card.prices, currency as keyof typeof card.prices)}
+          </span>
+        ) : null}
+      </div>
     </div>
   )
 }
-
-export { MagicCard }
