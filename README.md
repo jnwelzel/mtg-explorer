@@ -11,3 +11,4 @@ A place for messing around with Magic: The Gathering.
   - [ ] `useMagicCard`
 - [ ] Routing
 - [ ] Improve search skeleton(s)
+- [ ] Add flip icon in double faced cards
