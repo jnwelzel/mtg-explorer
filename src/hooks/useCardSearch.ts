@@ -15,12 +15,14 @@ export type UseCardSearchResult = {
   setIsInputFocused: (focused: boolean) => void
   isPending: boolean
   handleClearSearch: () => void
+  errorMessage?: string | null
+  isPendingSuggestions: boolean
 }
 
 const useCardSearch = (): UseCardSearchResult => {
   const [cards, setCards] = useState<Card[]>([])
   const [cardName, setCardName] = useState('')
-  const debouncedQuery = useDebounce(cardName, 400)
+  const debouncedQuery = useDebounce(cardName, 250)
   const [nameSuggestions, setNameSuggestions] = useState<string[]>([])
   const { searchHistory, addCardToHistory } = useCardSearchHistory(
     localStorage.getItem('cardSearchHistory')
@@ -29,6 +31,8 @@ const useCardSearch = (): UseCardSearchResult => {
   )
   const [isInputFocused, setIsInputFocused] = useState(false)
   const [isPending, startTransition] = useTransition()
+  const [isPendingSuggestions, startTransitionSuggestions] = useTransition()
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   useEffect(() => {
     if (debouncedQuery) {
@@ -36,13 +40,15 @@ const useCardSearch = (): UseCardSearchResult => {
         setCards([])
         return
       }
-      const fetchSuggestions = async () => {
-        const suggestions = await Cards.autoCompleteName(debouncedQuery)
-        if (suggestions.length > 0 && suggestions[0] !== debouncedQuery) {
-          setNameSuggestions(suggestions)
-        } else {
-          setNameSuggestions([])
-        }
+      const fetchSuggestions = () => {
+        startTransitionSuggestions(async () => {
+          const suggestions = await Cards.autoCompleteName(debouncedQuery)
+          if (suggestions.length > 0 && suggestions[0] !== debouncedQuery) {
+            setNameSuggestions(suggestions)
+          } else {
+            setNameSuggestions([])
+          }
+        })
       }
       fetchSuggestions()
     }
@@ -50,6 +56,7 @@ const useCardSearch = (): UseCardSearchResult => {
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCardName(event.target.value)
+    setErrorMessage(null)
     if (event.target.value.trim() === '') {
       setCards([])
       setNameSuggestions([])
@@ -57,21 +64,30 @@ const useCardSearch = (): UseCardSearchResult => {
   }
 
   const handleSearchSubmit = async (suggestion?: string) => {
+    setNameSuggestions([])
+    setErrorMessage(null)
+
     startTransition(async () => {
-      const cards = await Cards.search(suggestion || cardName).all()
-      if (!cards || cards.length === 0) {
-        setCards([])
-        return
-      }
-      // If a suggestion is provided, set the card name to that suggestion
       if (suggestion) {
+        // If a suggestion is provided, set the card name to that suggestion
         setCardName(suggestion)
-        addCardToHistory(cards[0])
+        const card = await Cards.byName(suggestion)
+
+        if (card) {
+          addCardToHistory(card)
+          setCards([card])
+        }
+      } else {
+        const cards = await Cards.search(cardName).all()
+        if (!cards || cards.length === 0) {
+          setCards([])
+          setErrorMessage(`No results found for '${cardName}'. Try a different search term.`)
+          return
+        }
+
+        // Add the cards to the state
+        setCards(cards)
       }
-      // Clear suggestions if a card is found
-      setNameSuggestions([])
-      // Set the found card
-      setCards(cards)
     })
   }
 
@@ -100,6 +116,8 @@ const useCardSearch = (): UseCardSearchResult => {
     setIsInputFocused,
     isPending,
     handleClearSearch,
+    errorMessage,
+    isPendingSuggestions,
   }
 }
 

@@ -41,21 +41,22 @@ export const MagicCard: React.FC<MagicCardProps> = ({
           onClick={isDoubleFaced ? handleImageClick : undefined}
         />
       )}
-      {shouldDisplayName && (
+      {shouldDisplayName ? (
         <span
           title={card.name}
-          className={`text-center truncate ${clsx({
+          className={`text-center truncate mt-1 ${clsx({
             'text-xs': variant === 'compact',
-            'mt-1': variant === 'default',
             'text-sm': variant === 'default',
           })}`}>
           {isDoubleFaced && variant === 'default' ? card.card_faces?.[faceIndex]?.name : card.name}
         </span>
-      )}
+      ) : null}
       <div className="flex gap-1 items-center justify-center">
-        {badges.map((badge, i) => (
-          <Badge key={`${card.id.substring(0, 8)}--${i}`} text={badge} />
-        ))}
+        {variant === 'default'
+          ? badges.map((badge, i) => (
+              <Badge key={`${card.id.substring(0, 8)}--${i}`} text={badge} />
+            ))
+          : null}
         {shouldDisplayPrice ? (
           <span className="text-xs text-gray-600 text-center">
             {getCardPrice(card.prices, currency as keyof typeof card.prices)}

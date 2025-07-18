@@ -15,13 +15,15 @@ export const SearchForm: React.FC = () => {
     setIsInputFocused,
     isPending,
     handleClearSearch,
+    errorMessage,
+    isPendingSuggestions,
   } = useCardSearch()
 
   return (
     <>
       <form
         className="grid gap-3 w-full mt-3 grid-cols-12"
-        action={handleSearchSubmit.bind(null, cardName)}>
+        action={handleSearchSubmit.bind(null, undefined)}>
         <div className="flex w-full relative col-span-9 md:col-span-4">
           <Input
             placeholder="Black Lotus"
@@ -36,7 +38,7 @@ export const SearchForm: React.FC = () => {
               setTimeout(() => setIsInputFocused(false), 100)
             }}
           />
-          {nameSuggestions.length > 0 ? (
+          {nameSuggestions.length > 0 && !isPending ? (
             <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded shadow-lg mt-11 max-h-60 overflow-y-auto">
               {nameSuggestions.map(suggestion => (
                 <li
@@ -63,14 +65,18 @@ export const SearchForm: React.FC = () => {
           ) : null}
         </div>
 
-        <Button type="submit" isLoading={isPending} className="col-span-3 md:col-span-2">
+        <Button
+          type="submit"
+          isLoading={isPending || isPendingSuggestions}
+          className="col-span-3 md:col-span-2">
           Search
         </Button>
       </form>
+      {errorMessage ? <p className="text-sm text-red-400 mt-3">{errorMessage}</p> : null}
       {cards.length > 0 && !isPending ? (
         <span className="flex items-center text-sm mt-3 gap-1">
           <p className="text-gray-500">
-            Search for "{cardName}" returned {cards.length} result{cards.length > 1 ? 's' : ''}
+            Search for '{cardName}' returned {cards.length} result{cards.length > 1 ? 's' : ''}
           </p>
           •
           <Button onClick={handleClearSearch} type="button" variant="link">
