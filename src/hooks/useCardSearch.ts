@@ -3,24 +3,36 @@ import { Cards, type Card } from 'scryfall-api'
 import { useDebounce } from './useDebounce'
 import { useCardSearchHistory } from './useCardSearchHistory'
 
-type UseCardSearchResult = {
+type CardSearchHandlers = {
+  onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onSearchSubmit: (suggestion?: string) => void
+  onSuggestionClick: (suggestion: string) => void
+  onClearSearch: () => void
+  onLoadMore: () => void
+  setIsInputFocused: (focused: boolean) => void
+}
+
+type CardSearchData = {
   cards: Card[]
   cardName: string
   nameSuggestions: string[]
-  handleSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  handleSearchSubmit: (suggestion?: string) => void
-  handleSuggestionClick: (suggestion: string) => void
   searchHistory: Card[]
-  isInputFocused: boolean
-  setIsInputFocused: (focused: boolean) => void
-  isPending: boolean
-  handleClearSearch: () => void
+  totalCount: number
   errorMessage?: string | null
+}
+
+type CardSearchFlags = {
+  isInputFocused: boolean
+  isPending: boolean
   isPendingSuggestions: boolean
   hasMoreResults?: boolean
-  totalCount: number
-  handleLoadMore: () => void
   isLoadingMore?: boolean
+}
+
+type UseCardSearchResult = {
+  data: CardSearchData
+  flags: CardSearchFlags
+  handlers: CardSearchHandlers
 }
 
 const PAGE_SIZE = 175 // Number of cards per page
@@ -63,7 +75,7 @@ const useCardSearch = (): UseCardSearchResult => {
     }
   }, [debouncedQuery])
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCardName(event.target.value)
     setErrorMessage(null)
     if (event.target.value.trim() === '') {
@@ -72,7 +84,7 @@ const useCardSearch = (): UseCardSearchResult => {
     }
   }
 
-  const handleSearchSubmit = (suggestion?: string) => {
+  const onSearchSubmit = (suggestion?: string) => {
     setNameSuggestions([])
     setErrorMessage(null)
 
@@ -103,7 +115,7 @@ const useCardSearch = (): UseCardSearchResult => {
     })
   }
 
-  const handleLoadMore = () => {
+  const onLoadMore = () => {
     if (hasMoreResults) {
       startTransitionLoadingMore(async () => {
         const result = Cards.search(cardName, cards.length / PAGE_SIZE + 1)
@@ -114,13 +126,13 @@ const useCardSearch = (): UseCardSearchResult => {
     }
   }
 
-  const handleSuggestionClick = (suggestion: string): void => {
+  const onSuggestionClick = (suggestion: string): void => {
     setCardName(suggestion)
     setNameSuggestions([])
-    handleSearchSubmit(suggestion)
+    onSearchSubmit(suggestion)
   }
 
-  const handleClearSearch = () => {
+  const onClearSearch = () => {
     setCards([])
     setCardName('')
     setNameSuggestions([])
@@ -128,23 +140,29 @@ const useCardSearch = (): UseCardSearchResult => {
   }
 
   return {
-    cards,
-    cardName,
-    nameSuggestions,
-    handleSearchChange,
-    handleSearchSubmit,
-    handleSuggestionClick,
-    searchHistory,
-    isInputFocused,
-    setIsInputFocused,
-    isPending,
-    handleClearSearch,
-    errorMessage,
-    isPendingSuggestions,
-    hasMoreResults,
-    totalCount,
-    handleLoadMore,
-    isLoadingMore,
+    data: {
+      cards,
+      cardName,
+      errorMessage,
+      nameSuggestions,
+      searchHistory,
+      totalCount,
+    },
+    flags: {
+      isInputFocused,
+      isPending,
+      isPendingSuggestions,
+      hasMoreResults,
+      isLoadingMore,
+    },
+    handlers: {
+      onSearchChange,
+      onSearchSubmit,
+      onSuggestionClick,
+      setIsInputFocused,
+      onClearSearch,
+      onLoadMore,
+    },
   }
 }
 
