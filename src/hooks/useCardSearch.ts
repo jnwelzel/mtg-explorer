@@ -3,7 +3,7 @@ import { Cards, type Card } from 'scryfall-api'
 import { useDebounce } from './useDebounce'
 import { useCardSearchHistory } from './useCardSearchHistory'
 
-export type UseCardSearchResult = {
+type UseCardSearchResult = {
   cards: Card[]
   cardName: string
   nameSuggestions: string[]

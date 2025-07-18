@@ -1,11 +1,13 @@
-export const ImageFlipper: React.FC<{
+interface ImageFlipperProps {
   frontImageUrl: string
   frontImageAltText: string
   backImageUrl: string
   backImageAltText: string
   handleImageClick: () => void
   imageIndex: number
-}> = ({
+}
+
+export const ImageFlipper: React.FC<ImageFlipperProps> = ({
   frontImageUrl,
   frontImageAltText,
   backImageUrl,

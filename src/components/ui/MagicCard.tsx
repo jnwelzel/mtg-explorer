@@ -18,37 +18,37 @@ export const MagicCard: React.FC<MagicCardProps> = ({
   shouldDisplayPrice = true,
   variant = 'default',
 }) => {
-  const { currency, imageUrl, handleImageClick, isDoubleFaced, faceIndex, badges } =
+  const { currency, images, handleImageClick, isDoubleFaced, faceIndex, badges, cardName, faces } =
     useMagicCard(card)
 
   return (
     <div className="flex flex-col">
       {isDoubleFaced ? (
         <ImageFlipper
-          frontImageUrl={card.card_faces?.[0]?.image_uris?.large || ''}
-          frontImageAltText={card.card_faces?.[0]?.name || ''}
-          backImageUrl={card.card_faces?.[1]?.image_uris?.large || ''}
-          backImageAltText={card.card_faces?.[1]?.name || ''}
+          frontImageUrl={images[0]}
+          frontImageAltText={faces[0]}
+          backImageUrl={images[1]}
+          backImageAltText={faces[1]}
           handleImageClick={handleImageClick}
           imageIndex={faceIndex}
         />
       ) : (
         <img
-          src={imageUrl}
-          alt={card.name}
-          title={card.name}
+          src={images[0]}
+          alt={cardName}
+          title={cardName}
           className={`w-full rounded-lg ${isDoubleFaced ? 'cursor-pointer' : ''}`}
           onClick={isDoubleFaced ? handleImageClick : undefined}
         />
       )}
       {shouldDisplayName ? (
         <span
-          title={card.name}
+          title={cardName}
           className={`text-center truncate mt-1 ${clsx({
             'text-xs': variant === 'compact',
             'text-sm': variant === 'default',
           })}`}>
-          {isDoubleFaced && variant === 'default' ? card.card_faces?.[faceIndex]?.name : card.name}
+          {isDoubleFaced && variant === 'default' ? faces[faceIndex] : cardName}
         </span>
       ) : null}
       <div className="flex gap-1 items-center justify-center">

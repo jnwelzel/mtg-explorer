@@ -12,14 +12,23 @@ export const useMagicCard = (card: Card): UseMagicCardResult => {
   )
   const [faceIndex, setFaceIndex] = useState(0)
 
-  const imageUrl = isDoubleFaced
-    ? card.card_faces?.[faceIndex]?.image_uris?.large
-    : card.image_uris?.large
-
   const handleImageClick = () => {
     if (isDoubleFaced) {
       setFaceIndex(prev => (prev === 0 ? 1 : 0))
     }
+  }
+
+  const images = []
+  const faces = []
+  if (isDoubleFaced) {
+    images.push(card.card_faces?.[0]?.image_uris?.large ?? '')
+    images.push(card.card_faces?.[1]?.image_uris?.large ?? '')
+
+    faces.push(card.card_faces?.[0]?.name ?? '')
+    faces.push(card.card_faces?.[1]?.name ?? '')
+  } else {
+    images.push(card.image_uris?.large ?? '')
+    faces.push(card.name)
   }
 
   const badges: CardBadges[] = []
@@ -32,10 +41,12 @@ export const useMagicCard = (card: Card): UseMagicCardResult => {
 
   return {
     currency,
-    imageUrl,
+    images,
     handleImageClick,
     isDoubleFaced,
     faceIndex,
     badges,
+    cardName: card.name,
+    faces,
   }
 }

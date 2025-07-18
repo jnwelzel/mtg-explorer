@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { Card } from 'scryfall-api'
 
-export type UseCardSearchHistoryResult = {
+type UseCardSearchHistoryResult = {
   searchHistory: Card[]
   addCardToHistory: (card: Card) => void
 }
