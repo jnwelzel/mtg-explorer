@@ -4,6 +4,8 @@ interface ContentProps {
   children?: React.ReactNode
 }
 
-const Content: React.FC<ContentProps> = ({ children }) => <div className="bg-white">{children}</div>
+const Content: React.FC<ContentProps> = ({ children }) => (
+  <div className="bg-white flex flex-col">{children}</div>
+)
 
 export { Content }

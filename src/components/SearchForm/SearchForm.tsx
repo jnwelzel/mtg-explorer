@@ -17,6 +17,10 @@ export const SearchForm: React.FC = () => {
     handleClearSearch,
     errorMessage,
     isPendingSuggestions,
+    hasMoreResults,
+    totalCount,
+    handleLoadMore,
+    isLoadingMore,
   } = useCardSearch()
 
   return (
@@ -76,7 +80,7 @@ export const SearchForm: React.FC = () => {
       {cards.length > 0 && !isPending ? (
         <span className="flex items-center text-sm mt-3 gap-1">
           <p className="text-gray-500">
-            Search for '{cardName}' returned {cards.length} result{cards.length > 1 ? 's' : ''}
+            Search for '{cardName}' returned {totalCount} result{totalCount > 1 ? 's' : ''}
           </p>
           •
           <Button onClick={handleClearSearch} type="button" variant="link">
@@ -85,6 +89,11 @@ export const SearchForm: React.FC = () => {
         </span>
       ) : null}
       <CardsList cards={cards} isLoading={isPending} />
+      {hasMoreResults ? (
+        <Button className="ml-auto mr-auto mt-3" isLoading={isLoadingMore} onClick={handleLoadMore}>
+          Load more ({`${totalCount - cards.length}`} left)
+        </Button>
+      ) : null}
     </>
   )
 }

@@ -8,7 +8,7 @@ type UseCardSearchResult = {
   cardName: string
   nameSuggestions: string[]
   handleSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  handleSearchSubmit: (suggestion?: string) => Promise<void>
+  handleSearchSubmit: (suggestion?: string) => void
   handleSuggestionClick: (suggestion: string) => void
   searchHistory: Card[]
   isInputFocused: boolean
@@ -17,7 +17,13 @@ type UseCardSearchResult = {
   handleClearSearch: () => void
   errorMessage?: string | null
   isPendingSuggestions: boolean
+  hasMoreResults?: boolean
+  totalCount: number
+  handleLoadMore: () => void
+  isLoadingMore?: boolean
 }
+
+const PAGE_SIZE = 175 // Number of cards per page
 
 const useCardSearch = (): UseCardSearchResult => {
   const [cards, setCards] = useState<Card[]>([])
@@ -32,7 +38,10 @@ const useCardSearch = (): UseCardSearchResult => {
   const [isInputFocused, setIsInputFocused] = useState(false)
   const [isPending, startTransition] = useTransition()
   const [isPendingSuggestions, startTransitionSuggestions] = useTransition()
+  const [isLoadingMore, startTransitionLoadingMore] = useTransition()
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [hasMoreResults, setHasMoreResults] = useState(false)
+  const [totalCount, setTotalCount] = useState<number>(0)
 
   useEffect(() => {
     if (debouncedQuery) {
@@ -63,7 +72,7 @@ const useCardSearch = (): UseCardSearchResult => {
     }
   }
 
-  const handleSearchSubmit = async (suggestion?: string) => {
+  const handleSearchSubmit = (suggestion?: string) => {
     setNameSuggestions([])
     setErrorMessage(null)
 
@@ -78,8 +87,11 @@ const useCardSearch = (): UseCardSearchResult => {
           setCards([card])
         }
       } else {
-        const cards = await Cards.search(cardName).all()
-        if (!cards || cards.length === 0) {
+        const result = Cards.search(cardName)
+        const cards = await result.next()
+        setTotalCount(result.count)
+        setHasMoreResults(result.hasMore)
+        if (!result.count) {
           setCards([])
           setErrorMessage(`No results found for '${cardName}'. Try a different search term.`)
           return
@@ -89,6 +101,17 @@ const useCardSearch = (): UseCardSearchResult => {
         setCards(cards)
       }
     })
+  }
+
+  const handleLoadMore = () => {
+    if (hasMoreResults) {
+      startTransitionLoadingMore(async () => {
+        const result = Cards.search(cardName, cards.length / PAGE_SIZE + 1)
+        const moreCards = await result.next()
+        setCards(prevCards => [...prevCards, ...moreCards])
+        setHasMoreResults(result.hasMore)
+      })
+    }
   }
 
   const handleSuggestionClick = (suggestion: string): void => {
@@ -118,6 +141,10 @@ const useCardSearch = (): UseCardSearchResult => {
     handleClearSearch,
     errorMessage,
     isPendingSuggestions,
+    hasMoreResults,
+    totalCount,
+    handleLoadMore,
+    isLoadingMore,
   }
 }
 

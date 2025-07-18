@@ -1,7 +1,7 @@
 import type { Card } from 'scryfall-api'
 import { MagicCard, MagicCardSkeleton } from '../../ui'
 
-type CardsListProps = {
+interface CardsListProps {
   cards: Card[]
   isLoading?: boolean
 }
