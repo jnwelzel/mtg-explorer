@@ -81,6 +81,7 @@ const useCardSearch = (): UseCardSearchResult => {
     if (event.target.value.trim() === '') {
       setCards([])
       setNameSuggestions([])
+      setHasMoreResults(false)
     }
   }
 
@@ -137,6 +138,8 @@ const useCardSearch = (): UseCardSearchResult => {
     setCardName('')
     setNameSuggestions([])
     setIsInputFocused(false)
+    setHasMoreResults(false)
+    setTotalCount(0)
   }
 
   return {

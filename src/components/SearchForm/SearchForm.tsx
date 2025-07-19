@@ -73,12 +73,14 @@ export const SearchForm: React.FC = () => {
       ) : null}
       <CardsList cards={data.cards} isLoading={flags.isPending} />
       {flags.hasMoreResults ? (
-        <Button
-          className="ml-auto mr-auto mt-3"
-          isLoading={flags.isLoadingMore}
-          onClick={handlers.onLoadMore}>
-          Load more ({`${data.totalCount - data.cards.length}`} left)
-        </Button>
+        <div className="grid grid-cols-12 md:grid-cols-11 mt-3">
+          <Button
+            className="col-span-12 sm:col-span-4 sm:col-start-5 md:col-start-5 md:col-span-3"
+            isLoading={flags.isLoadingMore}
+            onClick={handlers.onLoadMore}>
+            Load more ({`${data.totalCount - data.cards.length}`} left)
+          </Button>
+        </div>
       ) : null}
     </>
   )
