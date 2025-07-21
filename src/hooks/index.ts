@@ -1,5 +1,6 @@
 export { useApp, type UseAppResult } from './useApp'
 export { useCardSearch } from './useCardSearch'
 export { useCardSearchHistory } from './useCardSearchHistory'
+export { useCardView } from './useCardView'
 export { useDebounce } from './useDebounce'
 export { useMagicCard } from './useMagicCard'

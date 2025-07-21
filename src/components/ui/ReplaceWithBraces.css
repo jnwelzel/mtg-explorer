@@ -1,0 +1,13 @@
+.ms {
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 100%;
+  background-color: #c9c3c5;
+}
+
+.ms.ms-G {
+  background-color: #99c7b3;
+}

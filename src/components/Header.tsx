@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavItems } from './NavItems'
+import { Link } from 'react-router'
 
 interface HeaderProps {
   onMenuClick: () => void
@@ -8,7 +9,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => (
   <header className="bg-gray-800 text-white p-4 col-span-2 flex items-center">
     <div className="flex max-w-7xl ml-auto mr-auto w-full items-center">
-      <span>MTG Explorer</span>
+      <Link to="/">MTG Explorer</Link>
       <nav className="ml-auto">
         <NavItems isVertical={false} className="hidden md:flex" />
         <button

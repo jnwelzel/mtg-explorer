@@ -4,11 +4,13 @@ import { useMagicCard } from '../../hooks'
 import { ImageFlipper } from './ImageFlipper'
 import clsx from 'clsx'
 import { Badge } from './Badge'
+import { Link } from 'react-router'
 
 interface MagicCardProps {
   card: Card
   shouldDisplayName?: boolean
   shouldDisplayPrice?: boolean
+  shouldDisplayBadges?: boolean
   variant?: 'default' | 'compact'
 }
 
@@ -16,6 +18,7 @@ export const MagicCard: React.FC<MagicCardProps> = ({
   card,
   shouldDisplayName = true,
   shouldDisplayPrice = true,
+  shouldDisplayBadges = true,
   variant = 'default',
 }) => {
   const { currency, images, handleImageClick, isDoubleFaced, faceIndex, badges, cardName, faces } =
@@ -42,27 +45,30 @@ export const MagicCard: React.FC<MagicCardProps> = ({
         />
       )}
       {shouldDisplayName ? (
-        <span
+        <Link
+          to={`/cards/${card.id}`}
           title={cardName}
-          className={`text-center truncate mt-1 ${clsx({
+          className={`text-center underline truncate mt-1 ${clsx({
             'text-xs': variant === 'compact',
             'text-sm': variant === 'default',
           })}`}>
           {isDoubleFaced && variant === 'default' ? faces[faceIndex] : cardName}
-        </span>
+        </Link>
       ) : null}
-      <div className="flex gap-1 items-center justify-center">
-        {variant === 'default'
-          ? badges.map((badge, i) => (
-              <Badge key={`${card.id.substring(0, 8)}--${i}`} text={badge} />
-            ))
-          : null}
-        {shouldDisplayPrice ? (
-          <span className="text-xs text-gray-600 text-center">
-            {getCardPrice(card.prices, currency as keyof typeof card.prices)}
-          </span>
-        ) : null}
-      </div>
+      {shouldDisplayPrice || shouldDisplayBadges ? (
+        <div className="flex gap-1 items-center justify-center">
+          {variant === 'default' && shouldDisplayBadges
+            ? badges.map((badge, i) => (
+                <Badge key={`${card.id.substring(0, 8)}--${i}`} text={badge} />
+              ))
+            : null}
+          {shouldDisplayPrice ? (
+            <span className="text-xs text-gray-600 text-center">
+              {getCardPrice(card.prices, currency as keyof typeof card.prices)}
+            </span>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   )
 }

@@ -12,6 +12,7 @@ export const SearchForm: React.FC = () => {
         action={handlers.onSearchSubmit.bind(null, undefined)}>
         <div className="flex w-full relative col-span-9 md:col-span-4">
           <Input
+            autoFocus
             placeholder="Black Lotus"
             value={data.cardName}
             onChange={handlers.onSearchChange}
@@ -24,7 +25,7 @@ export const SearchForm: React.FC = () => {
               setTimeout(() => handlers.setIsInputFocused(false), 100)
             }}
           />
-          {data.nameSuggestions.length > 0 && !flags.isPending ? (
+          {data.nameSuggestions.length > 0 && !flags.isPending && flags.isInputFocused ? (
             <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded shadow-lg mt-11 max-h-60 overflow-y-auto">
               {data.nameSuggestions.map(suggestion => (
                 <li
@@ -43,7 +44,7 @@ export const SearchForm: React.FC = () => {
                 <li
                   key={card.id}
                   className="cursor-pointer col-span-4"
-                  onClick={handlers.onSearchSubmit.bind(null, card.name)}>
+                  onClick={handlers.onSuggestionClick.bind(null, card.name)}>
                   <MagicCard card={card} shouldDisplayPrice={false} variant="compact" />
                 </li>
               ))}
@@ -62,7 +63,7 @@ export const SearchForm: React.FC = () => {
       {data.cards.length > 0 && !flags.isPending ? (
         <span className="flex items-center text-sm mt-3 gap-1">
           <p className="text-gray-500">
-            Search for '{data.cardName}' returned {data.totalCount} result
+            Search for '{data.query}' returned {data.totalCount} result
             {data.totalCount > 1 ? 's' : ''}
           </p>
           •
@@ -76,7 +77,7 @@ export const SearchForm: React.FC = () => {
         <div className="grid grid-cols-12 md:grid-cols-11 mt-3">
           <Button
             className="col-span-12 sm:col-span-4 sm:col-start-5 md:col-start-5 md:col-span-3"
-            isLoading={flags.isLoadingMore}
+            isLoading={flags.isLoadingMore || flags.isPending}
             onClick={handlers.onLoadMore}>
             Load more ({`${data.totalCount - data.cards.length}`} left)
           </Button>

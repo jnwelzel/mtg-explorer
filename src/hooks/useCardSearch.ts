@@ -2,6 +2,7 @@ import { useState, useEffect, useTransition } from 'react'
 import { Cards, type Card } from 'scryfall-api'
 import { useDebounce } from './useDebounce'
 import { useCardSearchHistory } from './useCardSearchHistory'
+import { useSearchParams } from 'react-router'
 
 type CardSearchHandlers = {
   onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -19,6 +20,7 @@ type CardSearchData = {
   searchHistory: Card[]
   totalCount: number
   errorMessage?: string | null
+  query?: string
 }
 
 type CardSearchFlags = {
@@ -38,6 +40,7 @@ type UseCardSearchResult = {
 const PAGE_SIZE = 175 // Number of cards per page
 
 const useCardSearch = (): UseCardSearchResult => {
+  let [searchParams, setSearchParams] = useSearchParams()
   const [cards, setCards] = useState<Card[]>([])
   const [cardName, setCardName] = useState('')
   const debouncedQuery = useDebounce(cardName, 250)
@@ -54,6 +57,7 @@ const useCardSearch = (): UseCardSearchResult => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [hasMoreResults, setHasMoreResults] = useState(false)
   const [totalCount, setTotalCount] = useState<number>(0)
+  let query = searchParams.get('q')?.trim() ?? ''
 
   useEffect(() => {
     if (debouncedQuery) {
@@ -75,32 +79,11 @@ const useCardSearch = (): UseCardSearchResult => {
     }
   }, [debouncedQuery])
 
-  const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCardName(event.target.value)
-    setErrorMessage(null)
-    if (event.target.value.trim() === '') {
-      setCards([])
-      setNameSuggestions([])
-      setHasMoreResults(false)
-    }
-  }
-
-  const onSearchSubmit = (suggestion?: string) => {
-    setNameSuggestions([])
-    setErrorMessage(null)
-
-    startTransition(async () => {
-      if (suggestion) {
-        // If a suggestion is provided, set the card name to that suggestion
-        setCardName(suggestion)
-        const card = await Cards.byName(suggestion)
-
-        if (card) {
-          addCardToHistory(card)
-          setCards([card])
-        }
-      } else {
-        const result = Cards.search(cardName)
+  useEffect(() => {
+    if (query) {
+      setCardName(query)
+      startTransition(async () => {
+        const result = Cards.search(query)
         const cards = await result.next()
         setTotalCount(result.count)
         setHasMoreResults(result.hasMore)
@@ -112,8 +95,33 @@ const useCardSearch = (): UseCardSearchResult => {
 
         // Add the cards to the state
         setCards(cards)
-      }
-    })
+
+        // If only one card is returned, add it to the search history
+        if (cards.length === 1) {
+          addCardToHistory(cards[0])
+        }
+      })
+    } else {
+      setCards([])
+      setCardName('')
+      setTotalCount(0)
+      setHasMoreResults(false)
+      setErrorMessage(null)
+    }
+  }, [query])
+
+  const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCardName(event.target.value)
+    setErrorMessage(null)
+    if (event.target.value.trim() === '') {
+      setNameSuggestions([])
+      setHasMoreResults(false)
+      setIsInputFocused(true)
+    }
+  }
+
+  const onSearchSubmit = () => {
+    setSearchParams({ q: cardName })
   }
 
   const onLoadMore = () => {
@@ -128,9 +136,7 @@ const useCardSearch = (): UseCardSearchResult => {
   }
 
   const onSuggestionClick = (suggestion: string): void => {
-    setCardName(suggestion)
-    setNameSuggestions([])
-    onSearchSubmit(suggestion)
+    setSearchParams({ q: suggestion })
   }
 
   const onClearSearch = () => {
@@ -140,6 +146,7 @@ const useCardSearch = (): UseCardSearchResult => {
     setIsInputFocused(false)
     setHasMoreResults(false)
     setTotalCount(0)
+    setSearchParams({})
   }
 
   return {
@@ -150,6 +157,7 @@ const useCardSearch = (): UseCardSearchResult => {
       nameSuggestions,
       searchHistory,
       totalCount,
+      query,
     },
     flags: {
       isInputFocused,

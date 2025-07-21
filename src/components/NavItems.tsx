@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { CurrencyContext } from '../contexts'
-import type { Currency } from '../contexts/CurrencyContext'
+import type { Currency } from '../types'
+import { NavLink } from 'react-router'
 
 type NavItemsProps = {
   isVertical?: boolean
@@ -15,7 +16,13 @@ const NavItems: React.FC<NavItemsProps> = ({ isVertical = true, className = '' }
       className={`${
         isVertical ? 'flex flex-col gap-2' : 'flex flex-row gap-6 items-center'
       } ${className}`}>
-      <li>Cards</li>
+      <li>
+        <NavLink
+          to="/cards"
+          className={({ isActive }) => (isActive ? 'text-purple-300 underline' : '')}>
+          Cards
+        </NavLink>
+      </li>
       <li>Decks</li>
       <li>Sets</li>
       <li>News</li>
