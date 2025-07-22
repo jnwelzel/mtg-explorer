@@ -6,11 +6,23 @@ interface ReplaceWithBracesProps {
   text: string
 }
 
-export const ReplaceWithBraces: React.FC<ReplaceWithBracesProps> = ({ text }) => {
-  // Regex to match {A}, {B}, ... where A-Z is a single capital letter
-  const regex = /\{([A-Z])\}/g
+const SYMBOLS = {
+  T: 'tap ms-cost',
+  W: 'w ms-cost',
+  B: 'b ms-cost',
+  U: 'u ms-cost',
+  R: 'r ms-cost',
+  G: 'g ms-cost',
+  C: 'c ms-cost',
+  X: 'x',
+  1: '1 ms-cost',
+}
 
-  // Split the text and keep the matches
+export const ReplaceWithBraces: React.FC<ReplaceWithBracesProps> = ({ text }) => {
+  console.log(text)
+  // Regex to match escape sequences (e.g. \n) or mana symbols {A}, {1}, etc.
+  const regex = /[\n\r\t\f\v]|(\{([A-Z0-9])\})/gs
+
   const parts: (string | React.JSX.Element)[] = []
   let lastIndex = 0
   let match: RegExpExecArray | null
@@ -20,8 +32,20 @@ export const ReplaceWithBraces: React.FC<ReplaceWithBracesProps> = ({ text }) =>
     if (match.index > lastIndex) {
       parts.push(text.slice(lastIndex, match.index))
     }
-    // Push the <i> element with className
-    parts.push(<i className={`ms ms-${match[1]}`} key={match.index} />)
+    console.log('################', match)
+    if (/\r|\n/.test(match[0])) {
+      // It's a newline character
+      console.log('>>>>>>>>>>>>>>>>>>>>')
+      parts.push(<br key={match.index} />)
+    } else if (match[2]) {
+      // It's a mana symbol
+      parts.push(
+        <i
+          className={`ms ml-0.5 ms-${SYMBOLS[match[2] as keyof typeof SYMBOLS]}`}
+          key={match.index}
+        />
+      )
+    }
     lastIndex = regex.lastIndex
   }
 

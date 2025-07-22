@@ -7,6 +7,8 @@ export const CardView: React.FC = () => {
   const { id } = useParams<string>()
   const { card, isPending } = useCardView(id)
 
+  console.log('&&&&&&&&&&&&&&&&&', card?.oracle_text?.replaceAll(/\\n/g, '\\n'))
+
   return (
     <div>
       {isPending ? <p>Loading...</p> : null}
@@ -28,8 +30,9 @@ export const CardView: React.FC = () => {
           <div className="hidden md:flex md:col-span-9 md:flex-col">
             <h1 className="text-2xl font-extrabold text-gray-800">{card.name}</h1>
             <h2 className="text-sm text-gray-600 font-semibold">{card.type_line}</h2>
-            <p className="text-md text-gray-600 mt-3 flex items-center">
-              <ReplaceWithBraces text={card?.oracle_text ?? ''} />
+            <p className="text-md text-gray-600 mt-3">
+              {/* {card.oracle_text} */}
+              <ReplaceWithBraces text={card?.oracle_text?.replaceAll(/\\n/g, '\\n') ?? ''} />
             </p>
           </div>
         </div>
