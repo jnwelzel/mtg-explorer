@@ -13,7 +13,7 @@ export const CardView: React.FC = () => {
       {isPending ? <p>Loading...</p> : null}
       {!isPending && card ? (
         <div className="grid grid-cols-1 md:grid-cols-12 mt-3 gap-3">
-          <div className="col-span-3 md:col-span-3">
+          <div className="md:col-span-3">
             <MagicCard
               card={card}
               shouldDisplayPrice={false}
@@ -21,43 +21,12 @@ export const CardView: React.FC = () => {
               shouldDisplayBadges={false}
               onClick={flipCard}
             />
-            <div className="md:hidden mt-3">
-              {isDoubleFaced(card) && !isDoubleSided(card) ? (
-                faces.map((face, index) => {
-                  return (
-                    <div key={index} className={`${index === 1 ? 'mt-3' : ''}`}>
-                      <h1 className="text-2xl font-extrabold text-gray-800">{face.name}</h1>
-                      <h2 className="text-sm text-gray-600 font-semibold">{face.type_line}</h2>
-                      <p className="text-md text-gray-600 mt-3">
-                        <ReplaceWithBraces text={face.oracle_text ?? ''} />
-                      </p>
-                      <p className="italic mt-3 text-gray-500 text-sm">{face?.flavor_text}</p>
-                    </div>
-                  )
-                })
-              ) : (
-                <>
-                  <h1 className="text-2xl font-extrabold text-gray-800">
-                    {faces[faceIndex]?.name}
-                  </h1>
-                  <h2 className="text-sm text-gray-600 font-semibold">
-                    {faces[faceIndex]?.type_line}
-                  </h2>
-                  <p className="text-md text-gray-600 mt-3">
-                    <ReplaceWithBraces text={faces[faceIndex]?.oracle_text ?? ''} />
-                  </p>
-                  <p className="italic mt-3 text-gray-500 text-sm">
-                    {faces[faceIndex]?.flavor_text}
-                  </p>
-                </>
-              )}
-            </div>
           </div>
-          <div className="hidden md:flex md:col-span-9 md:flex-col">
+          <div className="md:col-span-9 mt-3 md:mt-0">
             {isDoubleFaced(card) && !isDoubleSided(card) ? (
               faces.map((face, index) => {
                 return (
-                  <div key={index} className={`${index === 1 ? 'mt-3' : ''}`}>
+                  <div key={index} className={`${index === 1 ? 'mt-3' : ''} col-span-full`}>
                     <h1 className="text-2xl font-extrabold text-gray-800">{face.name}</h1>
                     <h2 className="text-sm text-gray-600 font-semibold">{face.type_line}</h2>
                     <p className="text-md text-gray-600 mt-3">

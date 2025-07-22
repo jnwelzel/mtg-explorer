@@ -81,6 +81,7 @@ const useCardSearch = (): UseCardSearchResult => {
 
   useEffect(() => {
     if (query) {
+      setNameSuggestions([])
       setCardName(query)
       startTransition(async () => {
         const result = Cards.search(query)
