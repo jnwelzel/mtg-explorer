@@ -12,6 +12,7 @@ interface MagicCardProps {
   shouldDisplayPrice?: boolean
   shouldDisplayBadges?: boolean
   variant?: 'default' | 'compact'
+  onClick?: () => void
 }
 
 export const MagicCard: React.FC<MagicCardProps> = ({
@@ -20,13 +21,19 @@ export const MagicCard: React.FC<MagicCardProps> = ({
   shouldDisplayPrice = true,
   shouldDisplayBadges = true,
   variant = 'default',
+  onClick,
 }) => {
-  const { currency, images, handleImageClick, isDoubleFaced, faceIndex, badges, cardName, faces } =
+  const { currency, images, handleImageClick, isDoubleSided, faceIndex, badges, cardName, faces } =
     useMagicCard(card)
 
+  // Compose click handler
+  const handleCardClick = () => {
+    if (onClick) onClick()
+  }
+
   return (
-    <div className="flex flex-col">
-      {isDoubleFaced ? (
+    <div className="flex flex-col" onClick={handleCardClick}>
+      {isDoubleSided ? (
         <ImageFlipper
           frontImageUrl={images[0]}
           frontImageAltText={faces[0]}
@@ -40,8 +47,8 @@ export const MagicCard: React.FC<MagicCardProps> = ({
           src={images[0]}
           alt={cardName}
           title={cardName}
-          className={`w-full rounded-lg ${isDoubleFaced ? 'cursor-pointer' : ''}`}
-          onClick={isDoubleFaced ? handleImageClick : undefined}
+          className={`w-full rounded-[4.75%/3.5%] ${isDoubleSided ? 'cursor-pointer' : ''}`}
+          onClick={isDoubleSided ? handleImageClick : undefined}
         />
       )}
       {shouldDisplayName ? (
@@ -52,7 +59,7 @@ export const MagicCard: React.FC<MagicCardProps> = ({
             'text-xs': variant === 'compact',
             'text-sm': variant === 'default',
           })}`}>
-          {isDoubleFaced && variant === 'default' ? faces[faceIndex] : cardName}
+          {isDoubleSided && variant === 'default' ? faces[faceIndex] : cardName}
         </Link>
       ) : null}
       {shouldDisplayPrice || shouldDisplayBadges ? (

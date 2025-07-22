@@ -12,7 +12,6 @@ export const SearchForm: React.FC = () => {
         action={handlers.onSearchSubmit.bind(null, undefined)}>
         <div className="flex w-full relative col-span-9 md:col-span-4">
           <Input
-            autoFocus
             placeholder="Black Lotus"
             value={data.cardName}
             onChange={handlers.onSearchChange}

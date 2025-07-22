@@ -2,12 +2,11 @@ import { useParams } from 'react-router'
 import { useCardView } from '../hooks'
 import { MagicCard } from '../components/ui'
 import { ReplaceWithBraces } from '../components/ui/ReplaceWithBraces'
+import { isDoubleFaced, isDoubleSided } from '../utils'
 
 export const CardView: React.FC = () => {
   const { id } = useParams<string>()
-  const { card, isPending } = useCardView(id)
-
-  console.log('&&&&&&&&&&&&&&&&&', card?.oracle_text?.replaceAll(/\\n/g, '\\n'))
+  const { card, isPending, flipCard, faceIndex, faces } = useCardView(id)
 
   return (
     <div>
@@ -20,20 +19,66 @@ export const CardView: React.FC = () => {
               shouldDisplayPrice={false}
               shouldDisplayName={false}
               shouldDisplayBadges={false}
+              onClick={flipCard}
             />
-            <div className="md:hidden">
-              <h1 className="text-2xl font-extrabold text-gray-800 mt-3">{card.name}</h1>
-              <h2 className="text-sm text-gray-600 font-semibold">{card.type_line}</h2>
-              <p className="text-md text-gray-600 mt-3">{card.oracle_text}</p>
+            <div className="md:hidden mt-3">
+              {isDoubleFaced(card) && !isDoubleSided(card) ? (
+                faces.map((face, index) => {
+                  return (
+                    <div key={index} className={`${index === 1 ? 'mt-3' : ''}`}>
+                      <h1 className="text-2xl font-extrabold text-gray-800">{face.name}</h1>
+                      <h2 className="text-sm text-gray-600 font-semibold">{face.type_line}</h2>
+                      <p className="text-md text-gray-600 mt-3">
+                        <ReplaceWithBraces text={face.oracle_text ?? ''} />
+                      </p>
+                      <p className="italic mt-3 text-gray-500 text-sm">{face?.flavor_text}</p>
+                    </div>
+                  )
+                })
+              ) : (
+                <>
+                  <h1 className="text-2xl font-extrabold text-gray-800">
+                    {faces[faceIndex]?.name}
+                  </h1>
+                  <h2 className="text-sm text-gray-600 font-semibold">
+                    {faces[faceIndex]?.type_line}
+                  </h2>
+                  <p className="text-md text-gray-600 mt-3">
+                    <ReplaceWithBraces text={faces[faceIndex]?.oracle_text ?? ''} />
+                  </p>
+                  <p className="italic mt-3 text-gray-500 text-sm">
+                    {faces[faceIndex]?.flavor_text}
+                  </p>
+                </>
+              )}
             </div>
           </div>
           <div className="hidden md:flex md:col-span-9 md:flex-col">
-            <h1 className="text-2xl font-extrabold text-gray-800">{card.name}</h1>
-            <h2 className="text-sm text-gray-600 font-semibold">{card.type_line}</h2>
-            <p className="text-md text-gray-600 mt-3">
-              {/* {card.oracle_text} */}
-              <ReplaceWithBraces text={card?.oracle_text?.replaceAll(/\\n/g, '\\n') ?? ''} />
-            </p>
+            {isDoubleFaced(card) && !isDoubleSided(card) ? (
+              faces.map((face, index) => {
+                return (
+                  <div key={index} className={`${index === 1 ? 'mt-3' : ''}`}>
+                    <h1 className="text-2xl font-extrabold text-gray-800">{face.name}</h1>
+                    <h2 className="text-sm text-gray-600 font-semibold">{face.type_line}</h2>
+                    <p className="text-md text-gray-600 mt-3">
+                      <ReplaceWithBraces text={face.oracle_text ?? ''} />
+                    </p>
+                    <p className="italic mt-3 text-gray-500 text-sm">{face?.flavor_text}</p>
+                  </div>
+                )
+              })
+            ) : (
+              <>
+                <h1 className="text-2xl font-extrabold text-gray-800">{faces[faceIndex]?.name}</h1>
+                <h2 className="text-sm text-gray-600 font-semibold">
+                  {faces[faceIndex]?.type_line}
+                </h2>
+                <p className="text-md text-gray-600 mt-3">
+                  <ReplaceWithBraces text={faces[faceIndex]?.oracle_text ?? ''} />
+                </p>
+                <p className="italic mt-3 text-gray-500 text-sm">{faces[faceIndex]?.flavor_text}</p>
+              </>
+            )}
           </div>
         </div>
       ) : null}

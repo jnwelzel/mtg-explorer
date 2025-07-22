@@ -2,25 +2,21 @@ import { useContext, useState } from 'react'
 import type { Card } from 'scryfall-api'
 import { CurrencyContext } from '../contexts'
 import type { CardBadges, UseMagicCardResult } from '../types'
+import { isDoubleSided } from '../utils'
 
 export const useMagicCard = (card: Card): UseMagicCardResult => {
   const { currency } = useContext(CurrencyContext)
-  const isDoubleFaced = !!(
-    card.card_faces &&
-    card.card_faces.length > 1 &&
-    !card?.image_uris?.large
-  )
   const [faceIndex, setFaceIndex] = useState(0)
 
   const handleImageClick = () => {
-    if (isDoubleFaced) {
+    if (isDoubleSided(card)) {
       setFaceIndex(prev => (prev === 0 ? 1 : 0))
     }
   }
 
   const images = []
   const faces = []
-  if (isDoubleFaced) {
+  if (isDoubleSided(card)) {
     images.push(card.card_faces?.[0]?.image_uris?.large ?? '')
     images.push(card.card_faces?.[1]?.image_uris?.large ?? '')
 
@@ -43,7 +39,7 @@ export const useMagicCard = (card: Card): UseMagicCardResult => {
     currency,
     images,
     handleImageClick,
-    isDoubleFaced,
+    isDoubleSided: isDoubleSided(card),
     faceIndex,
     badges,
     cardName: card.name,
