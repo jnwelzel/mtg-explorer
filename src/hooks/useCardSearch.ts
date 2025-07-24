@@ -1,8 +1,8 @@
-import { useState, useEffect, useTransition } from 'react'
+import { useState, useEffect, useTransition, use } from 'react'
 import { Cards, type Card } from 'scryfall-api'
 import { useDebounce } from './useDebounce'
-import { useCardSearchHistory } from './useCardSearchHistory'
 import { useSearchParams } from 'react-router'
+import { RecentCardsContext } from '../contexts'
 
 type CardSearchHandlers = {
   onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -17,7 +17,6 @@ type CardSearchData = {
   cards: Card[]
   cardName: string
   nameSuggestions: string[]
-  searchHistory: Card[]
   totalCount: number
   errorMessage?: string | null
   query?: string
@@ -40,16 +39,12 @@ type UseCardSearchResult = {
 const PAGE_SIZE = 175 // Number of cards per page
 
 const useCardSearch = (): UseCardSearchResult => {
-  let [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [cards, setCards] = useState<Card[]>([])
   const [cardName, setCardName] = useState('')
   const debouncedQuery = useDebounce(cardName, 250)
   const [nameSuggestions, setNameSuggestions] = useState<string[]>([])
-  const { searchHistory, addCardToHistory } = useCardSearchHistory(
-    localStorage.getItem('cardSearchHistory')
-      ? JSON.parse(localStorage.getItem('cardSearchHistory')!)
-      : []
-  )
+  const { addRecentlyViewedCard } = use(RecentCardsContext)
   const [isInputFocused, setIsInputFocused] = useState(false)
   const [isPending, startTransition] = useTransition()
   const [isPendingSuggestions, startTransitionSuggestions] = useTransition()
@@ -57,7 +52,7 @@ const useCardSearch = (): UseCardSearchResult => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [hasMoreResults, setHasMoreResults] = useState(false)
   const [totalCount, setTotalCount] = useState<number>(0)
-  let query = searchParams.get('q')?.trim() ?? ''
+  const query = searchParams.get('q')?.trim() ?? ''
 
   useEffect(() => {
     if (debouncedQuery) {
@@ -99,7 +94,7 @@ const useCardSearch = (): UseCardSearchResult => {
 
         // If only one card is returned, add it to the search history
         if (cards.length === 1) {
-          addCardToHistory(cards[0])
+          addRecentlyViewedCard(cards[0])
         }
       })
     } else {
@@ -156,7 +151,6 @@ const useCardSearch = (): UseCardSearchResult => {
       cardName,
       errorMessage,
       nameSuggestions,
-      searchHistory,
       totalCount,
       query,
     },

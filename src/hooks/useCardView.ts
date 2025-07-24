@@ -1,6 +1,7 @@
-import { useEffect, useState, useTransition } from 'react'
+import { use, useEffect, useState, useTransition } from 'react'
 import { Cards, type Card, type CardFace } from 'scryfall-api'
 import { isDoubleFaced, isDoubleSided } from '../utils'
+import { RecentCardsContext } from '../contexts'
 
 type UseCardViewResult = {
   card: Card | null
@@ -13,7 +14,7 @@ type UseCardViewResult = {
 export const useCardView = (cardId?: string): UseCardViewResult => {
   const [card, setCard] = useState<Card | null>(null)
   const [isPending, startTransition] = useTransition()
-
+  const { addRecentlyViewedCard } = use(RecentCardsContext)
   const [faces, setFaces] = useState<CardFace[]>([])
   const [faceIndex, setFaceIndex] = useState(0)
 
@@ -29,6 +30,7 @@ export const useCardView = (cardId?: string): UseCardViewResult => {
         startTransition(async () => {
           const card = await Cards.byId(cardId)
           if (card) {
+            addRecentlyViewedCard(card)
             if (isDoubleSided(card) || isDoubleFaced(card)) {
               setFaces(card.card_faces || [])
             } else {

@@ -12,7 +12,8 @@ interface MagicCardProps {
   shouldDisplayPrice?: boolean
   shouldDisplayBadges?: boolean
   variant?: 'default' | 'compact'
-  onClick?: () => void
+  onCardFlip?: () => void
+  shouldOpenImageFile?: boolean
 }
 
 export const MagicCard: React.FC<MagicCardProps> = ({
@@ -21,53 +22,71 @@ export const MagicCard: React.FC<MagicCardProps> = ({
   shouldDisplayPrice = true,
   shouldDisplayBadges = true,
   variant = 'default',
-  onClick,
+  onCardFlip,
+  shouldOpenImageFile = false,
 }) => {
-  const { currency, images, handleImageClick, isDoubleSided, faceIndex, badges, cardName, faces } =
-    useMagicCard(card)
+  const {
+    currency,
+    images,
+    handleButtonClick,
+    isDoubleSided,
+    faceIndex,
+    badges,
+    cardName,
+    faces,
+    imageLink,
+  } = useMagicCard(card, shouldOpenImageFile)
 
   // Compose click handler
-  const handleCardClick = () => {
-    if (onClick) onClick()
+  const handleCardFlip = () => {
+    handleButtonClick()
+    if (onCardFlip) onCardFlip()
   }
 
   return (
-    <div className="flex flex-col" onClick={handleCardClick}>
+    <div className="flex flex-col">
       {isDoubleSided ? (
         <ImageFlipper
           frontImageUrl={images[0]}
           frontImageAltText={faces[0]}
           backImageUrl={images[1]}
           backImageAltText={faces[1]}
-          handleImageClick={handleImageClick}
+          handleButtonClick={handleCardFlip}
           imageIndex={faceIndex}
+          variant={variant}
+          href={variant === 'compact' ? undefined : imageLink}
         />
       ) : (
-        <img
-          src={images[0]}
-          alt={cardName}
-          title={cardName}
-          className={`w-full rounded-[4.75%/3.5%] ${isDoubleSided ? 'cursor-pointer' : ''}`}
-          onClick={isDoubleSided ? handleImageClick : undefined}
-        />
+        <span className="relative">
+          {variant !== 'compact' ? (
+            <Link to={imageLink} title={cardName} className={`absolute inset-0 z-10`} />
+          ) : null}
+          <img
+            src={images[0]}
+            alt={cardName}
+            title={cardName}
+            className={`w-full rounded-[4.75%/3.5%] ${isDoubleSided ? 'cursor-pointer' : ''}`}
+            onClick={isDoubleSided ? handleCardFlip : undefined}
+          />
+        </span>
       )}
-      {shouldDisplayName ? (
+      {shouldDisplayName && variant !== 'compact' ? (
         <Link
-          to={`/cards/${card.id}`}
+          to={imageLink}
           title={cardName}
           className={`text-center underline truncate mt-1 ${clsx({
-            'text-xs': variant === 'compact',
             'text-sm': variant === 'default',
           })}`}>
           {isDoubleSided && variant === 'default' ? faces[faceIndex] : cardName}
         </Link>
       ) : null}
-      {shouldDisplayPrice || shouldDisplayBadges ? (
+      {(shouldDisplayPrice || shouldDisplayBadges) && variant !== 'compact' ? (
         <div className="flex gap-1 items-center justify-center">
-          {variant === 'default' && shouldDisplayBadges
-            ? badges.map((badge, i) => (
-                <Badge key={`${card.id.substring(0, 8)}--${i}`} text={badge} />
-              ))
+          {shouldDisplayBadges
+            ? badges.map((badge, i) => {
+                const keyValue = `${card.id.substring(0, 8)}--${i}`
+                return <Badge key={keyValue} text={badge} />
+              })
             : null}
           {shouldDisplayPrice ? (
             <span className="text-xs text-gray-600 text-center">

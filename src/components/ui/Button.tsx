@@ -3,7 +3,7 @@ import React, { type ButtonHTMLAttributes } from 'react'
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode
   isLoading?: boolean
-  variant?: 'default' | 'link'
+  variant?: 'default' | 'link' | 'unstyled'
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -11,16 +11,21 @@ export const Button: React.FC<ButtonProps> = ({
   className = '',
   isLoading = false,
   variant = 'default',
+  type = 'button',
   ...props
 }) => {
+  const baseClasses =
+    'flex items-center justify-center rounded cursor-pointer whitespace-nowrap transition h-10'
   const buttonClasses = {
-    default: 'px-4 bg-blue-600 hover:bg-blue-700 text-white h-10',
-    link: 'text-blue-600 hover:underline h-auto',
+    default: `${baseClasses} bg-blue-600 text-white hover:bg-blue-700`,
+    link: `${baseClasses} text-blue-600 hover:underline h-auto`,
+    unstyled: '',
   }
+
   return (
     <button
-      className={`flex items-center justify-center rounded cursor-pointer ${buttonClasses[variant]} transition 
-      ${isLoading ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+      type={type}
+      className={`${buttonClasses[variant]} ${isLoading ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
       disabled={isLoading || props.disabled}
       {...props}>
       {isLoading ? (

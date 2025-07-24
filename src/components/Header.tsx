@@ -13,6 +13,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => (
       <nav className="ml-auto">
         <NavItems isVertical={false} className="hidden md:flex" />
         <button
+          type="button"
           className="md:hidden p-2 rounded bg-gray-600"
           onClick={onMenuClick}
           aria-label="Open menu">

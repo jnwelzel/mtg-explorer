@@ -1,9 +1,12 @@
+import { use } from 'react'
 import { useCardSearch } from '../../hooks'
 import { Button, Input, MagicCard } from '../ui'
 import { CardsList } from './CardsList'
+import { RecentCardsContext } from '../../contexts'
 
 export const SearchForm: React.FC = () => {
   const { handlers, data, flags } = useCardSearch()
+  const { recentlyViewedCards } = use(RecentCardsContext)
 
   return (
     <>
@@ -36,10 +39,10 @@ export const SearchForm: React.FC = () => {
               ))}
             </ul>
           ) : null}
-          {data.searchHistory.length > 0 && data.cardName === '' && flags.isInputFocused ? (
-            <ul className="absolute z-10 bg-white border border-gray-300 rounded shadow-lg mt-11 grid gap-2 grid-cols-12 px-2 py-2">
+          {recentlyViewedCards.length > 0 && data.cardName === '' && flags.isInputFocused ? (
+            <ul className="absolute z-20 bg-white border border-gray-300 rounded shadow-lg mt-11 grid gap-2 grid-cols-12 px-2 py-2">
               <p className="col-span-12 text-sm text-gray-500">Recently viewed</p>
-              {data.searchHistory.map(card => (
+              {recentlyViewedCards.map(card => (
                 <li
                   key={card.id}
                   className="cursor-pointer col-span-4"
@@ -60,16 +63,13 @@ export const SearchForm: React.FC = () => {
       </form>
       {data.errorMessage ? <p className="text-sm text-red-400 mt-3">{data.errorMessage}</p> : null}
       {data.cards.length > 0 && !flags.isPending ? (
-        <span className="flex items-center text-sm mt-3 gap-1">
-          <p className="text-gray-500">
-            Search for '{data.query}' returned {data.totalCount} result
-            {data.totalCount > 1 ? 's' : ''}
-          </p>
-          •
-          <Button onClick={handlers.onClearSearch} type="button" variant="link">
+        <p className="text-gray-500 text-sm mt-3">
+          Search for '{data.query}' returned {data.totalCount} result
+          {data.totalCount > 1 ? 's ' : ' '} •{' '}
+          <Button onClick={handlers.onClearSearch} type="button" variant="link" className="inline">
             clear results
           </Button>
-        </span>
+        </p>
       ) : null}
       <CardsList cards={data.cards} isLoading={flags.isPending} />
       {flags.hasMoreResults ? (

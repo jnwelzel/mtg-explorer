@@ -19,14 +19,17 @@ export const CardView: React.FC = () => {
               shouldDisplayPrice={false}
               shouldDisplayName={false}
               shouldDisplayBadges={false}
-              onClick={flipCard}
+              onCardFlip={flipCard}
+              shouldOpenImageFile
             />
           </div>
           <div className="md:col-span-9 mt-3 md:mt-0">
             {isDoubleFaced(card) && !isDoubleSided(card) ? (
               faces.map((face, index) => {
                 return (
-                  <div key={index} className={`${index === 1 ? 'mt-3' : ''} col-span-full`}>
+                  <div
+                    key={face.name ?? index}
+                    className={`${index === 1 ? 'mt-3' : ''} col-span-full`}>
                     <h1 className="text-2xl font-extrabold text-gray-800">{face.name}</h1>
                     <h2 className="text-sm text-gray-600 font-semibold">{face.type_line}</h2>
                     <p className="text-md text-gray-600 mt-3">

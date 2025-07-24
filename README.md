@@ -5,10 +5,10 @@ A place for messing around with Magic: The Gathering.
 # TODO
 
 - [ ] Ariakit, starting with suggestions and view history dropdowns
-- [ ] Pagination
 - [ ] Group view model hooks' variables into categories _ie_. `actions`
   - [x] `useCardSearch`
   - [ ] `useMagicCard`
-- [ ] Routing
+  - [ ] `useApp`
 - [ ] Improve search skeleton(s)
-- [ ] Add flip icon in double faced cards
+  - [ ] `CardView`
+- [ ] Errour boundaries

@@ -1,6 +1,6 @@
 import type { Currency } from './currency'
 
-export type CardBadges = 'Reprint' | 'Reserved'
+export type CardBadge = 'Reprint' | 'Reserved'
 
 export type CardFace = {
   name: string
@@ -13,8 +13,9 @@ export type UseMagicCardResult = {
   images: string[]
   isDoubleSided: boolean
   faceIndex: number
-  handleImageClick: () => void
-  badges: CardBadges[]
+  handleButtonClick: () => void
+  badges: CardBadge[]
   cardName: string
   faces: string[]
+  imageLink: string
 }

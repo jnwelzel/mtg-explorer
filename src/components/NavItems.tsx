@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { use } from 'react'
 import { CurrencyContext } from '../contexts'
 import type { Currency } from '../types'
 import { NavLink } from 'react-router'
@@ -9,7 +9,7 @@ type NavItemsProps = {
 }
 
 const NavItems: React.FC<NavItemsProps> = ({ isVertical = true, className = '' }) => {
-  const { currency, setCurrency } = useContext(CurrencyContext)
+  const { currency, setCurrency } = use(CurrencyContext)
 
   return (
     <ul
