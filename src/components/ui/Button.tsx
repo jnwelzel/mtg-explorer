@@ -16,7 +16,7 @@ export const Button: React.FC<ButtonProps> = ({
   isCircle = false,
   ...props
 }) => {
-  const baseClasses = `flex items-center justify-center ${isCircle ? 'rounded-full w-10' : 'rounded px-4'} cursor-pointer whitespace-nowrap transition-colors h-10`
+  const baseClasses = `flex items-center justify-center ${isCircle ? 'rounded-full w-10' : 'rounded'} ${variant !== 'link' && !isCircle ? 'px-4' : ''} cursor-pointer whitespace-nowrap transition-colors h-10`
   const buttonClasses = {
     default: `${baseClasses} bg-blue-600 text-white hover:bg-blue-700`,
     link: `${baseClasses} text-blue-600 hover:underline h-auto`,

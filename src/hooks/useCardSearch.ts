@@ -1,4 +1,4 @@
-import { useState, useEffect, useTransition, use } from 'react'
+import { useState, useEffect, useTransition, use, useRef } from 'react'
 import { Cards, type Card } from 'scryfall-api'
 import { useDebounce } from './useDebounce'
 import { useSearchParams } from 'react-router'
@@ -20,6 +20,7 @@ type CardSearchData = {
   totalCount: number
   errorMessage?: string | null
   query?: string
+  searchInputRef?: React.RefObject<HTMLInputElement | null>
 }
 
 type CardSearchFlags = {
@@ -52,6 +53,7 @@ const useCardSearch = (): UseCardSearchResult => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [hasMoreResults, setHasMoreResults] = useState(false)
   const [totalCount, setTotalCount] = useState<number>(0)
+  const searchInputRef = useRef<HTMLInputElement>(null)
   const query = searchParams.get('q')?.trim() ?? ''
 
   useEffect(() => {
@@ -117,6 +119,7 @@ const useCardSearch = (): UseCardSearchResult => {
   }
 
   const onSearchSubmit = () => {
+    searchInputRef.current?.blur()
     setSearchParams({ q: cardName })
   }
 
@@ -153,6 +156,7 @@ const useCardSearch = (): UseCardSearchResult => {
       nameSuggestions,
       totalCount,
       query,
+      searchInputRef,
     },
     flags: {
       isInputFocused,

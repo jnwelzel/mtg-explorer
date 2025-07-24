@@ -11,4 +11,5 @@ A place for messing around with Magic: The Gathering.
   - [ ] `useApp`
 - [ ] Improve search skeleton(s)
   - [ ] `CardView`
-- [ ] Errour boundaries
+- [ ] Error boundaries
+- [ ] Saved searches

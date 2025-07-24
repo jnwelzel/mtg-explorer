@@ -3,13 +3,15 @@ import { useCardView } from '../hooks'
 import { MagicCard } from '../components/ui'
 import { ReplaceWithBraces } from '../components/ui/ReplaceWithBraces'
 import { isDoubleFaced, isDoubleSided } from '../utils'
+import { useDocumentTitle } from '@uidotdev/usehooks'
 
 export const CardView: React.FC = () => {
   const { id } = useParams<string>()
   const { card, isPending, flipCard, faceIndex, faces } = useCardView(id)
+  useDocumentTitle(card ? `MTG Explorer - ${card.name}` : 'MTG Explorer')
 
   return (
-    <div>
+    <>
       {isPending ? <p>Loading...</p> : null}
       {!isPending && card ? (
         <div className="grid grid-cols-1 md:grid-cols-12 mt-3 gap-3">
@@ -54,6 +56,6 @@ export const CardView: React.FC = () => {
           </div>
         </div>
       ) : null}
-    </div>
+    </>
   )
 }
