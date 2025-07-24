@@ -3,7 +3,7 @@ import React, { type ButtonHTMLAttributes } from 'react'
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode
   isLoading?: boolean
-  variant?: 'default' | 'link' | 'unstyled'
+  variant?: 'default' | 'link' | 'unstyled' | 'primary'
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -15,11 +15,12 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseClasses =
-    'flex items-center justify-center rounded cursor-pointer whitespace-nowrap transition h-10'
+    'flex items-center justify-center rounded cursor-pointer whitespace-nowrap transition-colors h-10 px-4'
   const buttonClasses = {
     default: `${baseClasses} bg-blue-600 text-white hover:bg-blue-700`,
     link: `${baseClasses} text-blue-600 hover:underline h-auto`,
     unstyled: '',
+    primary: `${baseClasses} bg-black text-white hover:bg-stone-800`,
   }
 
   return (
