@@ -4,6 +4,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode
   isLoading?: boolean
   variant?: 'default' | 'link' | 'unstyled' | 'primary'
+  isCircle?: boolean
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -12,10 +13,10 @@ export const Button: React.FC<ButtonProps> = ({
   isLoading = false,
   variant = 'default',
   type = 'button',
+  isCircle = false,
   ...props
 }) => {
-  const baseClasses =
-    'flex items-center justify-center rounded cursor-pointer whitespace-nowrap transition-colors h-10 px-4'
+  const baseClasses = `flex items-center justify-center ${isCircle ? 'rounded-full w-10' : 'rounded px-4'} cursor-pointer whitespace-nowrap transition-colors h-10`
   const buttonClasses = {
     default: `${baseClasses} bg-blue-600 text-white hover:bg-blue-700`,
     link: `${baseClasses} text-blue-600 hover:underline h-auto`,

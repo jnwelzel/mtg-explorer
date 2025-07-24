@@ -1,22 +1,38 @@
-import { useEffect, useRef, useState } from 'react'
+import { useIntersectionObserver, useWindowScroll } from '@uidotdev/usehooks'
+import { useEffect, useState } from 'react'
 
 type UseFooterResult = {
-  footerRef: React.RefObject<HTMLDivElement | null>
-  footerVisible: boolean
+  footerRef: React.RefCallback<HTMLDivElement>
+  isFooterVisible: boolean
+  scrollToTop: () => void
+  isBackToTopVisible: boolean
 }
 
 export const useFooter = (): UseFooterResult => {
-  const footerRef = useRef<HTMLDivElement>(null)
-  const [footerVisible, setFooterVisible] = useState(false)
+  const [footerRef, entry] = useIntersectionObserver({
+    threshold: 0,
+    root: null,
+    rootMargin: '0px',
+  })
+  const [isBackToTopVisible, setIsBackToTopVisible] = useState(false)
+  const [{ y }, scrollTo] = useWindowScroll()
 
   useEffect(() => {
-    const observer = new window.IntersectionObserver(
-      ([entry]) => setFooterVisible(entry.isIntersecting),
-      { threshold: 0.1 }
-    )
-    if (footerRef.current) observer.observe(footerRef.current)
-    return () => observer.disconnect()
-  }, [])
+    if (y && y > 235) {
+      setIsBackToTopVisible(true)
+    } else {
+      setIsBackToTopVisible(false)
+    }
+  }, [y])
 
-  return { footerRef, footerVisible }
+  const scrollToTop = () => {
+    scrollTo({ left: 0, top: 0, behavior: 'smooth' })
+  }
+
+  return {
+    footerRef,
+    isFooterVisible: entry?.isIntersecting ?? false,
+    isBackToTopVisible,
+    scrollToTop,
+  }
 }
