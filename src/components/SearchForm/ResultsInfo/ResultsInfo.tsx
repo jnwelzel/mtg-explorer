@@ -15,7 +15,7 @@ export const ResultsInfo: React.FC<ResultsInfoProps> = ({
 }) => {
   return (
     <>
-      {isLoading ? <p>Loading...</p> : null}
+      {isLoading ? <p className="skeleton-animation w-full rounded-sm md:w-1/2 h-5 mt-3" /> : null}
       {totalCount > 0 && !isLoading ? (
         <p className="text-gray-500 text-sm mt-3">
           Search for '{query}' returned {totalCount} result
