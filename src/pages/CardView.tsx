@@ -1,7 +1,6 @@
 import { useParams } from 'react-router'
 import { useCardView } from '../hooks'
-import { MagicCard } from '../components/ui'
-import { ReplaceWithBraces } from '../components/ui/ReplaceWithBraces'
+import { MagicCard, ReplaceWithBraces } from '../components/ui'
 import { isDoubleFaced, isDoubleSided } from '../utils'
 import { useDocumentTitle } from '@uidotdev/usehooks'
 

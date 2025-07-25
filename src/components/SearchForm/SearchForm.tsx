@@ -61,6 +61,10 @@ export const SearchForm: React.FC = () => {
         totalCount={data.totalCount}
         onClearSearch={handlers.onClearSearch}
         isLoading={flags.isPending}
+        onZoomInClick={() => handlers.onResultsPerPageClick('zoomIn')}
+        onZoomOutClick={() => handlers.onResultsPerPageClick('zoomOut')}
+        isMaxZoom={flags.isMaxZoom}
+        isMinZoom={flags.isMinZoom}
       />
       <CardsList cards={data.cards} isLoading={flags.isPending} />
       {flags.hasMoreResults ? (

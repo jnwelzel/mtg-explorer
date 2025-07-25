@@ -3,6 +3,9 @@ import { Cards, type Card } from 'scryfall-api'
 import { useDebounce } from './useDebounce'
 import { useSearchParams } from 'react-router'
 import { RecentCardsContext } from '../contexts'
+import { useLocalStorage } from '@uidotdev/usehooks'
+
+type ZoomTypes = 'zoomIn' | 'zoomOut'
 
 type CardSearchHandlers = {
   onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -11,6 +14,7 @@ type CardSearchHandlers = {
   onClearSearch: () => void
   onLoadMore: () => void
   setIsInputFocused: (focused: boolean) => void
+  onResultsPerPageClick: (type: ZoomTypes) => void
 }
 
 type CardSearchData = {
@@ -21,6 +25,7 @@ type CardSearchData = {
   errorMessage?: string | null
   query?: string
   searchInputRef?: React.RefObject<HTMLInputElement | null>
+  zoomLevel: number
 }
 
 type CardSearchFlags = {
@@ -29,6 +34,8 @@ type CardSearchFlags = {
   isPendingSuggestions: boolean
   hasMoreResults?: boolean
   isLoadingMore?: boolean
+  isMaxZoom: boolean
+  isMinZoom: boolean
 }
 
 type UseCardSearchResult = {
@@ -38,6 +45,9 @@ type UseCardSearchResult = {
 }
 
 const PAGE_SIZE = 175 // Number of cards per page
+const MAX_ZOOM_LEVEL = 2.25 // Limit zoom level to a maximum of 2.25
+const MIN_ZOOM_LEVEL = -0.25 // Limit zoom level to a minimum of -0.25
+const ZOOM_STEP = 0.25 // Step size for zooming in and out
 
 const useCardSearch = (): UseCardSearchResult => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -54,6 +64,7 @@ const useCardSearch = (): UseCardSearchResult => {
   const [hasMoreResults, setHasMoreResults] = useState(false)
   const [totalCount, setTotalCount] = useState<number>(0)
   const searchInputRef = useRef<HTMLInputElement>(null)
+  const [zoomLevel, setZoomLevel] = useLocalStorage<number>('zoomLevel', 1)
   const query = searchParams.get('q')?.trim() ?? ''
 
   useEffect(() => {
@@ -148,6 +159,16 @@ const useCardSearch = (): UseCardSearchResult => {
     setSearchParams({})
   }
 
+  // Function to handle zoom in and zoom out
+  const onResultsPerPageClick = (type: 'zoomIn' | 'zoomOut') => {
+    // We can go any one way 5x
+    if (type === 'zoomIn') {
+      setZoomLevel(prev => Math.min(prev + ZOOM_STEP, MAX_ZOOM_LEVEL))
+    } else {
+      setZoomLevel(prev => Math.max(prev - ZOOM_STEP, MIN_ZOOM_LEVEL))
+    }
+  }
+
   return {
     data: {
       cards,
@@ -157,6 +178,7 @@ const useCardSearch = (): UseCardSearchResult => {
       totalCount,
       query,
       searchInputRef,
+      zoomLevel,
     },
     flags: {
       isInputFocused,
@@ -164,6 +186,8 @@ const useCardSearch = (): UseCardSearchResult => {
       isPendingSuggestions,
       hasMoreResults,
       isLoadingMore,
+      isMaxZoom: zoomLevel >= MAX_ZOOM_LEVEL,
+      isMinZoom: zoomLevel <= MIN_ZOOM_LEVEL,
     },
     handlers: {
       onSearchChange,
@@ -172,6 +196,7 @@ const useCardSearch = (): UseCardSearchResult => {
       setIsInputFocused,
       onClearSearch,
       onLoadMore,
+      onResultsPerPageClick,
     },
   }
 }
