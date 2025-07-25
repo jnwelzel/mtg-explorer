@@ -33,9 +33,9 @@ export const ImageFlipper: React.FC<ImageFlipperProps> = ({
           title="Click to flip card"
           onClick={handleButtonClick}
           variant="unstyled"
-          className={`absolute z-20 rotate-[-90deg] top-[50%] translate-[-50%] h-6 w-6 left-4 
-            rounded-full p-0.5 bg-black outline-white outline-2 outline-offset-1 cursor-pointer ${variant === 'compact' ? 'hidden' : ''}`}>
-          <img src={flipCardIcon} alt="Flip card icon" className="object-contain" />
+          className={`absolute z-20 rotate-[-90deg] translate-y-[-50%] top-[50%] h-[10%] w-[14%] left-1 items-center flex 
+            rounded-full bg-black/70 outline-white/70 outline-2 outline-offset-1 cursor-pointer ${variant === 'compact' ? 'hidden' : ''}`}>
+          <img src={flipCardIcon} alt="Flip card icon" className="opacity-70 h-full" />
         </Button>
         {href ? <Link to={href} className="absolute inset-0 z-10" /> : null}
         <img
