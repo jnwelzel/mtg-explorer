@@ -1,0 +1,32 @@
+interface MessageProps {
+  message: string
+  className?: string
+  variant?: 'error' | 'info' | 'success'
+}
+
+const textColors = {
+  error: 'text-error',
+  info: 'text-blue-500',
+  success: 'text-green-500',
+}
+
+const borderColors = {
+  error: 'border-error/30',
+  info: 'border-info/30',
+  success: 'border-success/30',
+}
+
+const bgColors = {
+  error: 'bg-error/10',
+  info: 'bg-info/10',
+  success: 'bg-success/10',
+}
+
+export const Message: React.FC<MessageProps> = ({ message, className, variant = 'info' }) => {
+  return (
+    <p
+      className={`text-sm/4 ${className} ${textColors[variant]} border rounded px-2 py-1 ${bgColors[variant]} ${borderColors[variant]}`}>
+      {message}
+    </p>
+  )
+}

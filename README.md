@@ -13,3 +13,5 @@ A place for messing around with Magic: The Gathering.
   - [ ] `CardView`
 - [ ] Error boundaries
 - [ ] Saved searches
+- [ ] Storybook
+- [ ] Scroll position preservation from card view -> cards list page

@@ -1,1 +1,5 @@
 export { SearchForm } from './SearchForm'
+export * from './ResultsInfo'
+export * from './CardsList'
+export * from './SuggestionsList'
+export * from './RecentlyViewedList'

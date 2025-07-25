@@ -1,8 +1,11 @@
 import { use } from 'react'
 import { useCardSearch } from '../../hooks'
-import { Button, Input, MagicCard } from '../ui'
+import { Button, Input, Message } from '../ui'
 import { CardsList } from './CardsList'
 import { RecentCardsContext } from '../../contexts'
+import { ResultsInfo } from './ResultsInfo'
+import { SuggestionsList } from './SuggestionsList'
+import { RecentlyViewedList } from './RecentlyViewedList'
 
 export const SearchForm: React.FC = () => {
   const { handlers, data, flags } = useCardSearch()
@@ -30,29 +33,16 @@ export const SearchForm: React.FC = () => {
             }}
           />
           {data.nameSuggestions.length > 0 && !flags.isPending && flags.isInputFocused ? (
-            <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded shadow-lg mt-11 max-h-60 overflow-y-auto">
-              {data.nameSuggestions.map(suggestion => (
-                <li
-                  key={suggestion}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={handlers.onSuggestionClick.bind(null, suggestion)}>
-                  {suggestion}
-                </li>
-              ))}
-            </ul>
+            <SuggestionsList
+              suggestions={data.nameSuggestions}
+              onSuggestionClick={handlers.onSuggestionClick}
+            />
           ) : null}
           {recentlyViewedCards.length > 0 && data.cardName === '' && flags.isInputFocused ? (
-            <ul className="absolute z-20 bg-white border border-gray-300 rounded shadow-lg mt-11 grid gap-2 grid-cols-12 px-2 py-2">
-              <p className="col-span-12 text-sm text-gray-500">Recently viewed</p>
-              {recentlyViewedCards.map(card => (
-                <li
-                  key={card.id}
-                  className="cursor-pointer col-span-4"
-                  onClick={handlers.onSuggestionClick.bind(null, card.name)}>
-                  <MagicCard card={card} shouldDisplayPrice={false} variant="compact" />
-                </li>
-              ))}
-            </ul>
+            <RecentlyViewedList
+              recentlyViewedCards={recentlyViewedCards}
+              onCardClick={handlers.onSuggestionClick}
+            />
           ) : null}
         </div>
 
@@ -63,16 +53,15 @@ export const SearchForm: React.FC = () => {
           Search
         </Button>
       </form>
-      {data.errorMessage ? <p className="text-sm text-red-400 mt-3">{data.errorMessage}</p> : null}
-      {data.cards.length > 0 && !flags.isPending ? (
-        <p className="text-gray-500 text-sm mt-3">
-          Search for '{data.query}' returned {data.totalCount} result
-          {data.totalCount > 1 ? 's ' : ' '} •{' '}
-          <Button onClick={handlers.onClearSearch} type="button" variant="link" className="inline">
-            clear results
-          </Button>
-        </p>
+      {data.errorMessage ? (
+        <Message message={data.errorMessage} variant="error" className="mt-3" />
       ) : null}
+      <ResultsInfo
+        query={data.query}
+        totalCount={data.totalCount}
+        onClearSearch={handlers.onClearSearch}
+        isLoading={flags.isPending}
+      />
       <CardsList cards={data.cards} isLoading={flags.isPending} />
       {flags.hasMoreResults ? (
         <div className="grid grid-cols-12 md:grid-cols-11 mt-3">
