@@ -49,6 +49,7 @@ const MAX_ZOOM_LEVEL = 2 // Limit zoom level to a maximum of 2
 const MIN_ZOOM_LEVEL = 0 // Limit zoom level to a minimum of 0
 const ZOOM_STEP = 0.25 // Step size for zooming in and out
 const MEDIUM_SCREEN_WIDTH = 768 // Width at which zoom level is considered minimum
+const LARGE_SCREEN_WIDTH = 1024 // Width at which zoom level is considered minimum
 
 const useCardSearch = (): UseCardSearchResult => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -171,6 +172,10 @@ const useCardSearch = (): UseCardSearchResult => {
     }
   }
 
+  const isMaxedOutInSmallScreen = (width ?? 0) < MEDIUM_SCREEN_WIDTH && zoomLevel === 1
+  const isMaxedOutInMediumScreen =
+    (width ?? 0) > MEDIUM_SCREEN_WIDTH && (width ?? 0) < LARGE_SCREEN_WIDTH && zoomLevel === 1.75
+
   return {
     data: {
       cards,
@@ -188,8 +193,7 @@ const useCardSearch = (): UseCardSearchResult => {
       isPendingSuggestions,
       hasMoreResults,
       isLoadingMore,
-      isMaxZoom:
-        zoomLevel >= MAX_ZOOM_LEVEL || ((width ?? 0) < MEDIUM_SCREEN_WIDTH && zoomLevel === 1), // Consider it already min zoomed on small screens,
+      isMaxZoom: zoomLevel >= MAX_ZOOM_LEVEL || isMaxedOutInSmallScreen || isMaxedOutInMediumScreen,
       isMinZoom: zoomLevel <= MIN_ZOOM_LEVEL,
     },
     handlers: {
