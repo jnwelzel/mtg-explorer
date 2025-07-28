@@ -1,7 +1,11 @@
 import { NavLink } from 'react-router'
 import type { Set } from 'scryfall-api'
 
-export const SetItem: React.FC<{ set: Set }> = ({ set }) => {
+interface SetItemProps {
+  set: Set
+}
+
+export const SetItem: React.FC<SetItemProps> = ({ set }) => {
   return (
     <li className="flex items-center border rounded border-stone-400 shadow hover:shadow-md transition-shadow duration-200">
       <NavLink

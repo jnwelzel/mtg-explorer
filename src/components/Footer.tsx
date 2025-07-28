@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
     <div className="col-span-2 relative">
       <Button
         className={`shadow z-20 transition-opacity ${
-          isFooterVisible ? 'absolute bottom-[72px] right-3' : 'fixed bottom-3 right-3'
+          isFooterVisible ? 'absolute bottom-[72px] right-4' : 'fixed bottom-3 right-4'
         } ${isBackToTopVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         variant="primary"
         isCircle

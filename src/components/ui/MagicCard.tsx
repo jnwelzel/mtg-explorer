@@ -43,6 +43,8 @@ export const MagicCard: React.FC<MagicCardProps> = ({
     if (onCardFlip) onCardFlip()
   }
 
+  const price = getCardPrice(card.prices, currency as keyof typeof card.prices)
+
   return (
     <div className="flex flex-col">
       {isDoubleSided ? (
@@ -92,10 +94,8 @@ export const MagicCard: React.FC<MagicCardProps> = ({
                 return <Badge key={keyValue} text={badge} title={title} />
               })
             : null}
-          {shouldDisplayPrice ? (
-            <span className="text-xs text-gray-600 text-center">
-              {getCardPrice(card.prices, currency as keyof typeof card.prices)}
-            </span>
+          {shouldDisplayPrice && price ? (
+            <span className="text-xs text-gray-600 text-center">{price}</span>
           ) : null}
         </div>
       ) : null}
