@@ -22,8 +22,8 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = props => {
         </a>
       </li>
       {items.map(item => (
-        <li className="text-sm ml-3 flex items-center" key={item.path}>
-          <ChevronRightIcon className="size-5 text-neutral-500 mr-3" />
+        <li className="text-sm ml-2 md:ml-3 flex items-center" key={item.path}>
+          <ChevronRightIcon className="size-5 text-neutral-500 mr-2 md:mr-3" />
           <a href={`${item.path}`} className="text-neutral-500 hover:text-neutral-600 line-clamp-1">
             {item.name}
           </a>

@@ -15,12 +15,13 @@ const MobileSideNav: React.FC<MobileSideNavProps> = ({ isOpen, onClose }) =>
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
         style={{ willChange: 'transform' }}>
         <button
+          type="button"
           className="self-end mb-4 w-10 h-10 flex justify-center items-center rounded bg-gray-600"
           onClick={onClose}
           aria-label="Close menu">
           ✕
         </button>
-        <NavItems />
+        <NavItems onClick={onClose} />
       </div>
     </aside>
   ) : null

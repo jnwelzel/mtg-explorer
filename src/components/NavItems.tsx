@@ -3,12 +3,13 @@ import { CurrencyContext } from '../contexts'
 import type { Currency } from '../types'
 import { NavLink } from 'react-router'
 
-type NavItemsProps = {
+interface NavItemsProps {
   isVertical?: boolean
   className?: string
+  onClick?: () => void
 }
 
-const NavItems: React.FC<NavItemsProps> = ({ isVertical = true, className = '' }) => {
+const NavItems: React.FC<NavItemsProps> = ({ isVertical = true, className = '', onClick }) => {
   const { currency, setCurrency } = use(CurrencyContext)
 
   return (
@@ -19,14 +20,16 @@ const NavItems: React.FC<NavItemsProps> = ({ isVertical = true, className = '' }
       <li>
         <NavLink
           to="/cards"
-          className={({ isActive }) => (isActive ? 'text-purple-300 underline' : '')}>
+          className={({ isActive }) => (isActive ? 'text-purple-300 underline' : '')}
+          onClick={onClick}>
           Cards
         </NavLink>
       </li>
       <li>
         <NavLink
           to="/sets"
-          className={({ isActive }) => (isActive ? 'text-purple-300 underline' : '')}>
+          className={({ isActive }) => (isActive ? 'text-purple-300 underline' : '')}
+          onClick={onClick}>
           Sets
         </NavLink>
       </li>

@@ -1,7 +1,7 @@
 import { HomePage, Layout, CardsPage, CardViewPage, SetsPage } from './pages'
 import { createBrowserRouter, Navigate } from 'react-router'
 
-const routes = createBrowserRouter([
+export const routes = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
@@ -29,5 +29,3 @@ const routes = createBrowserRouter([
     element: <Navigate to="/" replace />,
   },
 ])
-
-export default routes

@@ -6,6 +6,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: 'default' | 'link' | 'unstyled' | 'primary' | 'secondary'
   isCircle?: boolean
   size?: 'small' | 'medium' | 'large'
+  underline?: boolean
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -16,6 +17,7 @@ export const Button: React.FC<ButtonProps> = ({
   type = 'button',
   isCircle = false,
   size = 'medium',
+  underline = false,
   ...props
 }) => {
   const heightClasses = {
@@ -28,9 +30,7 @@ export const Button: React.FC<ButtonProps> = ({
     medium: 'w-10',
     large: 'w-12',
   }
-  const baseClasses = `flex items-center justify-center ${isCircle ? 'rounded-full' : 'rounded'} 
-    ${variant !== 'link' && !isCircle ? 'px-4' : ''} cursor-pointer whitespace-nowrap 
-    transition-colors ${heightClasses[size]} ${isCircle ? widthClasses[size] : ''}`
+  const baseClasses = `flex items-center justify-center cursor-pointer whitespace-nowrap transition-colors${isCircle ? ' rounded-full' : ' rounded'}${variant !== 'link' && !isCircle ? ' px-4' : ''}${' ' + heightClasses[size]}${isCircle ? ' ' + widthClasses[size] : ''}${underline ? ' underline' : ''}`
   const buttonClasses = {
     default: `${baseClasses} bg-blue-600 text-white ${props.disabled ? '' : 'hover:bg-blue-700'}`,
     link: `${baseClasses} text-blue-600 ${props.disabled ? '' : 'hover:underline'} h-auto`,
