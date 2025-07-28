@@ -3,7 +3,7 @@ import { Content, Footer, Header, MobileSideNav } from '../components'
 import { Outlet } from 'react-router'
 import { useApp } from '../hooks'
 import { CurrencyContext, RecentCardsContext } from '../contexts'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 export const Layout: React.FC = () => {
   const {
@@ -14,11 +14,8 @@ export const Layout: React.FC = () => {
     recentlyViewedCards,
     addRecentlyViewedCard,
   } = useApp()
-  const currencyContextValue = React.useMemo(
-    () => ({ currency, setCurrency }),
-    [currency, setCurrency]
-  )
-  const recentCardsContextValue = React.useMemo(
+  const currencyContextValue = useMemo(() => ({ currency, setCurrency }), [currency, setCurrency])
+  const recentCardsContextValue = useMemo(
     () => ({ recentlyViewedCards, addRecentlyViewedCard }),
     [recentlyViewedCards, addRecentlyViewedCard]
   )

@@ -1,12 +1,13 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import type { Set } from 'scryfall-api'
 import { getAllSetsByFirstLetter, getAllStartingLetters } from '../utils'
+import { useSearchParams } from 'react-router'
 
 type UseSetsResult = {
   allFirstLetters: string[]
   allSetsByFirstLetter: Record<string, Set[]>
-  currentFirstLetter?: string
-  setCurrentFirstLetter: (letter: string) => void
+  setSearchParams: (letter: string) => void
+  query: string | null
 }
 
 export const useSets = (sets: Set[]): UseSetsResult => {
@@ -16,7 +17,8 @@ export const useSets = (sets: Set[]): UseSetsResult => {
   const allSetsByFirstLetter = useMemo(() => {
     return getAllSetsByFirstLetter(sets)
   }, [sets])
-  const [currentFirstLetter, setCurrentFirstLetter] = useState<string | undefined>(undefined)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const query = searchParams.get('q')
 
-  return { allFirstLetters, allSetsByFirstLetter, currentFirstLetter, setCurrentFirstLetter }
+  return { allFirstLetters, allSetsByFirstLetter, setSearchParams, query }
 }
