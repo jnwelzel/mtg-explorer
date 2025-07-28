@@ -66,7 +66,7 @@ export const SearchForm: React.FC = () => {
         isMaxZoom={flags.isMaxZoom}
         isMinZoom={flags.isMinZoom}
       />
-      <CardsList cards={data.cards} isLoading={flags.isPending} />
+      <CardsList cards={data.cards} isLoading={flags.isPending} zoomLevel={data.zoomLevel} />
       {flags.hasMoreResults ? (
         <div className="grid grid-cols-12 md:grid-cols-11 mt-3">
           <Button

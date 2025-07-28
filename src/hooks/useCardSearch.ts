@@ -3,7 +3,7 @@ import { Cards, type Card } from 'scryfall-api'
 import { useDebounce } from './useDebounce'
 import { useSearchParams } from 'react-router'
 import { RecentCardsContext } from '../contexts'
-import { useLocalStorage } from '@uidotdev/usehooks'
+import { useLocalStorage, useWindowSize } from '@uidotdev/usehooks'
 
 type ZoomTypes = 'zoomIn' | 'zoomOut'
 
@@ -45,9 +45,10 @@ type UseCardSearchResult = {
 }
 
 const PAGE_SIZE = 175 // Number of cards per page
-const MAX_ZOOM_LEVEL = 2.25 // Limit zoom level to a maximum of 2.25
-const MIN_ZOOM_LEVEL = -0.25 // Limit zoom level to a minimum of -0.25
+const MAX_ZOOM_LEVEL = 2 // Limit zoom level to a maximum of 2
+const MIN_ZOOM_LEVEL = 0 // Limit zoom level to a minimum of 0
 const ZOOM_STEP = 0.25 // Step size for zooming in and out
+const MEDIUM_SCREEN_WIDTH = 768 // Width at which zoom level is considered minimum
 
 const useCardSearch = (): UseCardSearchResult => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -66,6 +67,7 @@ const useCardSearch = (): UseCardSearchResult => {
   const searchInputRef = useRef<HTMLInputElement>(null)
   const [zoomLevel, setZoomLevel] = useLocalStorage<number>('zoomLevel', 1)
   const query = searchParams.get('q')?.trim() ?? ''
+  const { width } = useWindowSize()
 
   useEffect(() => {
     if (debouncedQuery) {
@@ -186,7 +188,8 @@ const useCardSearch = (): UseCardSearchResult => {
       isPendingSuggestions,
       hasMoreResults,
       isLoadingMore,
-      isMaxZoom: zoomLevel >= MAX_ZOOM_LEVEL,
+      isMaxZoom:
+        zoomLevel >= MAX_ZOOM_LEVEL || ((width ?? 0) < MEDIUM_SCREEN_WIDTH && zoomLevel === 1), // Consider it already min zoomed on small screens,
       isMinZoom: zoomLevel <= MIN_ZOOM_LEVEL,
     },
     handlers: {
