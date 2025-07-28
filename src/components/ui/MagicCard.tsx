@@ -85,7 +85,11 @@ export const MagicCard: React.FC<MagicCardProps> = ({
           {shouldDisplayBadges
             ? badges.map((badge, i) => {
                 const keyValue = `${card.id.substring(0, 8)}--${i}`
-                return <Badge key={keyValue} text={badge} />
+                const title =
+                  badge === 'Reserved'
+                    ? 'This card will never be reprinted.'
+                    : 'This card has previously appeared in another set.'
+                return <Badge key={keyValue} text={badge} title={title} />
               })
             : null}
           {shouldDisplayPrice ? (

@@ -23,8 +23,14 @@ const NavItems: React.FC<NavItemsProps> = ({ isVertical = true, className = '' }
           Cards
         </NavLink>
       </li>
+      <li>
+        <NavLink
+          to="/sets"
+          className={({ isActive }) => (isActive ? 'text-purple-300 underline' : '')}>
+          Sets
+        </NavLink>
+      </li>
       <li>Decks</li>
-      <li>Sets</li>
       <li>News</li>
       <li>Utilities</li>
       <li>Sign up</li>

@@ -1,22 +1,26 @@
-import { Home, Layout, Cards, CardView } from './pages'
+import { HomePage, Layout, CardsPage, CardViewPage, SetsPage } from './pages'
 import { createBrowserRouter, Navigate } from 'react-router'
 
-let routes = createBrowserRouter([
+const routes = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <HomePage />,
       },
       {
         path: '/cards',
-        element: <Cards />,
+        element: <CardsPage />,
       },
       {
         path: '/cards/:id',
-        element: <CardView />,
+        element: <CardViewPage />,
+      },
+      {
+        path: '/sets',
+        element: <SetsPage />,
       },
     ],
   },

@@ -1,4 +1,5 @@
-export { Home } from './Home'
+export { HomePage } from './HomePage'
 export { Layout } from './Layout'
-export { Cards } from './Cards'
-export { CardView } from './CardView'
+export { CardsPage } from './CardsPage'
+export { CardViewPage } from './CardViewPage'
+export { SetsPage } from './SetsPage'

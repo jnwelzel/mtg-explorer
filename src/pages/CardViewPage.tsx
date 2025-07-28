@@ -1,16 +1,22 @@
 import { useParams } from 'react-router'
 import { useCardView } from '../hooks'
-import { MagicCard, ReplaceWithBraces } from '../components/ui'
+import { Breadcrumb, MagicCard, ReplaceWithBraces } from '../components/ui'
 import { isDoubleFaced, isDoubleSided } from '../utils'
 import { useDocumentTitle } from '@uidotdev/usehooks'
 
-export const CardView: React.FC = () => {
+export const CardViewPage: React.FC = () => {
   const { id } = useParams<string>()
   const { card, isPending, flipCard, faceIndex, faces } = useCardView(id)
   useDocumentTitle(card ? `MTG Explorer - ${card.name}` : 'MTG Explorer')
 
   return (
     <>
+      <Breadcrumb
+        items={[
+          { name: 'Cards', path: `/cards/` },
+          { name: card?.name ?? '', path: `/cards/${card?.id ?? ''}` },
+        ]}
+      />
       {isPending ? <p>Loading...</p> : null}
       {!isPending && card ? (
         <div className="grid grid-cols-1 md:grid-cols-12 mt-3 gap-3">
