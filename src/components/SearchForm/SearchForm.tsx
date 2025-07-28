@@ -54,7 +54,7 @@ export const SearchForm: React.FC = () => {
         </Button>
       </form>
       {data.errorMessage ? (
-        <Message message={data.errorMessage} variant="error" className="mt-3" />
+        <Message text={data.errorMessage} variant="error" className="mt-3" />
       ) : null}
       <ResultsInfo
         query={data.query}

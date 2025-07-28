@@ -33,7 +33,7 @@ export const Button: React.FC<ButtonProps> = ({
   const baseClasses = `flex items-center justify-center cursor-pointer whitespace-nowrap transition-colors${isCircle ? ' rounded-full' : ' rounded'}${variant !== 'link' && !isCircle ? ' px-4' : ''}${' ' + heightClasses[size]}${isCircle ? ' ' + widthClasses[size] : ''}${underline ? ' underline' : ''}`
   const buttonClasses = {
     default: `${baseClasses} bg-blue-600 text-white ${props.disabled ? '' : 'hover:bg-blue-700'}`,
-    link: `${baseClasses} text-blue-600 ${props.disabled ? '' : 'hover:underline'} h-auto`,
+    link: `${baseClasses} text-blue-600 h-auto${props.disabled ? '' : ' hover:underline'}`,
     unstyled: '',
     primary: `${baseClasses} bg-black text-white ${props.disabled ? '' : 'hover:bg-stone-800'}`,
     secondary: `${baseClasses} bg-gray-200 text-gray-800 ${props.disabled ? '' : 'hover:bg-gray-300'}`,
