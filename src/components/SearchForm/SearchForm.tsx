@@ -1,5 +1,5 @@
 import { use } from 'react'
-import { useCardSearch } from '../../hooks'
+import { useCardSearch, useZoomLevel } from '../../hooks'
 import { Button, Input, Message } from '../ui'
 import { CardsList } from './CardsList'
 import { RecentCardsContext } from '../../contexts'
@@ -9,6 +9,7 @@ import { RecentlyViewedList } from './RecentlyViewedList'
 
 export const SearchForm: React.FC = () => {
   const { handlers, data, flags } = useCardSearch()
+  const { zoomLevel, onResultsPerPageClick, isMaxZoom, isMinZoom } = useZoomLevel()
   const { recentlyViewedCards } = use(RecentCardsContext)
 
   return (
@@ -61,12 +62,12 @@ export const SearchForm: React.FC = () => {
         totalCount={data.totalCount}
         onClearSearch={handlers.onClearSearch}
         isLoading={flags.isPending}
-        onZoomInClick={() => handlers.onResultsPerPageClick('zoomIn')}
-        onZoomOutClick={() => handlers.onResultsPerPageClick('zoomOut')}
-        isMaxZoom={flags.isMaxZoom}
-        isMinZoom={flags.isMinZoom}
+        onZoomInClick={() => onResultsPerPageClick('zoomIn')}
+        onZoomOutClick={() => onResultsPerPageClick('zoomOut')}
+        isMaxZoom={isMaxZoom}
+        isMinZoom={isMinZoom}
       />
-      <CardsList cards={data.cards} isLoading={flags.isPending} zoomLevel={data.zoomLevel} />
+      <CardsList cards={data.cards} isLoading={flags.isPending} zoomLevel={zoomLevel} />
       {flags.hasMoreResults ? (
         <div className="grid grid-cols-12 md:grid-cols-11 mt-3">
           <Button

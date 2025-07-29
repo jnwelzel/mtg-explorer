@@ -6,7 +6,7 @@ import zoomOutIcon from '../../../assets/zoomOut.svg'
 interface ResultsInfoProps {
   query?: string
   totalCount: number
-  onClearSearch: () => void
+  onClearSearch?: () => void
   isLoading?: boolean
   onZoomInClick: () => void
   onZoomOutClick: () => void
@@ -31,10 +31,15 @@ export const ResultsInfo: React.FC<ResultsInfoProps> = ({
         <div className="w-full mt-3 flex flex-nowrap items-center">
           <p className="text-gray-500 text-sm">
             Search for '{query}' returned {totalCount} result
-            {totalCount > 1 ? 's ' : ' '}•{' '}
-            <Button onClick={onClearSearch} type="button" variant="link" className="inline">
-              clear results
-            </Button>
+            {totalCount > 1 ? 's ' : ' '}
+            {onClearSearch ? (
+              <>
+                •{' '}
+                <Button onClick={onClearSearch} type="button" variant="link" className="inline">
+                  clear results
+                </Button>
+              </>
+            ) : null}
           </p>
           <span className="flex gap-2 items-center ml-2">
             <Button

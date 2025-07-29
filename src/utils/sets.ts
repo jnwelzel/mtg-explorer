@@ -25,3 +25,17 @@ export const getAllSetsByFirstLetter = (sets: Set[]): Record<string, Set[]> => {
     {} as Record<string, Set[]>
   )
 }
+
+export const getSetsGroupedByYear = (sets: Set[]): Record<string, Set[]> => {
+  return sets.reduce(
+    (acc, set) => {
+      const key = set?.released_at?.getFullYear() ?? new Date().getFullYear()
+      if (!acc[key]) {
+        acc[key] = []
+      }
+      acc[key].push(set)
+      return acc
+    },
+    {} as Record<string, Set[]>
+  )
+}

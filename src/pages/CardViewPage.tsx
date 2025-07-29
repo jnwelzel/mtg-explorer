@@ -3,6 +3,7 @@ import { useCardView } from '../hooks'
 import { Breadcrumb, MagicCard, ReplaceWithBraces } from '../components/ui'
 import { isDoubleFaced, isDoubleSided } from '../utils'
 import { useDocumentTitle } from '@uidotdev/usehooks'
+import { routesPath } from '../routes'
 
 export const CardViewPage: React.FC = () => {
   const { id } = useParams<string>()
@@ -13,8 +14,8 @@ export const CardViewPage: React.FC = () => {
     <>
       <Breadcrumb
         items={[
-          { name: 'Cards', path: `/cards/` },
-          { name: card?.name ?? '', path: `/cards/${card?.id ?? ''}` },
+          { name: 'Cards', path: routesPath.cards },
+          { name: card?.name ?? '', path: routesPath.cardView(card?.id ?? '') },
         ]}
       />
       {isPending ? <p>Loading...</p> : null}

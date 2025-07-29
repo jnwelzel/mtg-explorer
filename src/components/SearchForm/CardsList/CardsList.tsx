@@ -1,15 +1,14 @@
 import type { Card } from 'scryfall-api'
 import { MagicCard, MagicCardSkeleton } from '../../ui'
+import type { ZoomLevel } from '../../../types'
 
 interface CardsListProps {
   cards: Card[]
   isLoading?: boolean
-  zoomLevel?: number
+  zoomLevel?: ZoomLevel
 }
 
-type ZoomLevelKey = '0' | '0.25' | '0.5' | '0.75' | '1' | '1.25' | '1.5' | '1.75' | '2'
-
-const ZOOM_CLASSES: Record<ZoomLevelKey, string> = {
+const ZOOM_CLASSES: Record<ZoomLevel, string> = {
   '0': 'col-span-1 md:col-span-1 lg:col-span-1',
   '0.25': 'col-span-3 md:col-span-1 lg:col-span-1',
   '0.5': 'col-span-4 md:col-span-2 lg:col-span-1',
@@ -39,12 +38,12 @@ export const CardsList: React.FC<CardsListProps> = ({
   zoomLevel = 1,
 }) => {
   return (
-    <ul className={`grid gap-4 mt-3 ${GRID_COL_CLASSES[zoomLevel.toString() as ZoomLevelKey]}`}>
+    <ul className={`grid gap-4 mt-3 ${GRID_COL_CLASSES[zoomLevel.toString() as ZoomLevel]}`}>
       {isLoading ? <MagicCardSkeleton /> : null}
       {!isLoading &&
         cards.length > 0 &&
         cards.map(card => (
-          <li key={card.id} className={ZOOM_CLASSES[zoomLevel.toString() as ZoomLevelKey]}>
+          <li key={card.id} className={ZOOM_CLASSES[zoomLevel.toString() as ZoomLevel]}>
             <MagicCard shouldDisplayPrice card={card} />
           </li>
         ))}

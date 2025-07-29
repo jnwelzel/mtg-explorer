@@ -2,9 +2,17 @@ import { HomePage, Layout, CardsPage, CardViewPage, SetsPage } from './pages'
 import { createBrowserRouter, Navigate } from 'react-router'
 import { SetViewPage } from './pages/SetViewPage'
 
+export const routesPath = {
+  home: '/',
+  cards: '/cards',
+  cardView: (id: string) => `/cards/${id}`,
+  sets: '/sets',
+  setView: (code: string) => `/sets/${code}`,
+}
+
 export const routes = createBrowserRouter([
   {
-    path: '/',
+    path: routesPath.home,
     element: <Layout />,
     children: [
       {
@@ -12,19 +20,19 @@ export const routes = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: '/cards',
+        path: routesPath.cards,
         element: <CardsPage />,
       },
       {
-        path: '/cards/:id',
+        path: routesPath.cardView(':id'),
         element: <CardViewPage />,
       },
       {
-        path: '/sets/:code',
+        path: routesPath.setView(':code'),
         element: <SetViewPage />,
       },
       {
-        path: '/sets',
+        path: routesPath.sets,
         element: <SetsPage />,
       },
     ],

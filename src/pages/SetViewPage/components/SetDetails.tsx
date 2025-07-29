@@ -1,7 +1,11 @@
 import { Cards, type Card, type Set } from 'scryfall-api'
-import { Breadcrumb, Button, MagicCard, Message } from '../../../components/ui'
+import { Breadcrumb, Button, Message } from '../../../components/ui'
 import { use, useState } from 'react'
 import { useParams } from 'react-router'
+import { CardsList } from '../../../components'
+import { ResultsInfo } from '../../../components/SearchForm'
+import { useZoomLevel } from '../../../hooks'
+import { routesPath } from '../../../routes'
 
 interface SetDetailsProps {
   setPromise: Promise<Set | undefined>
@@ -11,6 +15,7 @@ export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise }) => {
   const set = use(setPromise)
   const { code } = useParams<{ code: string }>()
   const [cards, setCards] = useState<Card[] | null>(null)
+  const { zoomLevel, onResultsPerPageClick, isMaxZoom, isMinZoom } = useZoomLevel()
 
   const fetchCards = async () => {
     const result = await Cards.search(`s:${code}`).all()
@@ -21,8 +26,8 @@ export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise }) => {
     <>
       <Breadcrumb
         items={[
-          { name: 'Sets', path: `/sets` },
-          { name: set?.name || code || '', path: `/sets/${code}` },
+          { name: 'Sets', path: routesPath.sets },
+          { name: set?.name || code || '', path: routesPath.setView(code || '') },
         ]}
       />
       {set ? (
@@ -33,15 +38,22 @@ export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise }) => {
               {set.name} ({set.code.toUpperCase()})
             </p>
           </div>
-          <Button onClick={fetchCards}>View cards ({set.card_count})</Button>
+          <Button onClick={fetchCards} className="mt-3 md:mr-auto">
+            View all cards from set
+          </Button>
           {cards && cards.length > 0 ? (
-            <ul className="grid grid-cols-12 gap-4 mt-3">
-              {cards.map(card => (
-                <li key={card.id} className="col-span-full md:col-span-3 lg:col-span-2">
-                  <MagicCard card={card} shouldDisplayPrice />
-                </li>
-              ))}
-            </ul>
+            <>
+              <ResultsInfo
+                query={code}
+                totalCount={cards.length}
+                isLoading={false}
+                onZoomInClick={() => onResultsPerPageClick('zoomIn')}
+                onZoomOutClick={() => onResultsPerPageClick('zoomOut')}
+                isMaxZoom={isMaxZoom}
+                isMinZoom={isMinZoom}
+              />
+              <CardsList cards={cards} isLoading={false} zoomLevel={zoomLevel} />
+            </>
           ) : null}
         </>
       ) : (
