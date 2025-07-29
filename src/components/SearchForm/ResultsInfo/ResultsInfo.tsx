@@ -1,7 +1,8 @@
-import { Button } from '../../ui'
+import { Button, Select } from '../../ui'
 
 import zoomInIcon from '../../../assets/zoomIn.svg'
 import zoomOutIcon from '../../../assets/zoomOut.svg'
+import { BiSort } from 'react-icons/bi'
 
 interface ResultsInfoProps {
   query?: string
@@ -28,8 +29,8 @@ export const ResultsInfo: React.FC<ResultsInfoProps> = ({
     <>
       {isLoading ? <p className="skeleton-animation w-full rounded-sm md:w-1/2 h-5 mt-3" /> : null}
       {totalCount > 0 && !isLoading ? (
-        <div className="w-full mt-3 flex flex-nowrap items-center">
-          <p className="text-gray-500 text-sm">
+        <div className="w-full mt-3 flex flex-nowrap flex-col gap-2 md:flex-row md:items-center">
+          <p className="text-gray-500 text-sm text-left">
             Search for '{query}' returned {totalCount} result
             {totalCount > 1 ? 's ' : ' '}
             {onClearSearch ? (
@@ -41,23 +42,25 @@ export const ResultsInfo: React.FC<ResultsInfoProps> = ({
               </>
             ) : null}
           </p>
-          <span className="flex gap-2 items-center ml-2">
-            <Button
-              disabled={isMaxZoom}
-              onClick={onZoomInClick}
-              isCircle
-              size="small"
-              variant="secondary">
-              <img src={zoomInIcon} alt="Show more results per page" className="w-5 h-5" />
+          <span className="flex gap-2 items-center md:ml-auto">
+            <Button disabled={isMaxZoom} onClick={onZoomInClick} isCircle variant="secondary">
+              <img src={zoomInIcon} alt="Show more results per page" className="w-6 h-6" />
             </Button>
-            <Button
-              disabled={isMinZoom}
-              onClick={onZoomOutClick}
-              isCircle
-              size="small"
-              variant="secondary">
-              <img src={zoomOutIcon} alt="Show fewer results per page" className="w-5 h-5" />
+            <Button disabled={isMinZoom} onClick={onZoomOutClick} isCircle variant="secondary">
+              <img src={zoomOutIcon} alt="Show fewer results per page" className="w-6 h-6" />
             </Button>
+            <Select
+              options={[
+                { value: 'name+asc', label: 'Name (A → Z)' },
+                { value: 'name+desc', label: 'Name (Z → A)' },
+                { value: 'price+asc', label: 'Price (Low → High)' },
+                { value: 'price+desc', label: 'Price (High → Low)' },
+              ]}
+              value="name+asc"
+              name="sort"
+              onChange={value => console.log(value)}
+              icon={<BiSort />}
+            />
           </span>
         </div>
       ) : null}
