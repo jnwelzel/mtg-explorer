@@ -6,6 +6,7 @@ import { CardsList } from '../../../components'
 import { ResultsInfo } from '../../../components/SearchForm'
 import { useZoomLevel } from '../../../hooks'
 import { routesPath } from '../../../routes'
+import { BiCalendar } from 'react-icons/bi'
 
 interface SetDetailsProps {
   setPromise: Promise<Set | undefined>
@@ -33,10 +34,14 @@ export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise }) => {
       {set ? (
         <>
           <div className="flex items-center gap-1">
-            <img src={set.icon_svg_uri} alt={`${set.name} icon`} className="w-5 h-5" />
-            <p>
+            <img src={set.icon_svg_uri} alt={`${set.name} icon`} className="w-6 h-6" />
+            <h1 className="text-2xl font-bold">
               {set.name} ({set.code.toUpperCase()})
-            </p>
+            </h1>
+          </div>
+          <div className="flex gap-1 items-center text-gray-500">
+            <BiCalendar className="w-5 h-5" />
+            <p className="text-sm">Released {set?.released_at?.toLocaleDateString() ?? ''}</p>
           </div>
           <Button onClick={fetchCards} className="mt-3 md:mr-auto">
             View all cards from set
