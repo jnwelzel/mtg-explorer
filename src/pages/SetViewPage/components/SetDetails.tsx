@@ -1,6 +1,6 @@
-import { Cards, type Card, type Set } from 'scryfall-api'
-import { Breadcrumb, Button, Message } from '../../../components/ui'
-import { use, useState } from 'react'
+import { type Card, type Set } from 'scryfall-api'
+import { Breadcrumb, Message } from '../../../components/ui'
+import { use } from 'react'
 import { useParams } from 'react-router'
 import { CardsList } from '../../../components'
 import { ResultsInfo } from '../../../components/SearchForm'
@@ -10,18 +10,14 @@ import { BiCalendar } from 'react-icons/bi'
 
 interface SetDetailsProps {
   setPromise: Promise<Set | undefined>
+  cardsPromise: Promise<Card[]>
 }
 
-export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise }) => {
+export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise, cardsPromise }) => {
   const set = use(setPromise)
+  const cards = use(cardsPromise)
   const { code } = useParams<{ code: string }>()
-  const [cards, setCards] = useState<Card[] | null>(null)
   const { zoomLevel, onResultsPerPageClick, isMaxZoom, isMinZoom } = useZoomLevel()
-
-  const fetchCards = async () => {
-    const result = await Cards.search(`s:${code}`).all()
-    setCards(result)
-  }
 
   return (
     <>
@@ -43,9 +39,6 @@ export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise }) => {
             <BiCalendar className="w-5 h-5" />
             <p className="text-sm">Released {set?.released_at?.toLocaleDateString() ?? ''}</p>
           </div>
-          <Button onClick={fetchCards} className="mt-3 md:mr-auto">
-            View all cards from set
-          </Button>
           {cards && cards.length > 0 ? (
             <>
               <ResultsInfo

@@ -1,5 +1,5 @@
 import { use } from 'react'
-import { useCardSearch, useZoomLevel } from '../../hooks'
+import { useSearchForm, useZoomLevel } from '../../hooks'
 import { Button, Input, Message } from '../ui'
 import { CardsList } from './CardsList'
 import { RecentCardsContext } from '../../contexts'
@@ -8,7 +8,7 @@ import { SuggestionsList } from './SuggestionsList'
 import { RecentlyViewedList } from './RecentlyViewedList'
 
 export const SearchForm: React.FC = () => {
-  const { handlers, data, flags } = useCardSearch()
+  const { handlers, data, flags } = useSearchForm()
   const { zoomLevel, onResultsPerPageClick, isMaxZoom, isMinZoom } = useZoomLevel()
   const { recentlyViewedCards } = use(RecentCardsContext)
 
