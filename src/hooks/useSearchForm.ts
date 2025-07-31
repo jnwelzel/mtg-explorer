@@ -67,7 +67,7 @@ export const useSearchForm = (): UseSearchFormResult => {
     isMinZoom,
     onClearSearch,
   } = useSearch({ onClearSearchCallback })
-  const [cardName, setCardName] = useState(query)
+  const [cardName, setCardName] = useState('')
   const debouncedQuery = useDebounce(cardName, 250)
 
   useEffect(() => {
@@ -89,6 +89,10 @@ export const useSearchForm = (): UseSearchFormResult => {
     }
   }, [debouncedQuery, startTransitionSuggestions])
 
+  useEffect(() => {
+    setCardName(query)
+  }, [query])
+
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCardName(event.target.value)
     if (event.target.value.trim() === '') {
@@ -99,7 +103,9 @@ export const useSearchForm = (): UseSearchFormResult => {
 
   const onSearchSubmit = () => {
     searchInputRef.current?.blur()
-    setSearchParams(new URLSearchParams({ q: cardName }))
+    if (cardName.trim()) {
+      setSearchParams(new URLSearchParams({ q: cardName }))
+    }
   }
 
   const onSuggestionClick = (suggestion: string): void => {

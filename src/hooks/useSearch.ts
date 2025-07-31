@@ -39,7 +39,7 @@ export const useSearch = (options?: UseSearchParams): UseSearchResult => {
 
   useEffect(() => {
     if (query === '') {
-      setCards([])
+      // setCards([])
       return
     }
 
