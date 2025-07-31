@@ -7,7 +7,7 @@ type UseSetsResult = {
   allFirstLetters: string[]
   allSetsByFirstLetter: Record<string, Set[]>
   setSearchParams: SetURLSearchParams
-  query: string | null
+  query: string
   allSetsByYear: Record<string, Set[]>
 }
 
@@ -22,7 +22,7 @@ export const useSets = (sets: Set[]): UseSetsResult => {
     return getSetsGroupedByYear(sets)
   }, [sets])
   const [searchParams, setSearchParams] = useSearchParams()
-  const query = searchParams.get('q')
+  const query = searchParams?.get('q') ?? ''
 
   return { allFirstLetters, allSetsByFirstLetter, setSearchParams, query, allSetsByYear }
 }

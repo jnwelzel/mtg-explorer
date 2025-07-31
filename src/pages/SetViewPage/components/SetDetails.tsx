@@ -1,30 +1,39 @@
-import { type Card, type Set } from 'scryfall-api'
+import { type Set } from 'scryfall-api'
 import { Breadcrumb, Message } from '../../../components/ui'
 import { use } from 'react'
 import { useParams } from 'react-router'
-import { CardsList } from '../../../components'
-import { ResultsInfo } from '../../../components/SearchForm'
-import { useZoomLevel } from '../../../hooks'
 import { routesPath } from '../../../routes'
 import { BiCalendar } from 'react-icons/bi'
+import { useSearch } from '../../../hooks'
+import { CardsList } from '../../../components'
 
 interface SetDetailsProps {
   setPromise: Promise<Set | undefined>
-  cardsPromise: Promise<Card[]>
 }
 
-export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise, cardsPromise }) => {
+export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise }) => {
   const set = use(setPromise)
-  const cards = use(cardsPromise)
   const { code } = useParams<{ code: string }>()
-  const { zoomLevel, onResultsPerPageClick, isMaxZoom, isMinZoom } = useZoomLevel()
+  const {
+    cards,
+    isLoading,
+    isLoadingMore,
+    totalCount,
+    hasMoreResults,
+    onLoadMore,
+    query,
+    zoomLevel,
+    onResultsPerPageClick,
+    isMaxZoom,
+    isMinZoom,
+  } = useSearch()
 
   return (
     <>
       <Breadcrumb
         items={[
           { name: 'Sets', path: routesPath.sets },
-          { name: set?.name || code || '', path: routesPath.setView(code || '') },
+          { name: code || '', path: routesPath.setView(code || '') },
         ]}
       />
       {set ? (
@@ -39,20 +48,20 @@ export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise, cardsPromise
             <BiCalendar className="w-5 h-5" />
             <p className="text-sm">Released {set?.released_at?.toLocaleDateString() ?? ''}</p>
           </div>
-          {cards && cards.length > 0 ? (
-            <>
-              <ResultsInfo
-                query={code}
-                totalCount={cards.length}
-                isLoading={false}
-                onZoomInClick={() => onResultsPerPageClick('zoomIn')}
-                onZoomOutClick={() => onResultsPerPageClick('zoomOut')}
-                isMaxZoom={isMaxZoom}
-                isMinZoom={isMinZoom}
-              />
-              <CardsList cards={cards} isLoading={false} zoomLevel={zoomLevel} />
-            </>
-          ) : null}
+          <CardsList
+            cards={cards}
+            isLoading={isLoading}
+            zoomLevel={zoomLevel}
+            totalCount={totalCount}
+            onLoadMore={onLoadMore}
+            isLoadingMore={isLoadingMore || isLoading}
+            hasMoreResults={hasMoreResults ?? false}
+            query={query}
+            onZoomInClick={() => onResultsPerPageClick('zoomIn')}
+            onZoomOutClick={() => onResultsPerPageClick('zoomOut')}
+            isMaxZoom={isMaxZoom}
+            isMinZoom={isMinZoom}
+          />
         </>
       ) : (
         <Message

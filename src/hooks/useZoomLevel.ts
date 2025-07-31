@@ -1,12 +1,6 @@
 import { useLocalStorage, useWindowSize } from '@uidotdev/usehooks'
 import { type ZoomLevel, type ZoomTypes } from '../types'
-
-type UseZoomLevelResult = {
-  zoomLevel: ZoomLevel
-  onResultsPerPageClick: (type: ZoomTypes) => void
-  isMaxZoom: boolean
-  isMinZoom: boolean
-}
+import type { UseZoomLevelResult } from '../types/hooks'
 
 const MEDIUM_SCREEN_WIDTH = 768 // Width at which zoom level is considered minimum
 const LARGE_SCREEN_WIDTH = 1024 // Width at which zoom level is considered minimum

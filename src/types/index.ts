@@ -1,3 +1,3 @@
 export type { Currency, CurrencyContextType } from './currency'
-export * from './magicCard'
+export type { ZoomTypes, UseMagicCardResult, ZoomLevel } from './magicCard'
 export type { RecentCardsContextType } from './recentCards'

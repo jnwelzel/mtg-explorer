@@ -1,15 +1,13 @@
 import { use } from 'react'
-import { useSearchForm, useZoomLevel } from '../../hooks'
-import { Button, Input, Message } from '../ui'
+import { useSearchForm } from '../../hooks'
+import { Button, Input } from '../ui'
 import { CardsList } from './CardsList'
 import { RecentCardsContext } from '../../contexts'
-import { ResultsInfo } from './ResultsInfo'
 import { SuggestionsList } from './SuggestionsList'
 import { RecentlyViewedList } from './RecentlyViewedList'
 
 export const SearchForm: React.FC = () => {
   const { handlers, data, flags } = useSearchForm()
-  const { zoomLevel, onResultsPerPageClick, isMaxZoom, isMinZoom } = useZoomLevel()
   const { recentlyViewedCards } = use(RecentCardsContext)
 
   return (
@@ -54,30 +52,22 @@ export const SearchForm: React.FC = () => {
           Search
         </Button>
       </form>
-      {data.errorMessage ? (
-        <Message text={data.errorMessage} variant="error" className="mt-3" />
-      ) : null}
-      <ResultsInfo
-        query={data.query}
-        totalCount={data.totalCount}
-        onClearSearch={handlers.onClearSearch}
+      <CardsList
+        cards={data.cards}
         isLoading={flags.isPending}
-        onZoomInClick={() => onResultsPerPageClick('zoomIn')}
-        onZoomOutClick={() => onResultsPerPageClick('zoomOut')}
-        isMaxZoom={isMaxZoom}
-        isMinZoom={isMinZoom}
+        zoomLevel={data.zoomLevel}
+        totalCount={data.totalCount}
+        onLoadMore={handlers.onLoadMore}
+        isLoadingMore={flags.isLoadingMore || flags.isPending}
+        hasMoreResults={flags.hasMoreResults ?? false}
+        query={data.query}
+        onClearSearch={handlers.onClearSearch}
+        onZoomInClick={() => handlers.onZoomClick('zoomIn')}
+        onZoomOutClick={() => handlers.onZoomClick('zoomOut')}
+        isMaxZoom={flags.isMaxZoom}
+        isMinZoom={flags.isMinZoom}
+        errorMessage={data.errorMessage}
       />
-      <CardsList cards={data.cards} isLoading={flags.isPending} zoomLevel={zoomLevel} />
-      {flags.hasMoreResults ? (
-        <div className="grid grid-cols-12 md:grid-cols-11 mt-3">
-          <Button
-            className="col-start-4 col-span-6 sm:col-span-4 sm:col-start-5 md:col-start-5 md:col-span-3"
-            isLoading={flags.isLoadingMore || flags.isPending}
-            onClick={handlers.onLoadMore}>
-            Load more ({`${data.totalCount - data.cards.length}`} left)
-          </Button>
-        </div>
-      ) : null}
     </>
   )
 }

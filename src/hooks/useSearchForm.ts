@@ -1,8 +1,8 @@
-import { useState, useEffect, useTransition, use, useRef } from 'react'
+import { useState, useEffect, useTransition, useRef } from 'react'
 import { Cards, type Card } from 'scryfall-api'
 import { useDebounce } from './useDebounce'
-import { useSearchParams } from 'react-router'
-import { RecentCardsContext } from '../contexts'
+import { useSearch } from './useSearch'
+import type { ZoomLevel, ZoomTypes } from '../types'
 
 type CardSearchHandlers = {
   onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -11,6 +11,7 @@ type CardSearchHandlers = {
   onClearSearch: () => void
   onLoadMore: () => void
   setIsInputFocused: (focused: boolean) => void
+  onZoomClick: (type: ZoomTypes) => void
 }
 
 type CardSearchData = {
@@ -21,6 +22,7 @@ type CardSearchData = {
   errorMessage?: string | null
   query?: string
   searchInputRef?: React.RefObject<HTMLInputElement | null>
+  zoomLevel: ZoomLevel
 }
 
 type CardSearchFlags = {
@@ -29,6 +31,8 @@ type CardSearchFlags = {
   isPendingSuggestions: boolean
   hasMoreResults?: boolean
   isLoadingMore?: boolean
+  isMaxZoom: boolean
+  isMinZoom: boolean
 }
 
 type UseSearchFormResult = {
@@ -37,29 +41,37 @@ type UseSearchFormResult = {
   handlers: CardSearchHandlers
 }
 
-const PAGE_SIZE = 175 // Default page size for card search results
-
 export const useSearchForm = (): UseSearchFormResult => {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const [cards, setCards] = useState<Card[]>([])
-  const [cardName, setCardName] = useState('')
-  const debouncedQuery = useDebounce(cardName, 250)
   const [nameSuggestions, setNameSuggestions] = useState<string[]>([])
-  const { addRecentlyViewedCard } = use(RecentCardsContext)
   const [isInputFocused, setIsInputFocused] = useState(false)
-  const [isPending, startTransition] = useTransition()
   const [isPendingSuggestions, startTransitionSuggestions] = useTransition()
-  const [isLoadingMore, startTransitionLoadingMore] = useTransition()
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
-  const [hasMoreResults, setHasMoreResults] = useState(false)
-  const [totalCount, setTotalCount] = useState<number>(0)
   const searchInputRef = useRef<HTMLInputElement>(null)
-  const query = searchParams.get('q')?.trim() ?? ''
+  const onClearSearch = () => {
+    setCardName('')
+    setNameSuggestions([])
+    setIsInputFocused(false)
+  }
+  const {
+    cards,
+    isLoading,
+    isLoadingMore,
+    totalCount,
+    hasMoreResults,
+    errorMessage,
+    onLoadMore,
+    setSearchParams,
+    query,
+    zoomLevel,
+    onResultsPerPageClick,
+    isMaxZoom,
+    isMinZoom,
+  } = useSearch({ onClearSearchCallback: onClearSearch })
+  const [cardName, setCardName] = useState(query)
+  const debouncedQuery = useDebounce(cardName, 250)
 
   useEffect(() => {
     if (debouncedQuery) {
       if (debouncedQuery.trim() === '') {
-        setCards([])
         return
       }
       const fetchSuggestions = () => {
@@ -74,78 +86,23 @@ export const useSearchForm = (): UseSearchFormResult => {
       }
       fetchSuggestions()
     }
-  }, [debouncedQuery])
-
-  useEffect(() => {
-    if (query) {
-      setNameSuggestions([])
-      setCardName(query)
-      startTransition(async () => {
-        const result = Cards.search(query)
-        const cards = await result.next()
-        setTotalCount(result.count)
-        setHasMoreResults(result.hasMore)
-        if (!result.count) {
-          setCards([])
-          setErrorMessage(`No results found for '${cardName}'. Try a different search term.`)
-          return
-        }
-
-        // Add the cards to the state
-        setCards(cards)
-
-        // If only one card is returned, add it to the search history
-        if (cards.length === 1) {
-          addRecentlyViewedCard(cards[0])
-        }
-      })
-    } else {
-      setCards([])
-      setCardName('')
-      setTotalCount(0)
-      setHasMoreResults(false)
-      setErrorMessage(null)
-    }
-  }, [query])
+  }, [debouncedQuery, startTransitionSuggestions])
 
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCardName(event.target.value)
-    setErrorMessage(null)
     if (event.target.value.trim() === '') {
       setNameSuggestions([])
-      setHasMoreResults(false)
       setIsInputFocused(true)
     }
   }
 
   const onSearchSubmit = () => {
     searchInputRef.current?.blur()
-    setSearchParams({ q: cardName })
-  }
-
-  const onLoadMore = () => {
-    if (hasMoreResults) {
-      startTransitionLoadingMore(async () => {
-        const result = Cards.search(cardName, cards.length / PAGE_SIZE + 1)
-        const moreCards = await result.next()
-        setCards(prevCards => [...prevCards, ...moreCards])
-        setHasMoreResults(result.hasMore)
-      })
-    }
+    setSearchParams(new URLSearchParams({ q: cardName }))
   }
 
   const onSuggestionClick = (suggestion: string): void => {
-    setSearchParams({ q: suggestion })
-  }
-
-  const onClearSearch = () => {
-    setCards([])
-    setCardName('')
-    setNameSuggestions([])
-    setIsInputFocused(false)
-    setHasMoreResults(false)
-    setTotalCount(0)
-    setSearchParams({})
+    setSearchParams(new URLSearchParams({ q: suggestion }))
   }
 
   return {
@@ -155,15 +112,18 @@ export const useSearchForm = (): UseSearchFormResult => {
       errorMessage,
       nameSuggestions,
       totalCount,
-      query,
       searchInputRef,
+      query,
+      zoomLevel,
     },
     flags: {
       isInputFocused,
-      isPending,
+      isPending: isLoading,
       isPendingSuggestions,
       hasMoreResults,
       isLoadingMore,
+      isMaxZoom,
+      isMinZoom,
     },
     handlers: {
       onSearchChange,
@@ -172,6 +132,7 @@ export const useSearchForm = (): UseSearchFormResult => {
       setIsInputFocused,
       onClearSearch,
       onLoadMore,
+      onZoomClick: onResultsPerPageClick,
     },
   }
 }

@@ -55,6 +55,10 @@ export const ResultsInfo: React.FC<ResultsInfoProps> = ({
                 { value: 'name+desc', label: 'Name (Z → A)' },
                 { value: 'price+asc', label: 'Price (Low → High)' },
                 { value: 'price+desc', label: 'Price (High → Low)' },
+                { value: 'cmc+asc', label: 'CMC (Low → High)' },
+                { value: 'cmc+desc', label: 'CMC (High → Low)' },
+                { value: 'type+asc', label: 'Type (A → Z)' },
+                { value: 'type+desc', label: 'Type (Z → A)' },
               ]}
               value="name+asc"
               name="sort"

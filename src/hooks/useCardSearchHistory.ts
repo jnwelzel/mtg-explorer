@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import type { Card } from 'scryfall-api'
 
 type UseCardSearchHistoryResult = {
@@ -9,7 +9,7 @@ type UseCardSearchHistoryResult = {
 const useCardSearchHistory = (initialState: Card[] = []): UseCardSearchHistoryResult => {
   const [recentlyViewedCards, setSearchHistory] = useState<Card[]>(initialState)
 
-  const addRecentlyViewedCard = (card: Card) => {
+  const addRecentlyViewedCard = useCallback((card: Card) => {
     setSearchHistory(prevHistory => {
       const updatedHistory = prevHistory.filter(c => c.id !== card.id)
       const newHistory = [card, ...updatedHistory].slice(0, 3) // Keep only the last 3 cards
@@ -17,7 +17,7 @@ const useCardSearchHistory = (initialState: Card[] = []): UseCardSearchHistoryRe
 
       return newHistory
     })
-  }
+  }, [])
 
   return { recentlyViewedCards, addRecentlyViewedCard }
 }
