@@ -16,10 +16,7 @@ export const Layout: React.FC = () => {
   } = useApp()
 
   // Memoize the context values so they don't change every render
-  const currencyContextValue = useMemo(
-    () => ({ currency, setCurrency }),
-    [currency, setCurrency]
-  )
+  const currencyContextValue = useMemo(() => ({ currency, setCurrency }), [currency, setCurrency])
   const recentCardsContextValue = useMemo(
     () => ({ recentlyViewedCards, addRecentlyViewedCard }),
     [recentlyViewedCards, addRecentlyViewedCard]

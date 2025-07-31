@@ -63,7 +63,7 @@ export const useSearch = (options?: UseSearchParams): UseSearchResult => {
   }, [searchParams, addRecentlyViewedCard, query])
 
   const onLoadMore = () => {
-    // Can also check using only the totalCount and cards length :shrug:
+    // Can also check using only the totalCount and cards length 🤷🏻‍♂️
     if (hasMoreResults) {
       if (!query) return
 

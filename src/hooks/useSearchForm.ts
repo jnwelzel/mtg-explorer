@@ -46,7 +46,7 @@ export const useSearchForm = (): UseSearchFormResult => {
   const [isInputFocused, setIsInputFocused] = useState(false)
   const [isPendingSuggestions, startTransitionSuggestions] = useTransition()
   const searchInputRef = useRef<HTMLInputElement>(null)
-  const onClearSearch = () => {
+  const onClearSearchCallback = () => {
     setCardName('')
     setNameSuggestions([])
     setIsInputFocused(false)
@@ -65,7 +65,8 @@ export const useSearchForm = (): UseSearchFormResult => {
     onResultsPerPageClick,
     isMaxZoom,
     isMinZoom,
-  } = useSearch({ onClearSearchCallback: onClearSearch })
+    onClearSearch,
+  } = useSearch({ onClearSearchCallback })
   const [cardName, setCardName] = useState(query)
   const debouncedQuery = useDebounce(cardName, 250)
 
