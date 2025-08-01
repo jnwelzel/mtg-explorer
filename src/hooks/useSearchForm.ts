@@ -2,7 +2,7 @@ import { useState, useEffect, useTransition, useRef } from 'react'
 import { Cards, type Card } from 'scryfall-api'
 import { useDebounce } from './useDebounce'
 import { useSearch } from './useSearch'
-import type { ZoomLevel, ZoomTypes } from '../types'
+import type { SortingOption, SortingValue, ZoomLevel, ZoomTypes } from '../types'
 
 type CardSearchHandlers = {
   onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -12,6 +12,7 @@ type CardSearchHandlers = {
   onLoadMore: () => void
   setIsInputFocused: (focused: boolean) => void
   onZoomClick: (type: ZoomTypes) => void
+  mapToSortingOption: (value: string) => void
 }
 
 type CardSearchData = {
@@ -23,6 +24,8 @@ type CardSearchData = {
   query?: string
   searchInputRef?: React.RefObject<HTMLInputElement | null>
   zoomLevel: ZoomLevel
+  sortOption: SortingValue
+  sortingOptions: SortingOption[]
 }
 
 type CardSearchFlags = {
@@ -66,6 +69,9 @@ export const useSearchForm = (): UseSearchFormResult => {
     isMaxZoom,
     isMinZoom,
     onClearSearch,
+    sortOption,
+    mapToSortingOption,
+    sortingOptions,
   } = useSearch({ onClearSearchCallback })
   const [cardName, setCardName] = useState('')
   const debouncedQuery = useDebounce(cardName, 250)
@@ -122,6 +128,8 @@ export const useSearchForm = (): UseSearchFormResult => {
       searchInputRef,
       query,
       zoomLevel,
+      sortOption,
+      sortingOptions,
     },
     flags: {
       isInputFocused,
@@ -140,6 +148,7 @@ export const useSearchForm = (): UseSearchFormResult => {
       onClearSearch,
       onLoadMore,
       onZoomClick: onResultsPerPageClick,
+      mapToSortingOption,
     },
   }
 }

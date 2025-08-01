@@ -1,6 +1,6 @@
 import type { Card } from 'scryfall-api'
 import { Button, MagicCard, MagicCardSkeleton, Message } from '../../ui'
-import type { ZoomLevel } from '../../../types'
+import type { SortingOption, SortingValue, ZoomLevel } from '../../../types'
 import { ResultsInfo } from '../ResultsInfo'
 
 const ZOOM_CLASSES: Record<ZoomLevel, string> = {
@@ -42,6 +42,9 @@ interface CardsListProps {
   onZoomInClick: () => void
   onZoomOutClick: () => void
   errorMessage?: string | null
+  sortOption: SortingValue
+  mapToSortingOption: (value: string) => void
+  sortingOptions: SortingOption[]
 }
 
 export const CardsList: React.FC<CardsListProps> = ({
@@ -59,6 +62,9 @@ export const CardsList: React.FC<CardsListProps> = ({
   onZoomInClick,
   onZoomOutClick,
   errorMessage,
+  sortOption,
+  mapToSortingOption,
+  sortingOptions,
 }) => {
   return (
     <>
@@ -72,6 +78,9 @@ export const CardsList: React.FC<CardsListProps> = ({
         onZoomOutClick={onZoomOutClick}
         isMaxZoom={isMaxZoom}
         isMinZoom={isMinZoom}
+        sortOption={sortOption}
+        mapToSortingOption={mapToSortingOption}
+        sortingOptions={sortingOptions}
       />
       <ul className={`grid gap-4 mt-3 ${GRID_COL_CLASSES[zoomLevel.toString() as ZoomLevel]}`}>
         {isLoading ? <MagicCardSkeleton /> : null}

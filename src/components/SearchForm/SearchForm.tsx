@@ -67,6 +67,9 @@ export const SearchForm: React.FC = () => {
         isMaxZoom={flags.isMaxZoom}
         isMinZoom={flags.isMinZoom}
         errorMessage={data.errorMessage}
+        sortOption={data.sortOption}
+        mapToSortingOption={handlers.mapToSortingOption}
+        sortingOptions={data.sortingOptions}
       />
     </>
   )

@@ -26,6 +26,9 @@ export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise }) => {
     onResultsPerPageClick,
     isMaxZoom,
     isMinZoom,
+    sortOption,
+    mapToSortingOption,
+    sortingOptions,
   } = useSearch()
 
   return (
@@ -61,6 +64,9 @@ export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise }) => {
             onZoomOutClick={() => onResultsPerPageClick('zoomOut')}
             isMaxZoom={isMaxZoom}
             isMinZoom={isMinZoom}
+            sortOption={sortOption}
+            mapToSortingOption={mapToSortingOption}
+            sortingOptions={sortingOptions}
           />
         </>
       ) : (

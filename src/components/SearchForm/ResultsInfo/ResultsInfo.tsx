@@ -3,6 +3,7 @@ import { Button, Select } from '../../ui'
 import zoomInIcon from '../../../assets/zoomIn.svg'
 import zoomOutIcon from '../../../assets/zoomOut.svg'
 import { BiSort } from 'react-icons/bi'
+import type { SortingOption, SortingValue } from '../../../types'
 
 interface ResultsInfoProps {
   query?: string
@@ -13,6 +14,9 @@ interface ResultsInfoProps {
   onZoomOutClick: () => void
   isMaxZoom: boolean
   isMinZoom: boolean
+  sortOption: SortingValue
+  mapToSortingOption: (value: string) => void
+  sortingOptions: SortingOption[]
 }
 
 export const ResultsInfo: React.FC<ResultsInfoProps> = ({
@@ -24,6 +28,9 @@ export const ResultsInfo: React.FC<ResultsInfoProps> = ({
   onZoomOutClick,
   isMaxZoom,
   isMinZoom,
+  sortOption,
+  mapToSortingOption,
+  sortingOptions,
 }) => {
   return (
     <>
@@ -50,19 +57,10 @@ export const ResultsInfo: React.FC<ResultsInfoProps> = ({
               <img src={zoomOutIcon} alt="Show fewer results per page" className="w-6 h-6" />
             </Button>
             <Select
-              options={[
-                { value: 'name+asc', label: 'Name (A → Z)' },
-                { value: 'name+desc', label: 'Name (Z → A)' },
-                { value: 'price+asc', label: 'Price (Low → High)' },
-                { value: 'price+desc', label: 'Price (High → Low)' },
-                { value: 'cmc+asc', label: 'CMC (Low → High)' },
-                { value: 'cmc+desc', label: 'CMC (High → Low)' },
-                { value: 'type+asc', label: 'Type (A → Z)' },
-                { value: 'type+desc', label: 'Type (Z → A)' },
-              ]}
-              value="name+asc"
+              options={sortingOptions}
+              value={sortOption}
               name="sort"
-              onChange={value => console.log(value)}
+              onChange={mapToSortingOption}
               icon={<BiSort />}
             />
           </span>

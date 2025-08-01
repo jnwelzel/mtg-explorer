@@ -4,6 +4,8 @@ import { Cards, type Card } from 'scryfall-api'
 import { RecentCardsContext } from '../contexts'
 import { useZoomLevel } from './useZoomLevel'
 import type { UseZoomLevelResult } from '../types/hooks'
+import type { UseSortingResult } from '../types/search'
+import { useSorting } from './useSorting'
 
 type UseSearchResult = {
   cards: Card[]
@@ -16,11 +18,14 @@ type UseSearchResult = {
   setSearchParams: (params: URLSearchParams) => void
   query: string
   onClearSearch: () => void
-} & UseZoomLevelResult
+} & UseZoomLevelResult &
+  UseSortingResult
 
 interface UseSearchParams {
   onClearSearchCallback?: () => void
 }
+
+const PAGE_SIZE = 175 // Default page size for card search results
 
 export const useSearch = (options?: UseSearchParams): UseSearchResult => {
   const { onClearSearchCallback } = options || {}
@@ -34,12 +39,10 @@ export const useSearch = (options?: UseSearchParams): UseSearchResult => {
   const { addRecentlyViewedCard } = use(RecentCardsContext)
   const query = searchParams.get('q')?.trim() ?? ''
   const { zoomLevel, onResultsPerPageClick, isMaxZoom, isMinZoom } = useZoomLevel()
-
-  const PAGE_SIZE = 175 // Default page size for card search results
+  const { sortOption, mapToSortingOption, sortingOptions } = useSorting()
 
   useEffect(() => {
     if (query === '') {
-      // setCards([])
       return
     }
 
@@ -101,5 +104,8 @@ export const useSearch = (options?: UseSearchParams): UseSearchResult => {
     isMaxZoom,
     isMinZoom,
     onClearSearch,
+    sortOption,
+    mapToSortingOption,
+    sortingOptions,
   }
 }
