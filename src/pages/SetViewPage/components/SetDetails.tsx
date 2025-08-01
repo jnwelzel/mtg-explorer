@@ -36,7 +36,7 @@ export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise }) => {
       <Breadcrumb
         items={[
           { name: 'Sets', path: routesPath.sets },
-          { name: code || '', path: routesPath.setView(code || '') },
+          { name: set?.name || '', path: routesPath.setView(code || '') },
         ]}
       />
       {set ? (
