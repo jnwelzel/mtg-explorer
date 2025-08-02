@@ -15,6 +15,12 @@ export const useSorting = (): UseSortingResult => {
       { value: 'price+descending', label: 'Price (High to Low)' },
       { value: 'cmc+ascending', label: 'CMC (Low to High)' },
       { value: 'cmc+descending', label: 'CMC (High to Low)' },
+      { value: 'set+ascending', label: 'Set (A-Z)' },
+      { value: 'set+descending', label: 'Set (Z-A)' },
+      { value: 'rarity+ascending', label: 'Rarity (ascending)' },
+      { value: 'rarity+descending', label: 'Rarity (descending)' },
+      { value: 'color+ascending', label: 'Color (A-Z)' },
+      { value: 'color+descending', label: 'Color (Z-A)' },
     ],
     []
   )
