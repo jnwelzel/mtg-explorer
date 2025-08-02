@@ -34,7 +34,7 @@ export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise }) => {
             <BiCalendar className="w-5 h-5" />
             <p className="text-sm">Released {set?.released_at?.toLocaleDateString() ?? ''}</p>
           </div>
-          <CardsListContainer />
+          <CardsListContainer hideClearSearch />
         </>
       ) : (
         <Message

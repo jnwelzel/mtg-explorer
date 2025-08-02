@@ -52,7 +52,7 @@ export const SearchForm: React.FC = () => {
           Search
         </Button>
       </form>
-      <CardsListContainer />
+      <CardsListContainer onClearSearchCallback={handlers.onClearSearchCallback} />
     </>
   )
 }

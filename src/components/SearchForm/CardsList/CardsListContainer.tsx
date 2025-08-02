@@ -1,8 +1,15 @@
 import { useSearch } from '../../../hooks'
-import type { UseSearchParams } from '../../../types'
 import { CardsList } from './CardsList'
 
-export const CardsListContainer: React.FC<UseSearchParams> = () => {
+interface CardsListContainerProps {
+  onClearSearchCallback?: () => void
+  hideClearSearch?: boolean
+}
+
+export const CardsListContainer: React.FC<CardsListContainerProps> = ({
+  onClearSearchCallback,
+  hideClearSearch = false,
+}) => {
   const {
     cards,
     isLoading,
@@ -18,7 +25,10 @@ export const CardsListContainer: React.FC<UseSearchParams> = () => {
     sortOption,
     mapToSortingOption,
     sortingOptions,
-  } = useSearch()
+    onClearSearch,
+  } = useSearch({
+    onClearSearchCallback,
+  })
 
   return (
     <CardsList
@@ -37,6 +47,7 @@ export const CardsListContainer: React.FC<UseSearchParams> = () => {
       sortOption={sortOption}
       mapToSortingOption={mapToSortingOption}
       sortingOptions={sortingOptions}
+      onClearSearch={hideClearSearch ? undefined : onClearSearch}
     />
   )
 }
