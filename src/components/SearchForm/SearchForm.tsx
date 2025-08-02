@@ -1,7 +1,7 @@
 import { use } from 'react'
 import { useSearchForm } from '../../hooks'
 import { Button, Input } from '../ui'
-import { CardsList } from './CardsList'
+import { CardsListContainer } from './CardsList'
 import { RecentCardsContext } from '../../contexts'
 import { SuggestionsList } from './SuggestionsList'
 import { RecentlyViewedList } from './RecentlyViewedList'
@@ -31,7 +31,7 @@ export const SearchForm: React.FC = () => {
               setTimeout(() => handlers.setIsInputFocused(false), 100)
             }}
           />
-          {data.nameSuggestions.length > 0 && !flags.isPending && flags.isInputFocused ? (
+          {data.nameSuggestions.length > 0 && flags.isInputFocused ? (
             <SuggestionsList
               suggestions={data.nameSuggestions}
               onSuggestionClick={handlers.onSuggestionClick}
@@ -47,30 +47,12 @@ export const SearchForm: React.FC = () => {
 
         <Button
           type="submit"
-          isLoading={flags.isPending || flags.isPendingSuggestions}
+          isLoading={flags.isPendingSuggestions}
           className="col-span-3 md:col-span-2">
           Search
         </Button>
       </form>
-      <CardsList
-        cards={data.cards}
-        isLoading={flags.isPending}
-        zoomLevel={data.zoomLevel}
-        totalCount={data.totalCount}
-        onLoadMore={handlers.onLoadMore}
-        isLoadingMore={flags.isLoadingMore || flags.isPending}
-        hasMoreResults={flags.hasMoreResults ?? false}
-        query={data.query}
-        onClearSearch={handlers.onClearSearch}
-        onZoomInClick={() => handlers.onZoomClick('zoomIn')}
-        onZoomOutClick={() => handlers.onZoomClick('zoomOut')}
-        isMaxZoom={flags.isMaxZoom}
-        isMinZoom={flags.isMinZoom}
-        errorMessage={data.errorMessage}
-        sortOption={data.sortOption}
-        mapToSortingOption={handlers.mapToSortingOption}
-        sortingOptions={data.sortingOptions}
-      />
+      <CardsListContainer />
     </>
   )
 }

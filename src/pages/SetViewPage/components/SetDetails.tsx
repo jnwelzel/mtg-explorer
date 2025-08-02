@@ -4,8 +4,7 @@ import { use } from 'react'
 import { useParams } from 'react-router'
 import { routesPath } from '../../../routes'
 import { BiCalendar } from 'react-icons/bi'
-import { useSearch } from '../../../hooks'
-import { CardsList } from '../../../components'
+import { CardsListContainer } from '../../../components/SearchForm'
 
 interface SetDetailsProps {
   setPromise: Promise<Set | undefined>
@@ -14,22 +13,6 @@ interface SetDetailsProps {
 export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise }) => {
   const set = use(setPromise)
   const { code } = useParams<{ code: string }>()
-  const {
-    cards,
-    isLoading,
-    isLoadingMore,
-    totalCount,
-    hasMoreResults,
-    onLoadMore,
-    query,
-    zoomLevel,
-    onResultsPerPageClick,
-    isMaxZoom,
-    isMinZoom,
-    sortOption,
-    mapToSortingOption,
-    sortingOptions,
-  } = useSearch()
 
   return (
     <>
@@ -51,23 +34,7 @@ export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise }) => {
             <BiCalendar className="w-5 h-5" />
             <p className="text-sm">Released {set?.released_at?.toLocaleDateString() ?? ''}</p>
           </div>
-          <CardsList
-            cards={cards}
-            isLoading={isLoading}
-            zoomLevel={zoomLevel}
-            totalCount={totalCount}
-            onLoadMore={onLoadMore}
-            isLoadingMore={isLoadingMore || isLoading}
-            hasMoreResults={hasMoreResults ?? false}
-            query={query}
-            onZoomInClick={() => onResultsPerPageClick('zoomIn')}
-            onZoomOutClick={() => onResultsPerPageClick('zoomOut')}
-            isMaxZoom={isMaxZoom}
-            isMinZoom={isMinZoom}
-            sortOption={sortOption}
-            mapToSortingOption={mapToSortingOption}
-            sortingOptions={sortingOptions}
-          />
+          <CardsListContainer />
         </>
       ) : (
         <Message

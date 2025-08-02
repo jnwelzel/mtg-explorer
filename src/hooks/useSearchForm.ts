@@ -1,41 +1,26 @@
 import { useState, useEffect, useTransition, useRef } from 'react'
-import { Cards, type Card } from 'scryfall-api'
+import { Cards } from 'scryfall-api'
 import { useDebounce } from './useDebounce'
-import { useSearch } from './useSearch'
-import type { SortingOption, SortingValue, ZoomLevel, ZoomTypes } from '../types'
+import { useSearchParams } from 'react-router'
 
 type CardSearchHandlers = {
   onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   onSearchSubmit: (suggestion?: string) => void
   onSuggestionClick: (suggestion: string) => void
-  onClearSearch: () => void
-  onLoadMore: () => void
   setIsInputFocused: (focused: boolean) => void
-  onZoomClick: (type: ZoomTypes) => void
-  mapToSortingOption: (value: string) => void
+  onClearSearchCallback: () => void
 }
 
 type CardSearchData = {
-  cards: Card[]
   cardName: string
   nameSuggestions: string[]
-  totalCount: number
-  errorMessage?: string | null
   query?: string
   searchInputRef?: React.RefObject<HTMLInputElement | null>
-  zoomLevel: ZoomLevel
-  sortOption: SortingValue
-  sortingOptions: SortingOption[]
 }
 
 type CardSearchFlags = {
   isInputFocused: boolean
-  isPending: boolean
   isPendingSuggestions: boolean
-  hasMoreResults?: boolean
-  isLoadingMore?: boolean
-  isMaxZoom: boolean
-  isMinZoom: boolean
 }
 
 type UseSearchFormResult = {
@@ -54,27 +39,10 @@ export const useSearchForm = (): UseSearchFormResult => {
     setNameSuggestions([])
     setIsInputFocused(false)
   }
-  const {
-    cards,
-    isLoading,
-    isLoadingMore,
-    totalCount,
-    hasMoreResults,
-    errorMessage,
-    onLoadMore,
-    setSearchParams,
-    query,
-    zoomLevel,
-    onResultsPerPageClick,
-    isMaxZoom,
-    isMinZoom,
-    onClearSearch,
-    sortOption,
-    mapToSortingOption,
-    sortingOptions,
-  } = useSearch({ onClearSearchCallback })
   const [cardName, setCardName] = useState('')
   const debouncedQuery = useDebounce(cardName, 250)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const query = searchParams.get('q')?.trim() ?? ''
 
   useEffect(() => {
     if (debouncedQuery) {
@@ -120,35 +88,21 @@ export const useSearchForm = (): UseSearchFormResult => {
 
   return {
     data: {
-      cards,
       cardName,
-      errorMessage,
       nameSuggestions,
-      totalCount,
       searchInputRef,
       query,
-      zoomLevel,
-      sortOption,
-      sortingOptions,
     },
     flags: {
       isInputFocused,
-      isPending: isLoading,
       isPendingSuggestions,
-      hasMoreResults,
-      isLoadingMore,
-      isMaxZoom,
-      isMinZoom,
     },
     handlers: {
       onSearchChange,
       onSearchSubmit,
       onSuggestionClick,
       setIsInputFocused,
-      onClearSearch,
-      onLoadMore,
-      onZoomClick: onResultsPerPageClick,
-      mapToSortingOption,
+      onClearSearchCallback,
     },
   }
 }

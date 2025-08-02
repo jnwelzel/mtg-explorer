@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router'
 import { Cards, type Card } from 'scryfall-api'
 import { RecentCardsContext } from '../contexts'
 import { useZoomLevel } from './useZoomLevel'
-import type { UseZoomLevelResult } from '../types/hooks'
+import type { UseSearchParams, UseZoomLevelResult } from '../types/hooks'
 import type { UseSortingResult } from '../types/search'
 import { useSorting } from './useSorting'
 
@@ -20,10 +20,6 @@ type UseSearchResult = {
   onClearSearch: () => void
 } & UseZoomLevelResult &
   UseSortingResult
-
-interface UseSearchParams {
-  onClearSearchCallback?: () => void
-}
 
 const PAGE_SIZE = 175 // Default page size for card search results
 

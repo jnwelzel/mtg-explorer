@@ -6,3 +6,7 @@ export type UseZoomLevelResult = {
   isMaxZoom: boolean
   isMinZoom: boolean
 }
+
+export interface UseSearchParams {
+  onClearSearchCallback?: () => void
+}
