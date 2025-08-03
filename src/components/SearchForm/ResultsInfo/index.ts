@@ -1,1 +1,0 @@
-export { ResultsInfo } from './ResultsInfo'

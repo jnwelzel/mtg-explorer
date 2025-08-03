@@ -1,7 +1,6 @@
 import { use } from 'react'
 import { useSearchForm } from '../../hooks'
-import { Button, Input } from '../ui'
-import { CardsListContainer } from './CardsList'
+import { Button, CardsListContainer, Input } from '../ui'
 import { RecentCardsContext } from '../../contexts'
 import { SuggestionsList } from './SuggestionsList'
 import { RecentlyViewedList } from './RecentlyViewedList'

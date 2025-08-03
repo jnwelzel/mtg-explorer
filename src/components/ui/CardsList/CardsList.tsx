@@ -1,7 +1,6 @@
 import type { Card } from 'scryfall-api'
-import { Button, MagicCard, MagicCardSkeleton, Message } from '../../ui'
+import { Button, MagicCard, MagicCardSkeleton, Message, ResultsInfo } from '../../ui'
 import type { SortingOption, SortingValue, ZoomLevel } from '../../../types'
-import { ResultsInfo } from '../ResultsInfo'
 
 const ZOOM_CLASSES: Record<ZoomLevel, string> = {
   '0': 'col-span-1 md:col-span-1 lg:col-span-1',

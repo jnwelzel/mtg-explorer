@@ -1,10 +1,9 @@
 import { type Set } from 'scryfall-api'
-import { Breadcrumb, Message } from '../../../components/ui'
+import { Breadcrumb, CardsListContainer, Message } from '../../../components/ui'
 import { use } from 'react'
 import { useParams } from 'react-router'
 import { routesPath } from '../../../routes'
 import { BiCalendar } from 'react-icons/bi'
-import { CardsListContainer } from '../../../components/SearchForm'
 
 interface SetDetailsProps {
   setPromise: Promise<Set | undefined>
