@@ -30,6 +30,18 @@ export const CardViewPage: React.FC = () => {
               onCardFlip={flipCard}
               shouldOpenImageFile
             />
+            {card?.purchase_uris ? (
+              <>
+                <p>Buy</p>
+                {Object.entries(card.purchase_uris).map(([provider, url]) => (
+                  <p key={provider}>
+                    <a href={url || '#'} target="_blank" rel="noopener noreferrer">
+                      {provider}
+                    </a>
+                  </p>
+                ))}
+              </>
+            ) : null}
           </div>
           <div className="md:col-span-9 mt-3 md:mt-0">
             {isDoubleFaced(card) && !isDoubleSided(card) ? (

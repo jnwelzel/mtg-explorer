@@ -35,6 +35,7 @@ const SYMBOLS = {
   20: '20 ms-cost',
   '0': '0 ms-cost',
   'U/P': 'up ms-cost',
+  'U/B': 'ub ms-cost',
   'G/W': 'gw ms-cost',
   'R/P': 'rp ms-cost',
   'G/P': 'gp ms-cost',

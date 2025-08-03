@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavItems } from './NavItems'
+import { IoClose } from 'react-icons/io5'
 
 interface MobileSideNavProps {
   isOpen: boolean
@@ -19,7 +20,7 @@ const MobileSideNav: React.FC<MobileSideNavProps> = ({ isOpen, onClose }) =>
           className="self-end mb-4 w-10 h-10 flex justify-center items-center rounded bg-gray-600"
           onClick={onClose}
           aria-label="Close menu">
-          ✕
+          <IoClose className="w-6 h-6" />
         </button>
         <NavItems onClick={onClose} />
       </div>
