@@ -1,6 +1,6 @@
 import { useParams } from 'react-router'
 import { useCardView } from '../hooks'
-import { Breadcrumb, MagicCard, ReplaceWithBraces } from '../components/ui'
+import { Breadcrumb, Dropdown, MagicCard, ReplaceWithBraces } from '../components/ui'
 import { isDoubleFaced, isDoubleSided } from '../utils'
 import { useDocumentTitle } from '@uidotdev/usehooks'
 import { routesPath } from '../routes'
@@ -31,16 +31,14 @@ export const CardViewPage: React.FC = () => {
               shouldOpenImageFile
             />
             {card?.purchase_uris ? (
-              <>
-                <p>Buy</p>
-                {Object.entries(card.purchase_uris).map(([provider, url]) => (
-                  <p key={provider}>
-                    <a href={url || '#'} target="_blank" rel="noopener noreferrer">
-                      {provider}
-                    </a>
-                  </p>
-                ))}
-              </>
+              <Dropdown
+                label="Buy"
+                className="mt-3"
+                items={Object.entries(card.purchase_uris).map(([provider, url]) => ({
+                  label: provider,
+                  href: url || '#',
+                }))}
+              />
             ) : null}
           </div>
           <div className="md:col-span-9 mt-3 md:mt-0">

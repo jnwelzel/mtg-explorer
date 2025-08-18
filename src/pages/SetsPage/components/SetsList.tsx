@@ -40,7 +40,7 @@ export const SetsList: React.FC<SetsListProps> = ({ setsPromise }) => {
           />
         </>
       ) : (
-        <Message text="Select a letter or number to view sets." className="mt-3" />
+        <Message text="Select an option to view sets." className="mt-3" />
       )}
     </>
   )

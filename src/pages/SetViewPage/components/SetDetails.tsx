@@ -12,6 +12,9 @@ interface SetDetailsProps {
 export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise }) => {
   const set = use(setPromise)
   const { code } = useParams<{ code: string }>()
+  const releaseDate = set?.released_at
+  const today = new Date()
+  const isReleased = releaseDate ? new Date(releaseDate) <= today : false
 
   return (
     <>
@@ -30,8 +33,10 @@ export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise }) => {
             </h1>
           </div>
           <div className="flex gap-1 items-center text-gray-500">
-            <BiCalendar className="w-5 h-5" />
-            <p className="text-sm">Released {set?.released_at?.toLocaleDateString() ?? ''}</p>
+            <BiCalendar className={`w-5 h-5 ${!isReleased ? 'text-red-400' : ''}`} />
+            <p className={`text-sm ${!isReleased ? 'text-red-400' : ''}`}>
+              {isReleased ? 'Released' : 'Releasing'} {releaseDate?.toLocaleDateString() ?? ''}
+            </p>
           </div>
           <CardsListContainer hideClearSearch />
         </>

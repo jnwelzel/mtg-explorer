@@ -7,6 +7,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   isCircle?: boolean
   size?: 'small' | 'medium' | 'large'
   underline?: boolean
+  isActive?: boolean
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -18,6 +19,7 @@ export const Button: React.FC<ButtonProps> = ({
   isCircle = false,
   size = 'medium',
   underline = false,
+  isActive = false,
   ...props
 }) => {
   const heightClasses = {
@@ -35,8 +37,8 @@ export const Button: React.FC<ButtonProps> = ({
     default: `${baseClasses} bg-blue-600 text-white ${props.disabled ? '' : 'hover:bg-blue-700'}`,
     link: `${baseClasses} text-blue-600 h-auto${props.disabled ? '' : ' hover:underline'}`,
     unstyled: '',
-    primary: `${baseClasses} bg-black text-white ${props.disabled ? '' : 'hover:bg-stone-800'}`,
-    secondary: `${baseClasses} border-gray-300 border bg-white text-gray-800 ${props.disabled ? '' : 'hover:bg-gray-100'}`,
+    primary: `${baseClasses} bg-black text-white${props.disabled ? '' : ' hover:bg-stone-800'}`,
+    secondary: `${baseClasses} border-gray-300 border ${isActive ? 'bg-gray-100' : 'bg-white'} text-gray-800${props.disabled ? '' : ' hover:bg-gray-100'}`,
   }
 
   return (
