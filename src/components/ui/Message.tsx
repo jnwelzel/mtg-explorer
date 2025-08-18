@@ -6,8 +6,8 @@ interface MessageProps {
 
 const textColors = {
   error: 'text-error',
-  info: 'text-blue-500',
-  success: 'text-green-500',
+  info: 'text-info',
+  success: 'text-success',
 }
 
 const borderColors = {
