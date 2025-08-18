@@ -1,8 +1,9 @@
 import { use, useState } from 'react'
 import type { Card } from 'scryfall-api'
 import { CurrencyContext } from '../contexts'
-import type { CardBadge, UseMagicCardResult } from '../types'
+import type { UseMagicCardResult } from '../types'
 import { isDoubleSided } from '../utils'
+import type { CardBadge } from '../types/magicCard'
 
 export const useMagicCard = (card: Card, shouldOpenImageFile: boolean): UseMagicCardResult => {
   const { currency } = use(CurrencyContext)
