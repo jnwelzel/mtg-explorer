@@ -32,7 +32,7 @@ export const Button: React.FC<ButtonProps> = ({
     medium: 'w-10',
     large: 'w-12',
   }
-  const baseClasses = `flex items-center justify-center cursor-pointer whitespace-nowrap duration-200 transition-colors transition-bg${isCircle ? ' rounded-full' : ' rounded'}${variant !== 'link' && !isCircle ? ' px-4' : ''}${' ' + heightClasses[size]}${isCircle ? ' ' + widthClasses[size] : ''}${underline ? ' underline' : ''}`
+  const baseClasses = `flex items-center justify-center${isLoading || props.disabled ? ' opacity-50 cursor-not-allowed' : ' cursor-pointer'} whitespace-nowrap duration-200 transition-colors transition-bg${isCircle ? ' rounded-full' : ' rounded'}${variant !== 'link' && !isCircle ? ' px-4' : ''}${' ' + heightClasses[size]}${isCircle ? ' ' + widthClasses[size] : ''}${underline ? ' underline' : ''}`
   const buttonClasses = {
     default: `${baseClasses} bg-blue-600 text-white ${props.disabled ? '' : 'hover:bg-blue-700'}`,
     link: `${baseClasses} text-blue-600 h-auto${props.disabled ? '' : ' hover:underline'}`,
@@ -48,7 +48,10 @@ export const Button: React.FC<ButtonProps> = ({
       disabled={isLoading || props.disabled}
       {...props}>
       {isLoading ? (
-        <span className="animate-spin mr-2 inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
+        <>
+          <span className="animate-spin mr-2 inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
+          Loading...
+        </>
       ) : (
         children
       )}
