@@ -5,12 +5,26 @@ interface CardFaceProps {
   typeLine?: string | null
   oracleText?: string | null
   flavorText?: string | null
+  manaCost?: string | null
 }
 
-export const CardFace: React.FC<CardFaceProps> = ({ name, typeLine, oracleText, flavorText }) => {
+export const CardFace: React.FC<CardFaceProps> = ({
+  name,
+  typeLine,
+  oracleText,
+  flavorText,
+  manaCost,
+}) => {
   return (
     <>
-      <h1 className="text-2xl font-extrabold text-gray-800">{name}</h1>
+      <div className="flex items-center gap-2">
+        <h1 className="text-2xl font-extrabold text-gray-800">{name}</h1>
+        {manaCost ? (
+          <span>
+            <ReplaceWithBraces text={manaCost} />
+          </span>
+        ) : null}
+      </div>
       <h2 className="text-sm text-gray-600 font-semibold">{typeLine}</h2>
       {oracleText && (
         <p className="text-md text-gray-600 mt-3">

@@ -54,6 +54,7 @@ export const CardViewPage: React.FC = () => {
                       typeLine={face.type_line}
                       oracleText={face.oracle_text}
                       flavorText={face.flavor_text}
+                      manaCost={face.mana_cost}
                     />
                   </div>
                 )
@@ -64,6 +65,7 @@ export const CardViewPage: React.FC = () => {
                 typeLine={card.type_line}
                 oracleText={card.oracle_text}
                 flavorText={card.flavor_text}
+                manaCost={card.mana_cost}
               />
             )}
           </div>
