@@ -17,8 +17,10 @@ export const CardFace: React.FC<CardFaceProps> = ({
 }) => {
   return (
     <>
-      <div className="flex items-center gap-2">
-        <h1 className="text-2xl font-extrabold text-gray-800">{name}</h1>
+      <div className="flex items-center flex-wrap">
+        <h1 className={`text-2xl font-extrabold text-gray-800${manaCost ? ' mr-2' : ''}`}>
+          {name}
+        </h1>
         {manaCost ? (
           <span>
             <ReplaceWithBraces text={manaCost} />

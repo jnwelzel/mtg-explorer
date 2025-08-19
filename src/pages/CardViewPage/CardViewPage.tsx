@@ -1,6 +1,6 @@
 import { useParams } from 'react-router'
 import { useCardView } from '../../hooks'
-import { Breadcrumb, Dropdown, MagicCard, ReplaceWithBraces } from '../../components/ui'
+import { Breadcrumb, Dropdown, MagicCard } from '../../components/ui'
 import { isDoubleFaced, isDoubleSided } from '../../utils'
 import { useDocumentTitle } from '@uidotdev/usehooks'
 import { routesPath } from '../../routes'
@@ -61,11 +61,11 @@ export const CardViewPage: React.FC = () => {
               })
             ) : (
               <CardFace
-                name={card.name}
-                typeLine={card.type_line}
-                oracleText={card.oracle_text}
-                flavorText={card.flavor_text}
-                manaCost={card.mana_cost}
+                name={faces[faceIndex].name}
+                typeLine={faces[faceIndex].type_line}
+                oracleText={faces[faceIndex].oracle_text}
+                flavorText={faces[faceIndex].flavor_text}
+                manaCost={card.mana_cost || faces[faceIndex].mana_cost}
               />
             )}
           </div>

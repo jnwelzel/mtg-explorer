@@ -18,3 +18,4 @@ A place for messing around with Magic: The Gathering.
 - [ ] Show printings in card view page
 - [ ] Card view page -> view cards from set
 - [ ] Card view page: legalities
+- [ ] Display foil price
