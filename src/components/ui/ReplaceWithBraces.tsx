@@ -6,6 +6,7 @@ interface ReplaceWithBracesProps {
 
 const SYMBOLS = {
   T: 'tap ms-cost',
+  Q: 'untap ms-cost',
   W: 'w ms-cost',
   B: 'b ms-cost',
   U: 'u ms-cost',
@@ -37,6 +38,7 @@ const SYMBOLS = {
   'U/P': 'up ms-cost',
   'U/B': 'ub ms-cost',
   'G/W': 'gw ms-cost',
+  'R/W': 'rw ms-cost',
   'R/P': 'rp ms-cost',
   'G/P': 'gp ms-cost',
   'B/P': 'bp ms-cost',

@@ -1,9 +1,10 @@
 import { useParams } from 'react-router'
-import { useCardView } from '../hooks'
-import { Breadcrumb, Dropdown, MagicCard, ReplaceWithBraces } from '../components/ui'
-import { isDoubleFaced, isDoubleSided } from '../utils'
+import { useCardView } from '../../hooks'
+import { Breadcrumb, Dropdown, MagicCard, ReplaceWithBraces } from '../../components/ui'
+import { isDoubleFaced, isDoubleSided } from '../../utils'
 import { useDocumentTitle } from '@uidotdev/usehooks'
-import { routesPath } from '../routes'
+import { routesPath } from '../../routes'
+import { CardFace } from './components'
 
 export const CardViewPage: React.FC = () => {
   const { id } = useParams<string>()
@@ -48,26 +49,22 @@ export const CardViewPage: React.FC = () => {
                   <div
                     key={face.name ?? index}
                     className={`${index === 1 ? 'mt-3' : ''} col-span-full`}>
-                    <h1 className="text-2xl font-extrabold text-gray-800">{face.name}</h1>
-                    <h2 className="text-sm text-gray-600 font-semibold">{face.type_line}</h2>
-                    <p className="text-md text-gray-600 mt-3">
-                      <ReplaceWithBraces text={face.oracle_text ?? ''} />
-                    </p>
-                    <p className="italic mt-3 text-gray-500 text-sm">{face?.flavor_text}</p>
+                    <CardFace
+                      name={face.name}
+                      typeLine={face.type_line}
+                      oracleText={face.oracle_text}
+                      flavorText={face.flavor_text}
+                    />
                   </div>
                 )
               })
             ) : (
-              <>
-                <h1 className="text-2xl font-extrabold text-gray-800">{faces[faceIndex]?.name}</h1>
-                <h2 className="text-sm text-gray-600 font-semibold">
-                  {faces[faceIndex]?.type_line}
-                </h2>
-                <p className="text-md text-gray-600 mt-3">
-                  <ReplaceWithBraces text={faces[faceIndex]?.oracle_text ?? ''} />
-                </p>
-                <p className="italic mt-3 text-gray-500 text-sm">{faces[faceIndex]?.flavor_text}</p>
-              </>
+              <CardFace
+                name={card.name}
+                typeLine={card.type_line}
+                oracleText={card.oracle_text}
+                flavorText={card.flavor_text}
+              />
             )}
           </div>
         </div>
