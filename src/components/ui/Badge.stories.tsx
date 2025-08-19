@@ -25,3 +25,31 @@ export const Default: Story = {
     text: 'reprint',
   },
 }
+
+export const InfoBadge: Story = {
+  args: {
+    text: 'info',
+    variant: 'info',
+  },
+}
+
+export const SuccessBadge: Story = {
+  args: {
+    text: 'success',
+    variant: 'success',
+  },
+}
+
+export const WarningBadge: Story = {
+  args: {
+    text: 'warning',
+    variant: 'warning',
+  },
+}
+
+export const ErrorBadge: Story = {
+  args: {
+    text: 'error',
+    variant: 'error',
+  },
+}

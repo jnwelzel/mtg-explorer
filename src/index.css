@@ -4,6 +4,7 @@
   --color-error: var(--color-red-500);
   --color-info: var(--color-blue-500);
   --color-success: var(--color-green-600);
+  --color-warning: var(--color-yellow-500);
 }
 
 input {

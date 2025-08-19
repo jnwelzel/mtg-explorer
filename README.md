@@ -15,3 +15,6 @@ A place for messing around with Magic: The Gathering.
 - [ ] Saved searches
 - [ ] Storybook
 - [ ] Scroll position preservation from card view -> cards list page
+- [ ] Show printings in card view page
+- [ ] Card view page -> view cards from set
+- [ ] Card view page: legalities
