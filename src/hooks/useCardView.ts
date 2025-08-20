@@ -1,5 +1,5 @@
 import { use, useEffect, useState, useTransition } from 'react'
-import { Cards, type Card, type CardFace } from 'scryfall-api'
+import { Cards, Sets, type Card, type CardFace, type Set } from 'scryfall-api'
 import { isDoubleFaced, isDoubleSided } from '../utils'
 import { RecentCardsContext } from '../contexts'
 
@@ -9,6 +9,7 @@ type UseCardViewResult = {
   flipCard: () => void
   faceIndex: number
   faces: CardFace[]
+  cardSet: Set | null
 }
 
 export const useCardView = (cardId?: string): UseCardViewResult => {
@@ -17,6 +18,7 @@ export const useCardView = (cardId?: string): UseCardViewResult => {
   const { addRecentlyViewedCard } = use(RecentCardsContext)
   const [faces, setFaces] = useState<CardFace[]>([])
   const [faceIndex, setFaceIndex] = useState(0)
+  const [cardSet, setCardSet] = useState<Set | null>(null)
 
   const flipCard = () => {
     if (faces.length > 1) {
@@ -30,6 +32,8 @@ export const useCardView = (cardId?: string): UseCardViewResult => {
         startTransition(async () => {
           const card = await Cards.byId(cardId)
           if (card) {
+            const cardSet = await Sets.byId(card.set)
+            setCardSet(cardSet ?? null)
             addRecentlyViewedCard(card)
             if (isDoubleSided(card) || isDoubleFaced(card)) {
               setFaces(card.card_faces || [])
@@ -39,7 +43,7 @@ export const useCardView = (cardId?: string): UseCardViewResult => {
                   name: card.name,
                   type_line: card.type_line,
                   oracle_text: card.oracle_text,
-                  mana_cost: '',
+                  mana_cost: card.mana_cost ?? '',
                   object: 'card_face',
                   flavor_text: card.flavor_text,
                 },
@@ -54,5 +58,5 @@ export const useCardView = (cardId?: string): UseCardViewResult => {
     }
   }, [cardId])
 
-  return { card, isPending, flipCard, faceIndex, faces }
+  return { card, isPending, flipCard, faceIndex, faces, cardSet }
 }

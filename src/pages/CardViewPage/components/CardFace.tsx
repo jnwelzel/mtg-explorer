@@ -9,6 +9,7 @@ interface CardFaceProps {
   manaCost?: string | null
   setName?: string
   setCode?: string
+  setIconUrl?: string
 }
 
 export const CardFace: React.FC<CardFaceProps> = ({
@@ -19,6 +20,7 @@ export const CardFace: React.FC<CardFaceProps> = ({
   manaCost,
   setName,
   setCode,
+  setIconUrl,
 }) => {
   return (
     <>
@@ -47,8 +49,11 @@ export const CardFace: React.FC<CardFaceProps> = ({
       {setName && setCode ? (
         <>
           <Divider />
-          <NavLink to={`/sets/${setCode}?q=s:${setCode}`} className="text-sm underline">
-            {setName} ({setCode.toUpperCase()})
+          <NavLink
+            to={`/sets/${setCode}?q=s:${setCode}`}
+            className="text-sm underline flex items-center">
+            <img src={setIconUrl} alt={`${setName} icon`} className="w-5 h-5 mr-1" /> {setName} (
+            {setCode.toUpperCase()})
           </NavLink>
         </>
       ) : null}

@@ -8,7 +8,7 @@ import { CardFace, LegalitiesList } from './components'
 
 export const CardViewPage: React.FC = () => {
   const { id } = useParams<string>()
-  const { card, isPending, flipCard, faceIndex, faces } = useCardView(id)
+  const { card, isPending, flipCard, faceIndex, faces, cardSet } = useCardView(id)
   useDocumentTitle(card ? `MTG Explorer - ${card.name}` : 'MTG Explorer')
 
   return (
@@ -57,6 +57,7 @@ export const CardViewPage: React.FC = () => {
                       manaCost={face.mana_cost}
                       setName={index > 0 ? card.set_name : undefined}
                       setCode={index > 0 ? card.set : undefined}
+                      setIconUrl={cardSet?.icon_svg_uri}
                     />
                   </div>
                 )
@@ -70,6 +71,7 @@ export const CardViewPage: React.FC = () => {
                 manaCost={card.mana_cost || faces[faceIndex].mana_cost}
                 setName={card.set_name}
                 setCode={card.set}
+                setIconUrl={cardSet?.icon_svg_uri}
               />
             )}
           </div>

@@ -16,6 +16,7 @@ A place for messing around with Magic: The Gathering.
 - [ ] Storybook
 - [ ] Scroll position preservation from card view -> cards list page
 - [ ] Show printings in card view page
-- [ ] Card view page -> view cards from set
-- [ ] Card view page: legalities
+- [x] Card view page -> view cards from set
+- [x] Card view page: legalities
+- [ ] Legalities legend
 - [ ] Display foil price
