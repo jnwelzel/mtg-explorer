@@ -58,6 +58,8 @@ export const CardViewPage: React.FC = () => {
                       setName={index > 0 ? card.set_name : undefined}
                       setCode={index > 0 ? card.set : undefined}
                       setIconUrl={cardSet?.icon_svg_uri}
+                      collectorNumber={card.collector_number}
+                      rarity={card.rarity}
                     />
                   </div>
                 )
@@ -72,6 +74,8 @@ export const CardViewPage: React.FC = () => {
                 setName={card.set_name}
                 setCode={card.set}
                 setIconUrl={cardSet?.icon_svg_uri}
+                collectorNumber={card.collector_number}
+                rarity={card.rarity}
               />
             )}
           </div>

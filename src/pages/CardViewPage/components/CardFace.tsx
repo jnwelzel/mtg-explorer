@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router'
 import { Divider, ReplaceWithBraces } from '../../../components/ui'
+import { capitalize } from '../../../utils'
 
 interface CardFaceProps {
   name: string
@@ -10,6 +11,8 @@ interface CardFaceProps {
   setName?: string
   setCode?: string
   setIconUrl?: string
+  collectorNumber?: string
+  rarity?: string
 }
 
 export const CardFace: React.FC<CardFaceProps> = ({
@@ -21,6 +24,8 @@ export const CardFace: React.FC<CardFaceProps> = ({
   setName,
   setCode,
   setIconUrl,
+  collectorNumber,
+  rarity,
 }) => {
   return (
     <>
@@ -56,6 +61,12 @@ export const CardFace: React.FC<CardFaceProps> = ({
             {setCode.toUpperCase()})
           </NavLink>
         </>
+      ) : null}
+      {collectorNumber ? (
+        <span className="text-sm text-gray-600">
+          #{collectorNumber}
+          {rarity ? `, ${capitalize(rarity)}` : ''}
+        </span>
       ) : null}
     </>
   )
