@@ -1,4 +1,4 @@
-import { ReplaceWithBraces } from '../../../components/ui'
+import { Divider, ReplaceWithBraces } from '../../../components/ui'
 
 interface CardFaceProps {
   name: string
@@ -28,12 +28,17 @@ export const CardFace: React.FC<CardFaceProps> = ({
         ) : null}
       </div>
       <h2 className="text-sm text-gray-600 font-semibold">{typeLine}</h2>
-      {oracleText && (
+      {oracleText ? (
         <p className="text-md text-gray-600 mt-3">
           <ReplaceWithBraces text={oracleText} />
         </p>
-      )}
-      {flavorText && <p className="italic mt-3 text-gray-500 text-sm">{flavorText}</p>}
+      ) : null}
+      {flavorText ? (
+        <>
+          <Divider />
+          <p className="italic mt-1 text-gray-500 text-sm">{flavorText}</p>
+        </>
+      ) : null}
     </>
   )
 }

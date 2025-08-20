@@ -4,7 +4,7 @@ import { Breadcrumb, Dropdown, MagicCard } from '../../components/ui'
 import { isDoubleFaced, isDoubleSided } from '../../utils'
 import { useDocumentTitle } from '@uidotdev/usehooks'
 import { routesPath } from '../../routes'
-import { CardFace } from './components'
+import { CardFace, LegalitiesList } from './components'
 
 export const CardViewPage: React.FC = () => {
   const { id } = useParams<string>()
@@ -42,7 +42,7 @@ export const CardViewPage: React.FC = () => {
               />
             ) : null}
           </div>
-          <div className="md:col-span-9 mt-3 md:mt-0">
+          <div className="md:col-span-9">
             {isDoubleFaced(card) && !isDoubleSided(card) ? (
               faces.map((face, index) => {
                 return (
@@ -68,6 +68,7 @@ export const CardViewPage: React.FC = () => {
                 manaCost={card.mana_cost || faces[faceIndex].mana_cost}
               />
             )}
+            <LegalitiesList legalities={card.legalities} />
           </div>
         </div>
       ) : null}
