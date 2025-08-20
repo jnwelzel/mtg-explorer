@@ -42,7 +42,7 @@ export const CardViewPage: React.FC = () => {
               />
             ) : null}
           </div>
-          <div className="md:col-span-9">
+          <div className="md:col-span-5">
             {isDoubleFaced(card) && !isDoubleSided(card) ? (
               faces.map((face, index) => {
                 return (
@@ -55,6 +55,8 @@ export const CardViewPage: React.FC = () => {
                       oracleText={face.oracle_text}
                       flavorText={face.flavor_text}
                       manaCost={face.mana_cost}
+                      setName={index > 0 ? card.set_name : undefined}
+                      setCode={index > 0 ? card.set : undefined}
                     />
                   </div>
                 )
@@ -66,8 +68,12 @@ export const CardViewPage: React.FC = () => {
                 oracleText={faces[faceIndex].oracle_text}
                 flavorText={faces[faceIndex].flavor_text}
                 manaCost={card.mana_cost || faces[faceIndex].mana_cost}
+                setName={card.set_name}
+                setCode={card.set}
               />
             )}
+          </div>
+          <div className="md:col-span-4">
             <LegalitiesList legalities={card.legalities} />
           </div>
         </div>

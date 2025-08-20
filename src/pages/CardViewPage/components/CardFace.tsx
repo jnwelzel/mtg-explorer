@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router'
 import { Divider, ReplaceWithBraces } from '../../../components/ui'
 
 interface CardFaceProps {
@@ -6,6 +7,8 @@ interface CardFaceProps {
   oracleText?: string | null
   flavorText?: string | null
   manaCost?: string | null
+  setName?: string
+  setCode?: string
 }
 
 export const CardFace: React.FC<CardFaceProps> = ({
@@ -14,6 +17,8 @@ export const CardFace: React.FC<CardFaceProps> = ({
   oracleText,
   flavorText,
   manaCost,
+  setName,
+  setCode,
 }) => {
   return (
     <>
@@ -36,7 +41,15 @@ export const CardFace: React.FC<CardFaceProps> = ({
       {flavorText ? (
         <>
           <Divider />
-          <p className="italic mt-1 text-gray-500 text-sm">{flavorText}</p>
+          <p className="italic text-gray-500 text-sm">{flavorText}</p>
+        </>
+      ) : null}
+      {setName && setCode ? (
+        <>
+          <Divider />
+          <NavLink to={`/sets/${setCode}?q=s:${setCode}`} className="text-sm underline">
+            {setName} ({setCode.toUpperCase()})
+          </NavLink>
         </>
       ) : null}
     </>

@@ -1,5 +1,4 @@
 import type { Legalities, Legality } from 'scryfall-api'
-import { Divider } from '../../../components/ui'
 import { IoBan, IoCheckmarkCircle, IoCloseCircle, IoWarning } from 'react-icons/io5'
 import { FORMATS } from '../../../utils'
 
@@ -27,15 +26,16 @@ const ICONS = (legality: Legality) => {
 export const LegalitiesList: React.FC<LegalitiesProps> = ({ legalities }) => {
   return (
     <>
-      <Divider />
       <h3 className="font-bold">Legalities</h3>
-      <ul className="grid grid-cols-3 gap-2">
-        {Object.entries(legalities).map(([format, status]) => (
-          <li className="flex gap-1 items-center text-sm" key={format}>
-            {ICONS(status)}
-            <span>{FORMATS[format as keyof typeof FORMATS]}</span>
-          </li>
-        ))}
+      <ul className="grid grid-cols-3 gap-2 mt-1">
+        {Object.entries(legalities)
+          .sort(([a], [b]) => a.localeCompare(b))
+          .map(([format, status]) => (
+            <li className="flex gap-1 items-center text-sm" key={format}>
+              {ICONS(status)}
+              <span>{FORMATS[format as keyof typeof FORMATS]}</span>
+            </li>
+          ))}
       </ul>
     </>
   )
