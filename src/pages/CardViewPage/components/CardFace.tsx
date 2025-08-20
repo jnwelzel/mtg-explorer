@@ -1,6 +1,10 @@
 import { NavLink } from 'react-router'
-import { Divider, ReplaceWithBraces } from '../../../components/ui'
+import { Button, Divider, ReplaceWithBraces } from '../../../components/ui'
 import { capitalize } from '../../../utils'
+import { useState } from 'react'
+import { useClickAway } from '@uidotdev/usehooks'
+import { PrintingsModal } from './PrintingsModal'
+import { createPortal } from 'react-dom'
 
 interface CardFaceProps {
   name: string
@@ -27,6 +31,11 @@ export const CardFace: React.FC<CardFaceProps> = ({
   collectorNumber,
   rarity,
 }) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const ref = useClickAway<HTMLDialogElement>(() => {
+    setIsOpen(false)
+  })
+
   return (
     <>
       <div className="flex items-center flex-wrap">
@@ -56,7 +65,7 @@ export const CardFace: React.FC<CardFaceProps> = ({
           <Divider />
           <NavLink
             to={`/sets/${setCode}?q=s:${setCode}`}
-            className="text-sm underline flex items-center">
+            className="text-sm text-blue-500 hover:underline flex items-center">
             <img src={setIconUrl} alt={`${setName} icon`} className="w-5 h-5 mr-1" /> {setName} (
             {setCode.toUpperCase()})
           </NavLink>
@@ -68,6 +77,14 @@ export const CardFace: React.FC<CardFaceProps> = ({
           {rarity ? `, ${capitalize(rarity)}` : ''}
         </span>
       ) : null}
+      <Button size="small" onClick={() => setIsOpen(true)}>
+        Show all printings
+      </Button>
+      {isOpen &&
+        createPortal(
+          <PrintingsModal onClose={() => setIsOpen(false)} ref={ref} cardName={name} />,
+          document.body
+        )}
     </>
   )
 }

@@ -76,7 +76,7 @@ export const MagicCard: React.FC<MagicCardProps> = ({
         <Link
           to={imageLink}
           title={cardName}
-          className={`text-center underline truncate mt-1 ${clsx({
+          className={`text-center text-black hover:underline truncate mt-1 ${clsx({
             'text-sm': variant === 'default',
           })}`}>
           {isDoubleSided && variant === 'default' ? faces[faceIndex] : cardName}
