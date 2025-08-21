@@ -26,13 +26,13 @@ export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise }) => {
       />
       {set ? (
         <>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 mt-1">
             <img src={set.icon_svg_uri} alt={`${set.name} icon`} className="w-6 h-6" />
             <h1 className="text-2xl font-bold">
               {set.name} ({set.code.toUpperCase()})
             </h1>
           </div>
-          <div className="flex gap-1 items-center text-gray-500">
+          <div className="flex gap-1 items-center text-gray-500 mt-1">
             <BiCalendar className={`w-5 h-5 ${!isReleased ? 'text-red-400' : ''}`} />
             <p className={`text-sm ${!isReleased ? 'text-red-400' : ''}`}>
               {isReleased ? 'Released' : 'Releasing'} {releaseDate?.toLocaleDateString() ?? ''}
