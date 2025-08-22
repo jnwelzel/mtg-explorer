@@ -25,7 +25,6 @@ export const CardViewPage: React.FC = () => {
           <div className="md:col-span-3">
             <MagicCard
               card={card}
-              shouldDisplayPrice={false}
               shouldDisplayName={false}
               shouldDisplayBadges={false}
               onCardFlip={flipCard}

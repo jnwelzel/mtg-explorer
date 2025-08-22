@@ -13,9 +13,9 @@ A place for messing around with Magic: The Gathering.
   - [ ] `CardView`
 - [ ] Error boundaries
 - [ ] Saved searches
-- [ ] Storybook
+- [x] Storybook
 - [ ] Scroll position preservation from card view -> cards list page
-- [ ] Show printings in card view page
+- [x] Show printings in card view page
 - [x] Card view page -> view cards from set
 - [x] Card view page: legalities
 - [ ] Legalities legend

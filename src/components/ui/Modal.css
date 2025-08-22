@@ -1,0 +1,7 @@
+.rounded-scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.rounded-scrollbar::-webkit-scrollbar-track {
+  border-radius: 10px;
+}

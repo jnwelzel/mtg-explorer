@@ -5,6 +5,8 @@ import { ImageFlipper } from './ImageFlipper'
 import clsx from 'clsx'
 import { Badge } from './Badge'
 import { Link } from 'react-router'
+import { getFoilForCurrency } from '../../utils/currency'
+import { HiOutlineSparkles } from 'react-icons/hi'
 
 interface MagicCardProps {
   card: Card
@@ -44,9 +46,13 @@ export const MagicCard: React.FC<MagicCardProps> = ({
   }
 
   const price = getCardPrice(card.prices, currency as keyof typeof card.prices)
+  const foilPrice = getCardPrice(
+    card.prices,
+    getFoilForCurrency(currency) as keyof typeof card.prices
+  )
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-1">
       {isDoubleSided ? (
         <ImageFlipper
           frontImageUrl={images[0]}
@@ -76,7 +82,7 @@ export const MagicCard: React.FC<MagicCardProps> = ({
         <Link
           to={imageLink}
           title={cardName}
-          className={`text-center text-black hover:underline truncate mt-1 ${clsx({
+          className={`text-center text-black hover:underline truncate ${clsx({
             'text-sm': variant === 'default',
           })}`}>
           {isDoubleSided && variant === 'default' ? faces[faceIndex] : cardName}
@@ -96,6 +102,15 @@ export const MagicCard: React.FC<MagicCardProps> = ({
             : null}
           {shouldDisplayPrice && price ? (
             <span className="text-xs text-gray-600 text-center">{price}</span>
+          ) : null}
+          {shouldDisplayPrice && foilPrice && price ? (
+            <span className="text-xs text-gray-600 text-center"> / </span>
+          ) : null}
+          {shouldDisplayPrice && foilPrice ? (
+            <span className="flex items-center gap-1">
+              <span className="text-xs text-gray-600 text-center">{foilPrice}</span>
+              <HiOutlineSparkles />
+            </span>
           ) : null}
         </div>
       ) : null}
