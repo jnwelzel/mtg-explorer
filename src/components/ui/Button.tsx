@@ -37,7 +37,7 @@ export const Button: React.FC<ButtonProps> = ({
     medium: 'text-base',
     large: 'text-lg',
   }
-  const baseClasses = `flex items-center justify-center${isLoading || props.disabled ? ' opacity-50 cursor-not-allowed' : ' cursor-pointer'} whitespace-nowrap duration-200 transition-colors transition-bg${isCircle ? ' rounded-full' : ' rounded'}${variant !== 'link' && !isCircle ? ' px-4' : ''}${' ' + heightClasses[size]}${isCircle ? ' ' + widthClasses[size] : ''}${underline ? ' underline' : ''} ${textClasses[size]}${className ? ' ' + className : ''}`
+  const baseClasses = `flex items-center justify-center${isLoading || props.disabled ? ' opacity-50 cursor-not-allowed' : ' cursor-pointer'} whitespace-nowrap duration-200 transition-colors transition-bg${isCircle ? ' rounded-full' : ' rounded'}${variant !== 'link' && !isCircle ? ' px-4' : ''}${' ' + heightClasses[size]}${isCircle ? ' ' + widthClasses[size] : ''}${underline ? ' underline' : ''} ${textClasses[size]}`
   const buttonClasses = {
     default: `${baseClasses} bg-blue-600 text-white${props.disabled ? '' : ' hover:bg-blue-700'}`,
     link: `${baseClasses} text-blue-600 h-auto${props.disabled ? '' : ' hover:underline'}`,
@@ -49,7 +49,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <button
       type={type}
-      className={`${buttonClasses[variant]} ${isLoading || props.disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+      className={`${buttonClasses[variant]} ${isLoading || props.disabled ? 'opacity-50 cursor-not-allowed' : ''}${className ? ' ' + className : ''}`}
       disabled={isLoading || props.disabled}
       {...props}>
       {isLoading ? (

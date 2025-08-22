@@ -79,7 +79,7 @@ export const CardFace: React.FC<CardFaceProps> = ({
             {rarity ? `, ${capitalize(rarity)}` : ''}
           </span>
         ) : null}
-        <Button size="small" onClick={() => setIsOpen(true)} className="flex-none">
+        <Button size="small" onClick={() => setIsOpen(true)} className="mr-auto">
           Show all printings
         </Button>
       </div>

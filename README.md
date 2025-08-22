@@ -19,4 +19,4 @@ A place for messing around with Magic: The Gathering.
 - [x] Card view page -> view cards from set
 - [x] Card view page: legalities
 - [ ] Legalities legend
-- [ ] Display foil price
+- [x] Display foil price

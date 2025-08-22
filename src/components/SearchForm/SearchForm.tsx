@@ -18,7 +18,7 @@ export const SearchForm: React.FC = () => {
           <Input
             ref={data.searchInputRef}
             inputMode="search"
-            placeholder="Black Lotus"
+            placeholder="Enter a card name"
             value={data.cardName}
             onChange={handlers.onSearchChange}
             type="search"
