@@ -1,6 +1,6 @@
 import { use } from 'react'
 import { useSearchForm } from '../../hooks'
-import { Button, CardsListContainer, Input } from '../ui'
+import { AdvancedSearch, Button, CardsListContainer, Input } from '../ui'
 import { RecentCardsContext } from '../../contexts'
 import { SuggestionsList } from './SuggestionsList'
 import { RecentlyViewedList } from './RecentlyViewedList'
@@ -45,7 +45,6 @@ export const SearchForm: React.FC = () => {
             />
           ) : null}
         </div>
-
         <Button
           type="submit"
           isLoading={flags.isPendingSuggestions}
@@ -53,6 +52,7 @@ export const SearchForm: React.FC = () => {
           Search
         </Button>
       </form>
+      <AdvancedSearch className="mr-auto mt-1" />
       <CardsListContainer onClearSearchCallback={handlers.onClearSearchCallback} />
     </>
   )

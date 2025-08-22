@@ -36,7 +36,7 @@ export const ResultsInfo: React.FC<ResultsInfoProps> = ({
     <>
       {isLoading ? <p className="skeleton-animation w-full rounded-sm md:w-1/2 h-5 mt-3" /> : null}
       {totalCount > 0 && !isLoading ? (
-        <div className="w-full mt-3 flex flex-nowrap flex-col gap-2 md:flex-row md:items-center">
+        <div className="w-full flex flex-nowrap flex-col gap-2 md:flex-row md:items-center">
           <p className="text-gray-500 text-sm text-left">
             Search for '{query}' returned {totalCount} result
             {totalCount > 1 ? 's ' : ' '}

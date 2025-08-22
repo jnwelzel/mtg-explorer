@@ -68,7 +68,6 @@ export const useSorting = (): UseSortingResult => {
 
         return newParams
       })
-      console.log(`Sorting changed to: ${newSortOption.value}`)
     },
     [setSearchParams, currency]
   )
