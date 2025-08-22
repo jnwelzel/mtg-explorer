@@ -1,7 +1,6 @@
 import { useEffect, useState, useTransition } from 'react'
-import { Modal } from '../../../components/ui'
+import { Link, Modal } from '../../../components/ui'
 import { Cards, type Card } from 'scryfall-api'
-import { NavLink } from 'react-router'
 
 interface PrintingsModalProps {
   onClose: () => void
@@ -27,14 +26,9 @@ export const PrintingsModal: React.FC<PrintingsModalProps> = ({ onClose, ref, ca
         <ul>
           {cards.map(card => (
             <li key={card.id}>
-              <NavLink
-                to={`/cards/${card.id}`}
-                className={({ isActive }) =>
-                  (isActive ? 'underline' : '') +
-                  ' text-blue-500 hover:underline text-sm md:text-base'
-                }>
+              <Link to={`/cards/${card.id}`} className="text-sm md:text-base">
                 {card.set_name} ({card.set.toUpperCase()}) #{card.collector_number}
-              </NavLink>
+              </Link>
             </li>
           ))}
         </ul>

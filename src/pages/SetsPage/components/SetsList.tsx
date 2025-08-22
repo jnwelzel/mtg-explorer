@@ -1,9 +1,8 @@
 import { use } from 'react'
 import type { Set } from 'scryfall-api'
 import { useSets } from '../../../hooks'
-import { Message } from '../../../components/ui'
+import { Link, Message } from '../../../components/ui'
 import { SetItems } from '.'
-import { NavLink } from 'react-router'
 
 interface SetsListProps {
   setsPromise: Promise<Set[]>
@@ -20,12 +19,12 @@ export const SetsList: React.FC<SetsListProps> = ({ setsPromise }) => {
     <>
       <menu className="flex flex-wrap">
         {Object.keys(allSetsByYear).map(year => (
-          <NavLink
+          <Link
             to={`/sets?q=${year}`}
             className={`px-2 hover:underline text-blue-500${query === year ? ' underline' : ''}`}
             key={year}>
             {year}
-          </NavLink>
+          </Link>
         ))}
       </menu>
       {query ? (

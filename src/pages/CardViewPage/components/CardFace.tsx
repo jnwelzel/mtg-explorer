@@ -1,5 +1,4 @@
-import { NavLink } from 'react-router'
-import { Button, Divider, ReplaceWithBraces } from '../../../components/ui'
+import { Button, Divider, Link, ReplaceWithBraces } from '../../../components/ui'
 import { capitalize } from '../../../utils'
 import { useState } from 'react'
 import { useClickAway } from '@uidotdev/usehooks'
@@ -65,12 +64,10 @@ export const CardFace: React.FC<CardFaceProps> = ({
         {setName && setCode ? (
           <>
             <Divider />
-            <NavLink
-              to={`/sets/${setCode}?q=s:${setCode}`}
-              className="text-sm text-blue-500 hover:underline flex items-center">
+            <Link to={`/sets/${setCode}?q=s:${setCode}`} className="flex items-center">
               <img src={setIconUrl} alt={`${setName} icon`} className="w-5 h-5 mr-1" /> {setName} (
               {setCode.toUpperCase()})
-            </NavLink>
+            </Link>
           </>
         ) : null}
         {collectorNumber ? (

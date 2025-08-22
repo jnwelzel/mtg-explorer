@@ -4,10 +4,12 @@ import { Button, CardsListContainer, Input } from '../ui'
 import { RecentCardsContext } from '../../contexts'
 import { SuggestionsList } from './SuggestionsList'
 import { RecentlyViewedList } from './RecentlyViewedList'
+import { useDocumentTitle } from '@uidotdev/usehooks'
 
 export const SearchForm: React.FC = () => {
   const { handlers, data, flags } = useSearchForm()
   const { recentlyViewedCards } = use(RecentCardsContext)
+  useDocumentTitle('MTG Explorer - Cards Search')
 
   return (
     <>

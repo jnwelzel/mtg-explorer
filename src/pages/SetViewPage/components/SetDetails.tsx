@@ -4,6 +4,7 @@ import { use } from 'react'
 import { useParams } from 'react-router'
 import { routesPath } from '../../../routes'
 import { BiCalendar } from 'react-icons/bi'
+import { useDocumentTitle } from '@uidotdev/usehooks'
 
 interface SetDetailsProps {
   setPromise: Promise<Set | undefined>
@@ -15,6 +16,7 @@ export const SetDetails: React.FC<SetDetailsProps> = ({ setPromise }) => {
   const releaseDate = set?.released_at
   const today = new Date()
   const isReleased = releaseDate ? new Date(releaseDate) <= today : false
+  useDocumentTitle(`MTG Explorer - ${set?.name ?? ''}`)
 
   return (
     <>

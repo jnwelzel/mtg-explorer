@@ -1,7 +1,7 @@
 import React, { use } from 'react'
 import { CurrencyContext } from '../contexts'
 import type { Currency } from '../types'
-import { NavLink } from 'react-router'
+import { Link } from './ui'
 
 interface NavItemsProps {
   isVertical?: boolean
@@ -18,20 +18,14 @@ const NavItems: React.FC<NavItemsProps> = ({ isVertical = true, className = '', 
         isVertical ? 'flex flex-col gap-2' : 'flex flex-row gap-6 items-center'
       } ${className}`}>
       <li>
-        <NavLink
-          to="/cards"
-          className={({ isActive }) => (isActive ? 'text-purple-300 underline' : '')}
-          onClick={onClick}>
+        <Link to="/cards" onClick={onClick} variant="nav">
           Cards
-        </NavLink>
+        </Link>
       </li>
       <li>
-        <NavLink
-          to="/sets"
-          className={({ isActive }) => (isActive ? 'text-purple-300 underline' : '')}
-          onClick={onClick}>
+        <Link to="/sets" onClick={onClick} variant="nav">
           Sets
-        </NavLink>
+        </Link>
       </li>
       <li>Decks</li>
       <li>News</li>

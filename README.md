@@ -20,3 +20,4 @@ A place for messing around with Magic: The Gathering.
 - [x] Card view page: legalities
 - [ ] Legalities legend
 - [x] Display foil price
+- [ ] Add large text prop to MagiCard

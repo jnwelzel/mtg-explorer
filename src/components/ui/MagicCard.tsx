@@ -4,9 +4,9 @@ import { useMagicCard } from '../../hooks'
 import { ImageFlipper } from './ImageFlipper'
 import clsx from 'clsx'
 import { Badge } from './Badge'
-import { Link } from 'react-router'
 import { getFoilForCurrency } from '../../utils/currency'
 import { HiOutlineSparkles } from 'react-icons/hi'
+import { Link } from './Link'
 
 interface MagicCardProps {
   card: Card
@@ -82,7 +82,8 @@ export const MagicCard: React.FC<MagicCardProps> = ({
         <Link
           to={imageLink}
           title={cardName}
-          className={`text-center text-black hover:underline truncate ${clsx({
+          variant="secondary"
+          className={`text-center truncate ${clsx({
             'text-sm': variant === 'default',
           })}`}>
           {isDoubleSided && variant === 'default' ? faces[faceIndex] : cardName}
@@ -109,7 +110,7 @@ export const MagicCard: React.FC<MagicCardProps> = ({
           {shouldDisplayPrice && foilPrice ? (
             <span className="flex items-center gap-0.5">
               <span className="text-xs text-gray-600 text-center">{foilPrice}</span>
-              <HiOutlineSparkles />
+              <HiOutlineSparkles title="Foil" />
             </span>
           ) : null}
         </div>
