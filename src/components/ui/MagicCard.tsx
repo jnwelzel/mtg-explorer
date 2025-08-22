@@ -89,7 +89,7 @@ export const MagicCard: React.FC<MagicCardProps> = ({
         </Link>
       ) : null}
       {(shouldDisplayPrice || shouldDisplayBadges) && variant !== 'compact' ? (
-        <div className="flex gap-1 items-center justify-center">
+        <div className="flex gap-0.5 items-center justify-center">
           {shouldDisplayBadges
             ? badges.map((badge, i) => {
                 const keyValue = `${card.id.substring(0, 8)}--${i}`
@@ -107,7 +107,7 @@ export const MagicCard: React.FC<MagicCardProps> = ({
             <span className="text-xs text-gray-600 text-center"> / </span>
           ) : null}
           {shouldDisplayPrice && foilPrice ? (
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-0.5">
               <span className="text-xs text-gray-600 text-center">{foilPrice}</span>
               <HiOutlineSparkles />
             </span>

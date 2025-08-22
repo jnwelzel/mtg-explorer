@@ -60,31 +60,35 @@ export const CardFace: React.FC<CardFaceProps> = ({
           <p className="italic text-gray-500 text-sm">{flavorText}</p>
         </>
       ) : null}
-      {setName && setCode ? (
-        <>
-          <Divider />
-          <NavLink
-            to={`/sets/${setCode}?q=s:${setCode}`}
-            className="text-sm text-blue-500 hover:underline flex items-center">
-            <img src={setIconUrl} alt={`${setName} icon`} className="w-5 h-5 mr-1" /> {setName} (
-            {setCode.toUpperCase()})
-          </NavLink>
-        </>
-      ) : null}
-      {collectorNumber ? (
-        <span className="text-sm text-gray-600">
-          #{collectorNumber}
-          {rarity ? `, ${capitalize(rarity)}` : ''}
-        </span>
-      ) : null}
-      <Button size="small" onClick={() => setIsOpen(true)}>
-        Show all printings
-      </Button>
-      {isOpen &&
-        createPortal(
-          <PrintingsModal onClose={() => setIsOpen(false)} ref={ref} cardName={name} />,
-          document.body
-        )}
+
+      <div className="flex flex-col gap-1">
+        {setName && setCode ? (
+          <>
+            <Divider />
+            <NavLink
+              to={`/sets/${setCode}?q=s:${setCode}`}
+              className="text-sm text-blue-500 hover:underline flex items-center">
+              <img src={setIconUrl} alt={`${setName} icon`} className="w-5 h-5 mr-1" /> {setName} (
+              {setCode.toUpperCase()})
+            </NavLink>
+          </>
+        ) : null}
+        {collectorNumber ? (
+          <span className="text-sm text-gray-600">
+            #{collectorNumber}
+            {rarity ? `, ${capitalize(rarity)}` : ''}
+          </span>
+        ) : null}
+        <Button size="small" onClick={() => setIsOpen(true)} className="flex-none">
+          Show all printings
+        </Button>
+      </div>
+      {isOpen
+        ? createPortal(
+            <PrintingsModal onClose={() => setIsOpen(false)} ref={ref} cardName={name} />,
+            document.body
+          )
+        : null}
     </>
   )
 }
