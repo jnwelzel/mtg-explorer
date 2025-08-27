@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Button } from './Button'
 import { useClickAway } from '@uidotdev/usehooks'
 import { createPortal } from 'react-dom'
+import { Button } from '../ui'
 import { AdvancedSearchModal } from './AdvancedSearchModal'
 
 interface AdvancedSearchProps {
@@ -10,8 +10,11 @@ interface AdvancedSearchProps {
 
 export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({ className }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const ref = useClickAway<HTMLDialogElement>(() => {
+  const onClose = () => {
     setIsOpen(false)
+  }
+  const ref = useClickAway<HTMLDialogElement>(() => {
+    onClose()
   })
 
   return (
@@ -20,10 +23,7 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({ className }) => 
         Advanced Search
       </Button>
       {isOpen
-        ? createPortal(
-            <AdvancedSearchModal onClose={() => setIsOpen(false)} ref={ref} />,
-            document.body
-          )
+        ? createPortal(<AdvancedSearchModal onClose={onClose} ref={ref} />, document.body)
         : null}
     </>
   )

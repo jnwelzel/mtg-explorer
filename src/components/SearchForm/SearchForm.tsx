@@ -1,10 +1,11 @@
 import { use } from 'react'
 import { useSearchForm } from '../../hooks'
-import { AdvancedSearch, Button, CardsListContainer, Input } from '../ui'
+import { Button, CardsListContainer, Input } from '../ui'
 import { RecentCardsContext } from '../../contexts'
 import { SuggestionsList } from './SuggestionsList'
 import { RecentlyViewedList } from './RecentlyViewedList'
 import { useDocumentTitle } from '@uidotdev/usehooks'
+import { AdvancedSearch } from '../AdvancedSearch'
 
 export const SearchForm: React.FC = () => {
   const { handlers, data, flags } = useSearchForm()
