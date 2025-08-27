@@ -60,7 +60,7 @@ export const ResultsInfo: React.FC<ResultsInfoProps> = ({
               options={sortingOptions}
               value={sortOption}
               name="sort"
-              onChange={mapToSortingOption}
+              onChangeHandler={mapToSortingOption}
               icon={<BiSort />}
             />
           </span>

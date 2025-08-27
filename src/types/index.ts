@@ -1,6 +1,6 @@
 export type { Currency, CurrencyContextType } from './currency'
 export type { ZoomTypes, UseMagicCardResult, ZoomLevel } from './magicCard'
 export type { RecentCardsContextType } from './recentCards'
-export type { SortingOption, SortingValue, UseSortingResult } from './search'
+export type { SortingOption, SortingValue, UseSortingResult, ScryfallSearchParams } from './search'
 export type { UseZoomLevelResult, UseSearchParams } from './hooks'
 export type { ModalProps } from './modal'

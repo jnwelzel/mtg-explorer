@@ -21,3 +21,4 @@ A place for messing around with Magic: The Gathering.
 - [ ] Legalities legend
 - [x] Display foil price
 - [ ] Add large text prop to MagiCard
+- [ ] Printings modal order by release date descending

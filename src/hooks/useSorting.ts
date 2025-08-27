@@ -43,7 +43,7 @@ export const useSorting = (): UseSortingResult => {
   const handleSortChange = useCallback(
     (newSortOption: SortingOption) => {
       setSearchParams(prev => {
-        const newParams = new URLSearchParams(prev)
+        const newParams = new URLSearchParams()
         const query = prev.get('q') || ''
         const [order, direction] = newSortOption.value.split('+')
         const hasOrder = /order:[a-z]+/.test(query)
