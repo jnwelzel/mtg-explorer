@@ -1,17 +1,17 @@
 import { useSearchParams } from 'react-router'
-import { getParams } from '../../utils'
+import { encodeParams, getParams } from '../../utils'
 import { Button } from './Button'
 import { Input } from './Input'
 import { Modal } from './Modal'
 import { useState } from 'react'
-import type { SortingDirection, SortingOrder } from '../../types/search'
+import type { ScryfallSearchParams, SortingDirection, SortingOrder } from '../../types/search'
 import { Select } from './Select'
 import { BiSort } from 'react-icons/bi'
 
 interface AdvancedSearchModalProps {
   onClose: () => void
   ref: React.RefObject<HTMLDialogElement | null>
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void
+  onSubmit?: () => void
 }
 
 interface FormState {
@@ -38,10 +38,26 @@ export const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
     order: paramValues?.order ?? 'name',
     direction: paramValues?.direction ?? 'ascending',
   })
+  const handleSubmit = () => {
+    const scryfallParams: ScryfallSearchParams = {
+      cardName: formState.cardName ? formState.cardName.trim().split(' ') : null,
+      o: formState.oracleText ? formState.oracleText.trim().split(' ') : null,
+      t: formState.cardType ? formState.cardType.trim().split(' ') : null,
+      e: formState.set.trim() || null,
+      order: formState.order,
+      direction: formState.direction,
+      q: null,
+    }
+    setSearchParams(encodeParams(scryfallParams))
+    onClose()
+    if (onSubmit) {
+      onSubmit()
+    }
+  }
 
   return (
     <Modal title="Advanced Search" onClose={onClose} ref={ref}>
-      <form className="grid grid-cols-12 gap-3" onSubmit={onSubmit}>
+      <form className="grid grid-cols-12 gap-3" action={handleSubmit}>
         <label className="col-span-3 self-center leading-5" htmlFor="cardName">
           Card Name
         </label>

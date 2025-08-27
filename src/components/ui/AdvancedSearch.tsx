@@ -21,7 +21,7 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({ className }) => 
       </Button>
       {isOpen
         ? createPortal(
-            <AdvancedSearchModal onClose={() => setIsOpen(false)} ref={ref} onSubmit={() => {}} />,
+            <AdvancedSearchModal onClose={() => setIsOpen(false)} ref={ref} />,
             document.body
           )
         : null}

@@ -5,4 +5,11 @@ export { getAllSetsByFirstLetter, getAllStartingLetters, getSetsGroupedByYear } 
 export { CardMocks } from './cardDataMocks'
 export { FORMATS } from './legalities'
 export { capitalize } from './string'
-export { getParams, getOrder, getDirection, extractMultipleValues, extractCardName } from './search'
+export {
+  getParams,
+  getOrder,
+  getDirection,
+  extractMultipleValues,
+  extractCardName,
+  encodeParams,
+} from './search'

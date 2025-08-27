@@ -17,6 +17,12 @@ export const getParams = (query: URLSearchParams): ScryfallSearchParams | null =
   }
 }
 
+export const encodeParams = (params: ScryfallSearchParams): URLSearchParams => {
+  return new URLSearchParams(
+    `q=${params?.cardName ? params?.cardName?.join(' ') + ' ' : ''}${params.order ? `order:${params.order} ` : ''}${params.direction ? `direction:${params.direction} ` : ''}${params.o ? `${params.o.map(o => `o:${o}`).join(' ') + ' '}` : ''}${params.e ? `e:${params.e} ` : ''}${params.t ? `${params.t.map(t => `t:${t}`).join(' ')}` : ''}`.trim()
+  )
+}
+
 export const getOrder = (query: string): SortingOrder | null => {
   const regex = /order:(name|price|cmc|set|rarity|color)/
   const hasOrder = regex.test(query)

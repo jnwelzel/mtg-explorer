@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { getParams, getOrder, getDirection, extractCardName } from './search'
+import { getParams, getOrder, getDirection, extractCardName, encodeParams } from './search'
+import type { SortingDirection, SortingOrder } from '../types/search'
 
 describe('getParams', () => {
   it('returns null if q is missing', () => {
@@ -61,5 +62,24 @@ describe('extractCardName', () => {
     ])
     expect(extractCardName('order:price direction:ascending')).toBeNull()
     expect(extractCardName('')).toBeNull()
+  })
+})
+
+describe('encodeParams', () => {
+  it('correctly encodes all fields into a query string', () => {
+    const params = {
+      q: 'steelswarm operator',
+      cardName: ['steelswarm', 'operator'],
+      order: 'name' as SortingOrder,
+      direction: 'ascending' as SortingDirection,
+      o: ['artifact', 'spell'],
+      e: 'eoe',
+      t: ['artifact', 'creature'],
+    }
+    const result = encodeParams(params)
+    // Result decodes to: "q=steelswarm+operator+order:name+direction:ascending+o:artifact+o:spell+e:eoe+t:artifact+t:creature"
+    expect(result.toString()).toBe(
+      'q=steelswarm+operator+order%3Aname+direction%3Aascending+o%3Aartifact+o%3Aspell+e%3Aeoe+t%3Aartifact+t%3Acreature'
+    )
   })
 })
