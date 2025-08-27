@@ -51,7 +51,9 @@ export const useSearch = (options?: UseSearchParams): UseSearchResult => {
       setHasMoreResults(result.hasMore)
 
       if (!result.count) {
-        setErrorMessage(`No results found for '${query}'. Try a different search term.`)
+        setErrorMessage(
+          `Your query didn’t match any cards. Adjust your search terms or refer to our syntax guide above.`
+        )
       }
 
       // If only one card is returned, add it to the search history

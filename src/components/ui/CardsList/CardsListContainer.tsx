@@ -26,6 +26,7 @@ export const CardsListContainer: React.FC<CardsListContainerProps> = ({
     mapToSortingOption,
     sortingOptions,
     onClearSearch,
+    errorMessage,
   } = useSearch({
     onClearSearchCallback,
   })
@@ -48,6 +49,7 @@ export const CardsListContainer: React.FC<CardsListContainerProps> = ({
       mapToSortingOption={mapToSortingOption}
       sortingOptions={sortingOptions}
       onClearSearch={hideClearSearch ? undefined : onClearSearch}
+      errorMessage={errorMessage}
     />
   )
 }

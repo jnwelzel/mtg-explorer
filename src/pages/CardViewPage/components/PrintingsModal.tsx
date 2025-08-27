@@ -1,14 +1,13 @@
 import { useEffect, useState, useTransition } from 'react'
 import { Link, Modal } from '../../../components/ui'
 import { Cards, type Card } from 'scryfall-api'
+import type { ModalBaseProps } from '../../../types/modal'
 
-interface PrintingsModalProps {
-  onClose: () => void
-  ref: React.RefObject<HTMLDialogElement | null>
+type PrintingsModalProps = {
   cardName: string
-}
+} & ModalBaseProps
 
-export const PrintingsModal: React.FC<PrintingsModalProps> = ({ onClose, ref, cardName }) => {
+export const PrintingsModal: React.FC<PrintingsModalProps> = ({ cardName, ...modalProps }) => {
   const [isFetchingPrintings, startFetchingPrintings] = useTransition()
   const [cards, setCards] = useState<Card[]>([])
 
@@ -20,7 +19,7 @@ export const PrintingsModal: React.FC<PrintingsModalProps> = ({ onClose, ref, ca
   }, [cardName, startFetchingPrintings])
 
   return (
-    <Modal title={`"${cardName}" Printings`} onClose={onClose} ref={ref}>
+    <Modal title={`"${cardName}" Printings`} {...modalProps}>
       {isFetchingPrintings ? <p>Loading printings...</p> : null}
       {!isFetchingPrintings && cards.length > 0 ? (
         <ul>

@@ -1,6 +1,9 @@
-export interface ModalProps {
+export type ModalBaseProps = {
   onClose: () => void
-  title: string
-  children: React.ReactNode
   ref: React.Ref<HTMLDialogElement>
 }
+
+export type ModalProps =  {
+  title: string
+  children: React.ReactNode
+} & ModalBaseProps

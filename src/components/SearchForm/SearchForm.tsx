@@ -4,13 +4,12 @@ import { Button, CardsListContainer, Input } from '../ui'
 import { RecentCardsContext } from '../../contexts'
 import { SuggestionsList } from './SuggestionsList'
 import { RecentlyViewedList } from './RecentlyViewedList'
-import { useDocumentTitle } from '@uidotdev/usehooks'
 import { AdvancedSearch } from '../AdvancedSearch'
+import { SyntaxGuide } from '../SyntaxGuide/SyntaxGuide'
 
 export const SearchForm: React.FC = () => {
   const { handlers, data, flags } = useSearchForm()
   const { recentlyViewedCards } = use(RecentCardsContext)
-  useDocumentTitle('MTG Explorer - Cards Search')
 
   return (
     <>
@@ -53,7 +52,10 @@ export const SearchForm: React.FC = () => {
           Search
         </Button>
       </form>
-      <AdvancedSearch className="mr-auto mt-1" />
+      <div className="flex gap-1">
+        <AdvancedSearch className="inline" /> <span className="text-gray-500">•</span>{' '}
+        <SyntaxGuide />
+      </div>
       <CardsListContainer onClearSearchCallback={handlers.onClearSearchCallback} />
     </>
   )

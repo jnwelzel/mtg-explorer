@@ -1,15 +1,11 @@
+import type { ModalBaseProps } from '../../../types/modal'
 import { Modal } from '../../ui'
 import { AdvancedSearchForm } from './AdvancedSearchForm'
 
-interface AdvancedSearchModalProps {
-  onClose: () => void
-  ref: React.RefObject<HTMLDialogElement | null>
-}
-
-export const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({ onClose, ref }) => {
+export const AdvancedSearchModal: React.FC<ModalBaseProps> = ({ ...modalProps }) => {
   return (
-    <Modal title="Advanced Search" onClose={onClose} ref={ref}>
-      <AdvancedSearchForm onSubmit={onClose} onCancel={onClose} />
+    <Modal title="Advanced Search" {...modalProps}>
+      <AdvancedSearchForm onSubmit={modalProps.onClose} onCancel={modalProps.onClose} />
     </Modal>
   )
 }

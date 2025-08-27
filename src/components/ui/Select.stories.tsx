@@ -17,7 +17,7 @@ export const Default = () => {
   const [value, setValue] = useState('usd')
   return (
     <div className="grid grid-cols-1 md:grid-cols-6">
-      <Select options={options} value={value} onChange={setValue} name="currency" />
+      <Select options={options} value={value} onChangeHandler={setValue} name="currency" />
     </div>
   )
 }
@@ -29,7 +29,7 @@ export const WithIcon = () => {
       <Select
         options={options}
         value={value}
-        onChange={setValue}
+        onChangeHandler={setValue}
         name="currency"
         icon={<FaMagic />}
       />
