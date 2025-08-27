@@ -5,7 +5,7 @@ import { RecentCardsContext } from '../../contexts'
 import { SuggestionsList } from './SuggestionsList'
 import { RecentlyViewedList } from './RecentlyViewedList'
 import { AdvancedSearch } from '../AdvancedSearch'
-import { SyntaxGuide } from '../SyntaxGuide/SyntaxGuide'
+import { SyntaxGuide } from '../SyntaxGuide'
 
 export const SearchForm: React.FC = () => {
   const { handlers, data, flags } = useSearchForm()
