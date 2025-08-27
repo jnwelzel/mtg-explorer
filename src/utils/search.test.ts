@@ -83,12 +83,12 @@ describe('encodeParams', () => {
       o: ['artifact', 'spell'],
       e: 'eoe',
       t: ['artifact', 'creature'],
-      c: 'c:u',
+      c: 'u',
     }
     const result = encodeParams(params)
-    // Result decodes to: "q=steelswarm+operator+order:name+direction:ascending+o:artifact+o:spell+e:eoe+t:artifact+t:creature"
+    // Result decodes to: "q=steelswarm+operator+order:name+direction:ascending+o:artifact+o:spell+e:eoe+t:artifact+t:creature+c:u"
     expect(result.toString()).toBe(
-      'q=steelswarm+operator+order%3Aname+direction%3Aascending+o%3Aartifact+o%3Aspell+e%3Aeoe+t%3Aartifact+t%3Acreature+c%3Ac%3Au'
+      'q=steelswarm+operator+order%3Aname+direction%3Aascending+o%3Aartifact+o%3Aspell+e%3Aeoe+t%3Aartifact+t%3Acreature+c%3Au'
     )
   })
 })
