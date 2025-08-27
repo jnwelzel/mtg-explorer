@@ -14,12 +14,13 @@ export const getParams = (query: URLSearchParams): ScryfallSearchParams | null =
     o: extractMultipleValues(q, 'o:'),
     e: extractMultipleValues(q, 'e:') ? extractMultipleValues(q, 'e:')![0] : null,
     t: extractMultipleValues(q, 't:'),
+    c: extractColors(q),
   }
 }
 
 export const encodeParams = (params: ScryfallSearchParams): URLSearchParams => {
   return new URLSearchParams(
-    `q=${params?.cardName ? params?.cardName?.join(' ') + ' ' : ''}${params.order ? `order:${params.order} ` : ''}${params.direction ? `direction:${params.direction} ` : ''}${params.o ? `${params.o.map(o => `o:${o}`).join(' ') + ' '}` : ''}${params.e ? `e:${params.e} ` : ''}${params.t ? `${params.t.map(t => `t:${t}`).join(' ')}` : ''}`.trim()
+    `q=${params?.cardName ? params?.cardName?.join(' ') + ' ' : ''}${params.order ? `order:${params.order} ` : ''}${params.direction ? `direction:${params.direction} ` : ''}${params.o ? `${params.o.map(o => `o:${o}`).join(' ') + ' '}` : ''}${params.e ? `e:${params.e} ` : ''}${params.t ? `${params.t.map(t => `t:${t}`).join(' ')} ` : ''}${params.c ? `c:${params.c}` : ''}`.trim()
   )
 }
 
@@ -71,4 +72,18 @@ export const extractCardName = (query: string): string[] | null => {
   }
 
   return cardName.length > 0 ? cardName : null
+}
+
+export const extractColors = (query: string): string | null => {
+  if (!query) return null
+  // List of supported prefixes, sorted by length so >= is checked before >
+  const prefixes = ['c:', 'c>=', 'c<=', 'c!=', 'c>', 'c<']
+
+  for (const prefix of prefixes) {
+    const result = extractMultipleValues(query, prefix)
+    if (result) return result[0]
+  }
+
+  // If no prefix matches, return the string unchanged (or null if you prefer)
+  return null
 }

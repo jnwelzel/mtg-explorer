@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { getParams, getOrder, getDirection, extractCardName, encodeParams } from './search'
+import {
+  getParams,
+  getOrder,
+  getDirection,
+  extractCardName,
+  encodeParams,
+  extractColors,
+} from './search'
 import type { SortingDirection, SortingOrder } from '../types/search'
 
 describe('getParams', () => {
@@ -10,18 +17,19 @@ describe('getParams', () => {
 
   it('parses all fields from query string', () => {
     const params = new URLSearchParams(
-      'q=steelswarm operator order:price direction:ascending o:draw o:discard e:eoe t:creature t:artifact'
+      'q=steelswarm operator order:price direction:ascending o:draw o:discard e:eoe t:creature t:artifact c:wr'
     )
     const result = getParams(params)
 
     expect(result).toMatchObject({
       cardName: ['steelswarm', 'operator'],
-      q: 'steelswarm operator order:price direction:ascending o:draw o:discard e:eoe t:creature t:artifact',
+      q: 'steelswarm operator order:price direction:ascending o:draw o:discard e:eoe t:creature t:artifact c:wr',
       order: 'price',
       direction: 'ascending',
       o: ['draw', 'discard'],
       e: 'eoe',
       t: ['creature', 'artifact'],
+      c: 'wr',
     })
   })
 })
@@ -75,11 +83,22 @@ describe('encodeParams', () => {
       o: ['artifact', 'spell'],
       e: 'eoe',
       t: ['artifact', 'creature'],
+      c: 'c:u',
     }
     const result = encodeParams(params)
     // Result decodes to: "q=steelswarm+operator+order:name+direction:ascending+o:artifact+o:spell+e:eoe+t:artifact+t:creature"
     expect(result.toString()).toBe(
-      'q=steelswarm+operator+order%3Aname+direction%3Aascending+o%3Aartifact+o%3Aspell+e%3Aeoe+t%3Aartifact+t%3Acreature'
+      'q=steelswarm+operator+order%3Aname+direction%3Aascending+o%3Aartifact+o%3Aspell+e%3Aeoe+t%3Aartifact+t%3Acreature+c%3Ac%3Au'
     )
+  })
+})
+
+describe('extractColors', () => {
+  it('extracts color comparisons from query string', () => {
+    expect(
+      extractColors('war order:name direction:ascending o:foo o:bar t:ayy t:lmao c:wr')
+    ).toEqual('wr')
+    expect(extractColors('c<=wr')).toEqual('wr')
+    expect(extractColors('')).toEqual(null)
   })
 })

@@ -43,7 +43,12 @@ export const ResultsInfo: React.FC<ResultsInfoProps> = ({
             {onClearSearch ? (
               <>
                 •{' '}
-                <Button onClick={onClearSearch} type="button" variant="link" className="inline">
+                <Button
+                  onClick={onClearSearch}
+                  type="button"
+                  variant="link"
+                  className="inline"
+                  size="small">
                   clear results
                 </Button>
               </>

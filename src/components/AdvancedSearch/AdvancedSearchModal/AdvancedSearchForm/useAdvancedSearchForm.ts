@@ -10,6 +10,7 @@ interface FormState {
   set: string
   order: SortingOrder
   direction: SortingDirection
+  colors: string
 }
 
 interface useAdvancedSearchFormProps {
@@ -34,6 +35,7 @@ export const useAdvancedSearchForm = ({
     set: paramValues?.e ?? '',
     order: paramValues?.order ?? 'name',
     direction: paramValues?.direction ?? 'ascending',
+    colors: paramValues?.c ?? '',
   })
 
   const handleSubmit = () => {
@@ -45,6 +47,7 @@ export const useAdvancedSearchForm = ({
       order: formState.order,
       direction: formState.direction,
       q: null,
+      c: formState.colors || null,
     }
     setSearchParams(encodeParams(scryfallParams))
     if (onSubmit) {

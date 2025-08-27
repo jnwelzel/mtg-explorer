@@ -1,7 +1,8 @@
 import { BiSort } from 'react-icons/bi'
 import { Button, Input, Select } from '../../../ui'
-import type { SortingDirection, SortingOrder } from '../../../../types/search'
 import { useAdvancedSearchForm } from './useAdvancedSearchForm'
+import { COLORS } from '../../../../utils/card'
+import type { SortingDirection, SortingOrder } from '../../../../types/search'
 
 interface AdvancedSearchFormProps {
   onSubmit: () => void
@@ -23,6 +24,32 @@ export const AdvancedSearchForm: React.FC<AdvancedSearchFormProps> = ({ onSubmit
         value={formState.cardName}
         onChange={e => setFormState({ ...formState, cardName: e.target.value })}
       />
+
+      <span aria-label="Colors" className="col-span-3 self-center leading-5">
+        Colors
+      </span>
+      <div className="col-span-9 flex gap-2">
+        {Object.entries(COLORS).map(([value, label]) => (
+          <div key={value} className="flex gap-1 items-center">
+            <input
+              type="checkbox"
+              checked={formState.colors.split('').includes(value)}
+              name={`color-${value}`}
+              id={`color-${value}`}
+              onChange={e => {
+                const checked = e.target.checked
+                setFormState({
+                  ...formState,
+                  colors: checked ? formState.colors + value : formState.colors.replace(value, ''),
+                })
+              }}
+            />
+            <label aria-label={label} className="flex items-center" htmlFor={`color-${value}`}>
+              <i role="img" title={label} className={`ms ms-shadow ms-cost ms-${value}`} />
+            </label>
+          </div>
+        ))}
+      </div>
 
       <label className="col-span-3 self-center leading-5" htmlFor="set">
         Set / Expansion

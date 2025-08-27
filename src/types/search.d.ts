@@ -34,4 +34,9 @@ type ScryfallSearchParams = {
   e: string | null
   t: string[] | null
   cardName: string[] | null
+  c: string | null
 }
+
+type ColorValue = 'w' | 'u' | 'b' | 'r' | 'g' | 'c'
+type ColorLabel = 'White' | 'Blue' | 'Black' | 'Red' | 'Green' | 'Colorless'
+type ColorRecord = Record<ColorValue, ColorLabel>

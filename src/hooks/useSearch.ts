@@ -52,7 +52,7 @@ export const useSearch = (options?: UseSearchParams): UseSearchResult => {
 
       if (!result.count) {
         setErrorMessage(
-          `Your query didn’t match any cards. Adjust your search terms or refer to our syntax guide above.`
+          `Your query didn't match any cards. Adjust your search terms or refer to our syntax guide found above.`
         )
       }
 
