@@ -1,6 +1,10 @@
 import type { ScryfallSearchParams } from '../types'
 import type { SortingDirection, SortingOrder } from '../types/search'
 
+const COLOR_PREFIXES = ['c:', 'c>=', 'c<=', 'c!=', 'c>', 'c<', 'c=']
+
+const KNOWN_PREFIXES = ['o:', 'e:', 't:', ...COLOR_PREFIXES, 'order:', 'direction:']
+
 export const getParams = (query: URLSearchParams): ScryfallSearchParams | null => {
   const q = query.get('q') || ''
 
@@ -61,7 +65,7 @@ export const extractCardName = (query: string): string[] | null => {
   let collecting = false
 
   for (const part of parts) {
-    if (!part.includes(':')) {
+    if (!KNOWN_PREFIXES.some(prefix => part.startsWith(prefix))) {
       // Found start of card name
       collecting = true
       cardName.push(part)
@@ -76,14 +80,12 @@ export const extractCardName = (query: string): string[] | null => {
 
 export const extractColors = (query: string): string | null => {
   if (!query) return null
-  // List of supported prefixes, sorted by length so >= is checked before >
-  const prefixes = ['c:', 'c>=', 'c<=', 'c!=', 'c>', 'c<']
 
-  for (const prefix of prefixes) {
+  for (const prefix of COLOR_PREFIXES) {
     const result = extractMultipleValues(query, prefix)
     if (result) return result[0]
   }
 
-  // If no prefix matches, return the string unchanged (or null if you prefer)
+  // If no prefix matches, return null
   return null
 }

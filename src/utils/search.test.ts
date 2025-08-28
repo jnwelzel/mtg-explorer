@@ -32,6 +32,24 @@ describe('getParams', () => {
       c: 'wr',
     })
   })
+
+  it('returns empty name when no name value provided', () => {
+    const params = new URLSearchParams(
+      'q=order:price direction:ascending o:draw o:discard e:eoe t:creature t:artifact c:wr'
+    )
+    const result = getParams(params)
+
+    expect(result).toMatchObject({
+      cardName: null,
+      q: 'order:price direction:ascending o:draw o:discard e:eoe t:creature t:artifact c:wr',
+      order: 'price',
+      direction: 'ascending',
+      o: ['draw', 'discard'],
+      e: 'eoe',
+      t: ['creature', 'artifact'],
+      c: 'wr',
+    })
+  })
 })
 
 describe('getOrder', () => {
@@ -91,6 +109,24 @@ describe('encodeParams', () => {
       'q=steelswarm+operator+order%3Aname+direction%3Aascending+o%3Aartifact+o%3Aspell+e%3Aeoe+t%3Aartifact+t%3Acreature+c%3Au'
     )
   })
+
+  it('does not encode cardName when it is null', () => {
+    const params = {
+      q: 'order:price direction:ascending o:draw o:discard e:eoe t:creature t:artifact c:wr',
+      cardName: null,
+      order: 'price' as SortingOrder,
+      direction: 'ascending' as SortingDirection,
+      o: ['draw', 'discard'],
+      e: 'eoe',
+      t: ['creature', 'artifact'],
+      c: 'wr',
+    }
+    const result = encodeParams(params)
+    // Result decodes to: "q=order:price+direction:ascending+o:draw+o:discard+e:eoe+t:creature+t:artifact+c:wr"
+    expect(result.toString()).toBe(
+      'q=order%3Aprice+direction%3Aascending+o%3Adraw+o%3Adiscard+e%3Aeoe+t%3Acreature+t%3Aartifact+c%3Awr'
+    )
+  })
 })
 
 describe('extractColors', () => {
@@ -98,7 +134,12 @@ describe('extractColors', () => {
     expect(
       extractColors('war order:name direction:ascending o:foo o:bar t:ayy t:lmao c:wr')
     ).toEqual('wr')
-    expect(extractColors('c<=wr')).toEqual('wr')
+    expect(
+      extractColors('war order:name direction:ascending o:foo o:bar t:ayy t:lmao c<=wr')
+    ).toEqual('wr')
+    expect(
+      extractColors('war order:name direction:ascending o:foo o:bar t:ayy t:lmao c=wr')
+    ).toEqual('wr')
     expect(extractColors('')).toEqual(null)
   })
 })
