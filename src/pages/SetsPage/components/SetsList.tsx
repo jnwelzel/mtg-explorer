@@ -12,8 +12,9 @@ export const SetsList: React.FC<SetsListProps> = ({ setsPromise }) => {
   const sets = use(setsPromise)
   // TODO - use a more efficient way to filter sets dinamically
   // This is a temporary solution to filter sets by year
-  const { allFirstLetters, allSetsByFirstLetter, setSearchParams, query, allSetsByYear } =
-    useSets(sets)
+  // const { allFirstLetters, allSetsByFirstLetter, setSearchParams, query, allSetsByYear } =
+  //   useSets(sets)
+  const { query, allSetsByYear } = useSets(sets)
 
   return (
     <>
