@@ -24,7 +24,7 @@ export const getParams = (query: URLSearchParams): ScryfallSearchParams | null =
 
 export const encodeParams = (params: ScryfallSearchParams): URLSearchParams => {
   return new URLSearchParams(
-    `q=${params?.cardName ? params?.cardName?.join(' ') + ' ' : ''}${params.order ? `order:${params.order} ` : ''}${params.direction ? `direction:${params.direction} ` : ''}${params.o ? `${params.o.map(o => `o:${o}`).join(' ') + ' '}` : ''}${params.e ? `e:${params.e} ` : ''}${params.t ? `${params.t.map(t => `t:${t}`).join(' ')} ` : ''}${params.c ? `c:${params.c}` : ''}`.trim()
+    `q=${params?.cardName ? params?.cardName?.join(' ') + ' ' : ''}${params.order ? `order:${params.order} ` : ''}${params.direction ? `direction:${params.direction} ` : ''}${params.o ? `${params.o.map(o => `o:${o}`).join(' ') + ' '}` : ''}${params.e ? `e:${params.e} ` : ''}${params.t ? `${params.t.map(t => `t:${t}`).join(' ')} ` : ''}${params.c ? `${params.c.join('')}` : ''}`.trim()
   )
 }
 
@@ -78,12 +78,12 @@ export const extractCardName = (query: string): string[] | null => {
   return cardName.length > 0 ? cardName : null
 }
 
-export const extractColors = (query: string): string | null => {
+export const extractColors = (query: string): [string, string] | null => {
   if (!query) return null
 
   for (const prefix of COLOR_PREFIXES) {
     const result = extractMultipleValues(query, prefix)
-    if (result) return result[0]
+    if (result) return [prefix, result[0]]
   }
 
   // If no prefix matches, return null

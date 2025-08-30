@@ -10,7 +10,9 @@ interface AdvancedSearchFormProps {
 }
 
 export const AdvancedSearchForm: React.FC<AdvancedSearchFormProps> = ({ onSubmit, onCancel }) => {
-  const { formState, handleSubmit, setFormState } = useAdvancedSearchForm({ onSubmit })
+  const { formState, handleSubmit, setFormState, shouldDisableColorInput } = useAdvancedSearchForm({
+    onSubmit,
+  })
 
   return (
     <form className="grid grid-cols-12 gap-3" action={handleSubmit}>
@@ -28,27 +30,50 @@ export const AdvancedSearchForm: React.FC<AdvancedSearchFormProps> = ({ onSubmit
       <span aria-label="Colors" className="col-span-3 self-center leading-5">
         Colors
       </span>
-      <div className="col-span-9 flex gap-2">
-        {Object.entries(COLORS).map(([value, label]) => (
-          <div key={value} className="flex gap-1 items-center">
-            <input
-              type="checkbox"
-              checked={formState.colors.split('').includes(value)}
-              name={`color-${value}`}
-              id={`color-${value}`}
-              onChange={e => {
-                const checked = e.target.checked
-                setFormState({
-                  ...formState,
-                  colors: checked ? formState.colors + value : formState.colors.replace(value, ''),
-                })
-              }}
-            />
-            <label aria-label={label} className="flex items-center" htmlFor={`color-${value}`}>
-              <i role="img" title={label} className={`ms ms-shadow ms-cost ms-${value}`} />
-            </label>
-          </div>
-        ))}
+      <div className="col-span-9 flex flex-col">
+        <div className="flex gap-2">
+          {Object.entries(COLORS).map(([value, label]) => {
+            const isInputDisabled = shouldDisableColorInput(value)
+
+            return (
+              <div key={value} className="flex gap-1 items-center">
+                <input
+                  type="checkbox"
+                  disabled={isInputDisabled}
+                  checked={formState.colors.split('').includes(value)}
+                  name={`color-${value}`}
+                  id={`color-${value}`}
+                  onChange={e => {
+                    const checked = e.target.checked
+                    setFormState({
+                      ...formState,
+                      colors: checked
+                        ? formState.colors + value
+                        : formState.colors.replace(value, ''),
+                    })
+                  }}
+                />
+                <label aria-label={label} className="flex items-center" htmlFor={`color-${value}`}>
+                  <i
+                    role="img"
+                    title={label}
+                    className={`ms ms-shadow ms-cost ms-${value}${isInputDisabled ? ' opacity-50' : ''}`}
+                  />
+                </label>
+              </div>
+            )
+          })}
+        </div>
+        <Select
+          name="colorComparison"
+          onChangeHandler={value => setFormState({ ...formState, colorComparison: value })}
+          value={formState.colorComparison}
+          options={[
+            { value: 'c:', label: 'Must have all selected' },
+            { value: 'c=', label: 'Exactly these colors' },
+            { value: 'c<=', label: 'Any of the selected' },
+          ]}
+        />
       </div>
 
       <label className="col-span-3 self-center leading-5" htmlFor="set">

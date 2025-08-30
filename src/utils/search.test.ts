@@ -29,7 +29,7 @@ describe('getParams', () => {
       o: ['draw', 'discard'],
       e: 'eoe',
       t: ['creature', 'artifact'],
-      c: 'wr',
+      c: ['c:', 'wr'],
     })
   })
 
@@ -47,7 +47,7 @@ describe('getParams', () => {
       o: ['draw', 'discard'],
       e: 'eoe',
       t: ['creature', 'artifact'],
-      c: 'wr',
+      c: ['c:', 'wr'],
     })
   })
 })
@@ -101,7 +101,7 @@ describe('encodeParams', () => {
       o: ['artifact', 'spell'],
       e: 'eoe',
       t: ['artifact', 'creature'],
-      c: 'u',
+      c: ['c:', 'u'] as [string, string],
     }
     const result = encodeParams(params)
     // Result decodes to: "q=steelswarm+operator+order:name+direction:ascending+o:artifact+o:spell+e:eoe+t:artifact+t:creature+c:u"
@@ -119,7 +119,7 @@ describe('encodeParams', () => {
       o: ['draw', 'discard'],
       e: 'eoe',
       t: ['creature', 'artifact'],
-      c: 'wr',
+      c: ['c:', 'wr'] as [string, string],
     }
     const result = encodeParams(params)
     // Result decodes to: "q=order:price+direction:ascending+o:draw+o:discard+e:eoe+t:creature+t:artifact+c:wr"
@@ -133,13 +133,13 @@ describe('extractColors', () => {
   it('extracts color comparisons from query string', () => {
     expect(
       extractColors('war order:name direction:ascending o:foo o:bar t:ayy t:lmao c:wr')
-    ).toEqual('wr')
+    ).toEqual(['c:', 'wr'])
     expect(
       extractColors('war order:name direction:ascending o:foo o:bar t:ayy t:lmao c<=wr')
-    ).toEqual('wr')
+    ).toEqual(['c<=', 'wr'])
     expect(
       extractColors('war order:name direction:ascending o:foo o:bar t:ayy t:lmao c=wr')
-    ).toEqual('wr')
+    ).toEqual(['c=', 'wr'])
     expect(extractColors('')).toEqual(null)
   })
 })

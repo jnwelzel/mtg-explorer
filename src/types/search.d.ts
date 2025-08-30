@@ -34,7 +34,7 @@ type ScryfallSearchParams = {
   e: string | null
   t: string[] | null
   cardName: string[] | null
-  c: string | null
+  c: [string, string] | null
 }
 
 type ColorValue = 'w' | 'u' | 'b' | 'r' | 'g' | 'c'

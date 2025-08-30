@@ -11,6 +11,7 @@ interface FormState {
   order: SortingOrder
   direction: SortingDirection
   colors: string
+  colorComparison: string
 }
 
 interface useAdvancedSearchFormProps {
@@ -21,6 +22,7 @@ type UseAdvancedSearchFormResult = {
   formState: FormState
   setFormState: React.Dispatch<React.SetStateAction<FormState>>
   handleSubmit: () => void
+  shouldDisableColorInput: (color: string) => boolean
 }
 
 export const useAdvancedSearchForm = ({
@@ -35,7 +37,8 @@ export const useAdvancedSearchForm = ({
     set: paramValues?.e ?? '',
     order: paramValues?.order ?? 'name',
     direction: paramValues?.direction ?? 'ascending',
-    colors: paramValues?.c ?? '',
+    colors: paramValues?.c ? (paramValues.c[1] ?? '') : '',
+    colorComparison: paramValues?.c ? (paramValues.c[0] ?? 'c:') : 'c:',
   })
 
   const handleSubmit = () => {
@@ -47,7 +50,7 @@ export const useAdvancedSearchForm = ({
       order: formState.order,
       direction: formState.direction,
       q: null,
-      c: formState.colors || null,
+      c: formState.colors ? [formState.colorComparison, formState.colors] : null,
     }
     setSearchParams(encodeParams(scryfallParams))
     if (onSubmit) {
@@ -55,5 +58,14 @@ export const useAdvancedSearchForm = ({
     }
   }
 
-  return { formState, setFormState, handleSubmit }
+  const shouldDisableColorInput = (color: string): boolean => {
+    if (!formState.colors) return false
+
+    if (color === 'c') {
+      return formState.colors.split('').some(c => c !== 'c')
+    }
+    return color !== 'c' && formState.colors.includes('c')
+  }
+
+  return { formState, setFormState, handleSubmit, shouldDisableColorInput }
 }
