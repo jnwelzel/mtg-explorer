@@ -10,35 +10,38 @@ export const routesPath = {
   setView: (code: string) => `/sets/${code}`,
 }
 
-export const routes = createBrowserRouter([
-  {
-    path: routesPath.home,
-    element: <Layout />,
-    children: [
-      {
-        index: true,
-        element: <HomePage />,
-      },
-      {
-        path: routesPath.cards,
-        element: <CardsPage />,
-      },
-      {
-        path: routesPath.cardView(':id'),
-        element: <CardViewPage />,
-      },
-      {
-        path: routesPath.setView(':code'),
-        element: <SetViewPage />,
-      },
-      {
-        path: routesPath.sets,
-        element: <SetsPage />,
-      },
-    ],
-  },
-  {
-    path: '*',
-    element: <Navigate to="/" replace />,
-  },
-])
+export const routes = createBrowserRouter(
+  [
+    {
+      path: routesPath.home,
+      element: <Layout />,
+      children: [
+        {
+          index: true,
+          element: <HomePage />,
+        },
+        {
+          path: routesPath.cards,
+          element: <CardsPage />,
+        },
+        {
+          path: routesPath.cardView(':id'),
+          element: <CardViewPage />,
+        },
+        {
+          path: routesPath.setView(':code'),
+          element: <SetViewPage />,
+        },
+        {
+          path: routesPath.sets,
+          element: <SetsPage />,
+        },
+      ],
+    },
+    {
+      path: '*',
+      element: <Navigate to="/" replace />,
+    },
+  ],
+  { basename: '/mtg-explorer' }
+)
