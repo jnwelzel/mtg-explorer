@@ -71,14 +71,16 @@ export const CardFace: React.FC<CardFaceProps> = ({
           </>
         ) : null}
         {collectorNumber ? (
-          <span className="text-sm text-gray-600">
-            #{collectorNumber}
-            {rarity ? `, ${capitalize(rarity)}` : ''}
-          </span>
+          <>
+            <span className="text-sm text-gray-600">
+              #{collectorNumber}
+              {rarity ? `, ${capitalize(rarity)}` : ''}
+            </span>
+            <Button size="small" onClick={() => setIsOpen(true)} className="mr-auto">
+              Show all printings
+            </Button>
+          </>
         ) : null}
-        <Button size="small" onClick={() => setIsOpen(true)} className="mr-auto">
-          Show all printings
-        </Button>
       </div>
       {isOpen
         ? createPortal(
