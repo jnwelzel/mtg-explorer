@@ -1,7 +1,7 @@
 import { useParams } from 'react-router'
 import { useCardView } from '../../hooks'
 import { Breadcrumb, Dropdown, MagicCard } from '../../components/ui'
-import { isDoubleFaced, isDoubleSided } from '../../utils'
+import { getMarketProviderLabel, isDoubleFaced, isDoubleSided } from '../../utils'
 import { useDocumentTitle } from '@uidotdev/usehooks'
 import { routesPath } from '../../routes'
 import { CardFace, LegalitiesList } from './components'
@@ -35,7 +35,7 @@ export const CardViewPage: React.FC = () => {
                 label="Buy"
                 className="mt-3"
                 items={Object.entries(card.purchase_uris).map(([provider, url]) => ({
-                  label: provider,
+                  label: getMarketProviderLabel(provider),
                   href: url || '#',
                 }))}
               />

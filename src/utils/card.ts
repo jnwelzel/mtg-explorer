@@ -15,3 +15,16 @@ export const COLORS: ColorRecord = {
   g: 'Green',
   c: 'Colorless',
 }
+
+export const getMarketProviderLabel = (seller: string) => {
+  switch (seller) {
+    case 'tcgplayer':
+      return 'TCGPlayer'
+    case 'cardmarket':
+      return 'Cardmarket'
+    case 'cardhoarder':
+      return 'Cardhoarder'
+    default:
+      return seller
+  }
+}
