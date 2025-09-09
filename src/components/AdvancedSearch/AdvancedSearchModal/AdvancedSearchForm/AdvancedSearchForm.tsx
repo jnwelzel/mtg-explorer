@@ -30,13 +30,13 @@ export const AdvancedSearchForm: React.FC<AdvancedSearchFormProps> = ({ onSubmit
       <span aria-label="Colors" className="col-span-3 self-center leading-5">
         Colors
       </span>
-      <div className="col-span-9 flex flex-col">
-        <div className="flex gap-2">
+      <div className="col-span-9 flex flex-col gap-2">
+        <div className="flex gap-2 flex-wrap items-center">
           {Object.entries(COLORS).map(([value, label]) => {
             const isInputDisabled = shouldDisableColorInput(value)
 
             return (
-              <div key={value} className="flex gap-1 items-center">
+              <div key={value} className="flex gap-1 items-center h-5">
                 <input
                   type="checkbox"
                   disabled={isInputDisabled}
