@@ -25,7 +25,7 @@ export const Dropdown: React.FC<DropdownProps> = ({ label, items, className }) =
     <div className={`relative ${className}`}>
       <Button
         variant="secondary"
-        size="small"
+        size="medium"
         onClick={() => setIsOpen(prev => !prev)}
         isActive={isOpen}
         className="flex items-center">
