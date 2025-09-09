@@ -53,10 +53,7 @@ export const Button: React.FC<ButtonProps> = ({
       disabled={isLoading || props.disabled}
       {...props}>
       {isLoading ? (
-        <>
-          <span className="animate-spin mr-2 inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
-          Loading...
-        </>
+        <span className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
       ) : (
         children
       )}
