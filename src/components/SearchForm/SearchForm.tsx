@@ -30,18 +30,35 @@ export const SearchForm: React.FC = () => {
             }}
             onBlur={() => {
               setTimeout(() => handlers.setIsInputFocused(false), 100)
+              handlers.setIsRecentlyViewedFocused(false)
             }}
+            onKeyDown={handlers.onSearchKeyDown}
           />
-          {data.nameSuggestions.length > 0 && flags.isInputFocused ? (
+          {data.nameSuggestions.length > 0 &&
+          (flags.isInputFocused || flags.isSuggestionsFocused) ? (
             <SuggestionsList
               suggestions={data.nameSuggestions}
               onSuggestionClick={handlers.onSuggestionClick}
+              onFocus={() => {
+                handlers.setIsSuggestionsFocused(true)
+              }}
+              onBlur={() => {
+                setTimeout(() => handlers.setIsSuggestionsFocused(false), 100)
+              }}
             />
           ) : null}
-          {recentlyViewedCards.length > 0 && data.cardName === '' && flags.isInputFocused ? (
+          {recentlyViewedCards.length > 0 &&
+          data.cardName === '' &&
+          (flags.isInputFocused || flags.isRecentlyViewedFocused) ? (
             <RecentlyViewedList
               recentlyViewedCards={recentlyViewedCards}
               onCardClick={handlers.onSuggestionClick}
+              onFocus={() => {
+                handlers.setIsRecentlyViewedFocused(true)
+              }}
+              onBlur={() => {
+                setTimeout(() => handlers.setIsRecentlyViewedFocused(false), 100)
+              }}
             />
           ) : null}
         </div>

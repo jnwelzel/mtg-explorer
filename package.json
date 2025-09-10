@@ -14,6 +14,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@ariakit/react": "^0.4.18",
     "@tailwindcss/vite": "^4.1.11",
     "@uidotdev/usehooks": "^2.4.1",
     "clsx": "^2.1.1",

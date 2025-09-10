@@ -9,6 +9,9 @@ type CardSearchHandlers = {
   onSuggestionClick: (suggestion: string) => void
   setIsInputFocused: (focused: boolean) => void
   onClearSearchCallback: () => void
+  setIsRecentlyViewedFocused: (focused: boolean) => void
+  onSearchKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
+  setIsSuggestionsFocused: (focused: boolean) => void
 }
 
 type CardSearchData = {
@@ -21,6 +24,8 @@ type CardSearchData = {
 type CardSearchFlags = {
   isInputFocused: boolean
   isPendingSuggestions: boolean
+  isRecentlyViewedFocused: boolean
+  isSuggestionsFocused: boolean
 }
 
 type UseSearchFormResult = {
@@ -32,6 +37,8 @@ type UseSearchFormResult = {
 export const useSearchForm = (): UseSearchFormResult => {
   const [nameSuggestions, setNameSuggestions] = useState<string[]>([])
   const [isInputFocused, setIsInputFocused] = useState(false)
+  const [isRecentlyViewedFocused, setIsRecentlyViewedFocused] = useState(false)
+  const [isSuggestionsFocused, setIsSuggestionsFocused] = useState(false)
   const [isPendingSuggestions, startTransitionSuggestions] = useTransition()
   const searchInputRef = useRef<HTMLInputElement>(null)
   const onClearSearchCallback = () => {
@@ -86,6 +93,23 @@ export const useSearchForm = (): UseSearchFormResult => {
     setSearchParams(new URLSearchParams({ q: suggestion }))
   }
 
+  const onSearchKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'ArrowDown') {
+      // If down key pressed focus on the next list item available
+      const firstRecentlyViewedItem: Element | null =
+        document.querySelectorAll('.recently-viewed-item')?.[0] ?? null
+      if (firstRecentlyViewedItem instanceof HTMLElement) {
+        firstRecentlyViewedItem.focus()
+      }
+
+      const firstSuggestionItem: Element | null =
+        document.querySelectorAll('.suggestion-item')?.[0] ?? null
+      if (firstSuggestionItem instanceof HTMLElement) {
+        firstSuggestionItem.focus()
+      }
+    }
+  }
+
   return {
     data: {
       cardName,
@@ -96,6 +120,8 @@ export const useSearchForm = (): UseSearchFormResult => {
     flags: {
       isInputFocused,
       isPendingSuggestions,
+      isRecentlyViewedFocused,
+      isSuggestionsFocused,
     },
     handlers: {
       onSearchChange,
@@ -103,6 +129,9 @@ export const useSearchForm = (): UseSearchFormResult => {
       onSuggestionClick,
       setIsInputFocused,
       onClearSearchCallback,
+      setIsRecentlyViewedFocused,
+      onSearchKeyDown,
+      setIsSuggestionsFocused,
     },
   }
 }
