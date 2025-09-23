@@ -22,3 +22,6 @@ A place for messing around with Magic: The Gathering.
 - [x] Display foil price
 - [ ] Add large text prop to MagiCard
 - [ ] Printings modal order by release date descending
+- [ ] Search
+  - [ ] Support double quotes
+- [ ] Dark mode

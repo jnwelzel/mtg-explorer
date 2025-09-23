@@ -1,4 +1,5 @@
 import React, { type ButtonHTMLAttributes } from 'react'
+import { Button as AriakitButton } from '@ariakit/react'
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode
@@ -47,7 +48,7 @@ export const Button: React.FC<ButtonProps> = ({
   }
 
   return (
-    <button
+    <AriakitButton
       type={type}
       className={`${buttonClasses[variant]} ${isLoading || props.disabled ? 'opacity-50 cursor-not-allowed' : ''}${className ? ' ' + className : ''}`}
       disabled={isLoading || props.disabled}
@@ -57,6 +58,6 @@ export const Button: React.FC<ButtonProps> = ({
       ) : (
         children
       )}
-    </button>
+    </AriakitButton>
   )
 }

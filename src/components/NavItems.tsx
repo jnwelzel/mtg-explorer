@@ -29,7 +29,7 @@ const NavItems: React.FC<NavItemsProps> = ({ isVertical = true, className = '', 
       </li>
       <li>Decks</li>
       <li>News</li>
-      <li>Utilities</li>
+      <li>Collection</li>
       <li>Sign up</li>
       <li className="flex items-center">
         <label className="mr-2" htmlFor="currency-select">
