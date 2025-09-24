@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from './ui'
+import { Button, Link } from './ui'
 import { useFooter } from '../hooks'
 import topIcon from '../assets/top.svg'
 
@@ -26,7 +26,11 @@ const Footer: React.FC = () => {
             {new Date().getFullYear()} Wizards. All Rights Reserved.
           </p>
           <p className="text-xs text-gray-400">
-            © {new Date().getFullYear()} MTG Explorer · Terms of Service · Privacy Policy
+            © {new Date().getFullYear()} MTG Explorer by{' '}
+            <Link to="https://jonwelzel.online" target="_blank">
+              Jonathan Welzel
+            </Link>{' '}
+            · Terms of Service · Privacy Policy
           </p>
         </div>
       </footer>

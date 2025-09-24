@@ -1,8 +1,8 @@
-import { NavLink } from 'react-router'
+import { NavLink, type NavLinkProps } from 'react-router'
 
 type LinkVariant = 'primary' | 'secondary' | 'nav' | 'unstyled'
 
-interface LinkProps {
+interface LinkProps extends NavLinkProps {
   to: string
   children?: React.ReactNode
   onClick?: () => void
@@ -32,6 +32,7 @@ export const Link: React.FC<LinkProps> = ({
   variant = 'primary',
   className,
   title,
+  ...rest
 }) => {
   return (
     <NavLink
@@ -41,7 +42,8 @@ export const Link: React.FC<LinkProps> = ({
         (className ? ` ${className}` : '')
       }
       onClick={onClick}
-      title={title}>
+      title={title}
+      {...rest}>
       {children}
     </NavLink>
   )
