@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Message } from './Message'
+import { Header } from './Header'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Components/UI/Message',
-  component: Message,
+  title: 'Components/Header',
+  component: Header,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
   },
@@ -14,29 +14,16 @@ const meta = {
   argTypes: {},
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
   args: {},
-} satisfies Meta<typeof Message>
+} satisfies Meta<typeof Header>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const Info: Story = {
+export const Default: Story = {
   args: {
-    text: 'This is an info message.',
-    variant: 'info',
-  },
-}
-
-export const Error: Story = {
-  args: {
-    text: 'This is an error message.',
-    variant: 'error',
-  },
-}
-
-export const Success: Story = {
-  args: {
-    text: 'This is a success message.',
-    variant: 'success',
+    onMenuClick: () => {
+      alert('Menu clicked!')
+    },
   },
 }

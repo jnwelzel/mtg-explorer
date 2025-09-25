@@ -3,7 +3,7 @@ import { Select } from './Select'
 import { FaMagic } from 'react-icons/fa'
 
 export default {
-  title: 'Components/Select',
+  title: 'Components/UI/Select',
   component: Select,
 }
 

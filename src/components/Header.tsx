@@ -2,6 +2,8 @@ import React from 'react'
 import { NavItems } from './NavItems'
 import { Link } from 'react-router'
 
+import mtgExplorerIcon from '../assets/mtgexplorer.svg'
+
 interface HeaderProps {
   onMenuClick: () => void
 }
@@ -9,7 +11,10 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => (
   <header className="bg-gray-800 text-white p-4 col-span-2 flex items-center">
     <div className="flex max-w-7xl ml-auto mr-auto w-full items-center">
-      <Link to="/">MTG Explorer</Link>
+      <Link to="/" className="flex items-center gap-2">
+        <img src={mtgExplorerIcon} alt="MTG Explorer" className="inline h-8" />
+        <span>MTG Explorer</span>
+      </Link>
       <nav className="ml-auto">
         <NavItems isVertical={false} className="hidden md:flex" />
         <button
