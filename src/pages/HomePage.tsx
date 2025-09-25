@@ -1,8 +1,10 @@
 import { Input, Link } from '../components/ui'
 import { routesPath } from '../routes'
 import { useHomePage } from '../hooks'
+import { useDocumentTitle } from '@uidotdev/usehooks'
 
 export const HomePage: React.FC = () => {
+  useDocumentTitle('MTG Explorer')
   const { cardName, setCardName, handleSearchSubmit } = useHomePage()
 
   return (
