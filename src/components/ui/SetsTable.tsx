@@ -13,8 +13,8 @@ export const SetsTable: React.FC<SetsTableProps> = ({ setsData }) => {
   console.log({ pages, currentPage, pageSize })
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="w-full flex flex-nowrap items-baseline">
+    <>
+      <div className="w-full flex items-center mb-2">
         <p className="text-gray-500 text-sm">{`Showing ${currentPage * pageSize - pageSize + 1}-${Math.min(
           currentPage * pageSize,
           setsData.length
@@ -33,72 +33,66 @@ export const SetsTable: React.FC<SetsTableProps> = ({ setsData }) => {
           </select>
         </div>
       </div>
-      <div className="overflow-hidden rounded-lg border border-gray-200">
-        <table className="min-w-full divide-y divide-gray-200">
+      <div className="overflow-x-auto rounded-lg relative border border-gray-200 mb-2">
+        <table className="w-full">
           <thead className="bg-gray-100 border-b border-gray-200 text-left">
             <tr>
-              <th className="p-2 border-r border-gray-200">Name</th>
-              <th className="p-2 border-r border-gray-200">Cards</th>
-              <th className="p-2 border-r border-gray-200">Date</th>
-              <th className="p-2">Type</th>
+              <th className="p-2 whitespace-nowrap">Name</th>
+              <th className="p-2 whitespace-nowrap">Cards</th>
+              <th className="p-2 whitespace-nowrap">Date</th>
+              <th className="p-2 whitespace-nowrap">Type</th>
             </tr>
           </thead>
           <tbody>
             {pages[currentPage - 1]?.map(set => (
               <tr key={set.id} className="even:bg-white odd:bg-gray-50">
-                <td className="p-2 border-r border-gray-200">
+                <td className="p-2 whitespace-nowrap">
                   <Link
                     to={`${routesPath.setView(set.code)}?q=s:${set.code}`}
                     className="flex items-center gap-2">
                     <img src={set.icon_svg_uri} alt={`${set.name} icon`} className="w-5 h-5 mr-1" />
-                    {set.name} <small className="text-gray-400">{set.code.toUpperCase()}</small>
+                    <span className="max-w-[290px] truncate">{set.name}</span>
+                    <small className="text-gray-400">{set.code.toUpperCase()}</small>
                   </Link>
                 </td>
-                <td className="p-2 border-r border-gray-200">{set.card_count ?? 'N/A'}</td>
-                <td className="p-2 border-r border-gray-200">
+                <td className="p-2 whitespace-nowrap">{set.card_count ?? 'N/A'}</td>
+                <td className="p-2 whitespace-nowrap">
                   {set?.released_at?.toLocaleDateString() ?? 'Unknown'}
                 </td>
-                <td className="p-2">{set.set_type}</td>
+                <td className="p-2 whitespace-nowrap">{set.set_type}</td>
               </tr>
             ))}
           </tbody>
-          <tfoot className="bg-gray-100 border-t border-gray-200">
-            <tr>
-              <td className="p-2" colSpan={4}>
-                <div className="flex gap-2 justify-center items-center">
-                  <Button
-                    size="small"
-                    onClick={() => setCurrentPage(1)}
-                    disabled={currentPage === 1}>
-                    First
-                  </Button>
-                  <Button
-                    onClick={() => setCurrentPage(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    size="small">
-                    Previous
-                  </Button>
-                  <span className="text-sm text-gray-500">
-                    {currentPage} / {Object.keys(pages).length}
-                  </span>
-                  <Button
-                    onClick={() => setCurrentPage(currentPage + 1)}
-                    disabled={currentPage === Object.keys(pages).length}
-                    size="small">
-                    Next
-                  </Button>
-                  <Button
-                    onClick={() => setCurrentPage(Object.keys(pages).length)}
-                    disabled={currentPage === Object.keys(pages).length}
-                    size="small">
-                    Last
-                  </Button>
-                </div>
-              </td>
-            </tr>
-          </tfoot>
         </table>
       </div>
-    </div>
+      <div className="px-2 whitespace-nowrap">
+        <div className="flex gap-2 justify-center items-center">
+          <Button size="small" onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>
+            First
+          </Button>
+          <Button
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            size="small">
+            Previous
+          </Button>
+          <span className="text-sm text-gray-500">
+            {currentPage} / {Object.keys(pages).length}
+          </span>
+          <Button
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={currentPage === Object.keys(pages).length}
+            size="small">
+            Next
+          </Button>
+          <Button
+            onClick={() => setCurrentPage(Object.keys(pages).length)}
+            disabled={currentPage === Object.keys(pages).length}
+            size="small">
+            Last
+          </Button>
+        </div>
+      </div>
+    </>
   )
 }

@@ -1,4 +1,4 @@
-import { Content, Footer, Header, MobileSideNav } from '../components'
+import { Footer, Header, MobileSideNav } from '../components'
 
 import { Outlet } from 'react-router'
 import { useApp } from '../hooks'
@@ -26,16 +26,14 @@ export const Layout: React.FC = () => {
     <React.StrictMode>
       <CurrencyContext value={currencyContextValue}>
         <RecentCardsContext value={recentCardsContextValue}>
-          <div className="grid h-screen grid-rows-[auto_1fr_auto]">
+          <div className="grid min-h-screen grid-rows-[auto_1fr_auto] bg-white">
             <Header onMenuClick={() => setMenuOpen(!isMenuOpen)} />
             <MobileSideNav isOpen={isMenuOpen} onClose={() => setMenuOpen(false)} />
-            <main className="flex col-span-2 p-4">
-              <div className="ml-auto mr-auto max-w-7xl w-full flex-1">
-                <Content>
-                  <Outlet />
-                </Content>
-              </div>
-            </main>
+            <div className="p-4 overflow-x-auto">
+              <main className="container mx-auto">
+                <Outlet />
+              </main>
+            </div>
             <Footer />
           </div>
         </RecentCardsContext>

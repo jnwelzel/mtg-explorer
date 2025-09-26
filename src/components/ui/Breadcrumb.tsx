@@ -15,7 +15,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = props => {
 
   return (
     <ol
-      className={`py-2 inline-flex flex-nowrap list-none items-center${className ? ` ${className}` : ''}`}>
+      className={`py-3 inline-flex flex-nowrap list-none items-center${className ? ` ${className}` : ''}`}>
       <li>
         <a href="/" aria-label="Home" title="Home">
           <BiSolidHome className="size-5 text-neutral-500 hover:text-neutral-600" />

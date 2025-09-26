@@ -9,8 +9,8 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => (
-  <header className="bg-gray-800 text-white p-4 col-span-2 flex items-center">
-    <div className="flex max-w-7xl ml-auto mr-auto w-full items-center">
+  <header className="bg-gray-800 text-white p-4 flex items-center">
+    <div className="flex container mx-auto items-center w-full">
       <Link to="/" className="flex items-center gap-2">
         <img src={mtgExplorerIcon} alt="MTG Explorer" className="inline h-8" />
         <span>MTG Explorer</span>
