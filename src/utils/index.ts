@@ -13,3 +13,4 @@ export {
   extractCardName,
   encodeParams,
 } from './search'
+export { setsArray } from './setsDataMock'

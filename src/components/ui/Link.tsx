@@ -9,6 +9,7 @@ interface LinkProps extends NavLinkProps {
   variant?: LinkVariant
   className?: string
   title?: string
+  shouldUnderlineActive?: boolean
 }
 
 const VARIANT_BASE_CLASSES: Record<LinkVariant, string> = {
@@ -32,14 +33,16 @@ export const Link: React.FC<LinkProps> = ({
   variant = 'primary',
   className,
   title,
+  shouldUnderlineActive = true,
   ...rest
 }) => {
   return (
     <NavLink
       to={to}
       className={({ isActive }) =>
-        (isActive ? VARIANT_ACTIVE_CLASSES[variant] : VARIANT_BASE_CLASSES[variant]) +
-        (className ? ` ${className}` : '')
+        (isActive && shouldUnderlineActive
+          ? VARIANT_ACTIVE_CLASSES[variant]
+          : VARIANT_BASE_CLASSES[variant]) + (className ? ` ${className}` : '')
       }
       onClick={onClick}
       title={title}

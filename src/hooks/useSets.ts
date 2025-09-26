@@ -1,28 +1,25 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { Set } from 'scryfall-api'
-import { getAllSetsByFirstLetter, getAllStartingLetters, getSetsGroupedByYear } from '../utils'
-import { useSearchParams, type SetURLSearchParams } from 'react-router'
 
 type UseSetsResult = {
-  allFirstLetters: string[]
-  allSetsByFirstLetter: Record<string, Set[]>
-  setSearchParams: SetURLSearchParams
-  query: string
-  allSetsByYear: Record<string, Set[]>
+  pages: Record<number, Set[]>
+  currentPage: number
+  setCurrentPage: (page: number) => void
+  pageSize: 10 | 20 | 50 | 100
+  setPageSize: (size: 10 | 20 | 50 | 100) => void
 }
 
 export const useSets = (sets: Set[]): UseSetsResult => {
-  const allFirstLetters = useMemo(() => {
-    return getAllStartingLetters(sets)
-  }, [sets])
-  const allSetsByFirstLetter = useMemo(() => {
-    return getAllSetsByFirstLetter(sets)
-  }, [sets])
-  const allSetsByYear = useMemo(() => {
-    return getSetsGroupedByYear(sets)
-  }, [sets])
-  const [searchParams, setSearchParams] = useSearchParams()
-  const query = searchParams?.get('q') ?? ''
+  const [currentPage, setCurrentPage] = useState(1)
+  const [pageSize, setPageSize] = useState<10 | 20 | 50 | 100>(20)
+  const pages = useMemo<Record<number, Set[]>>(() => {
+    const pageCount = Math.ceil(sets.length / pageSize)
+    return Array.from({ length: pageCount }, (_, i) => sets.slice(i * pageSize, (i + 1) * pageSize))
+  }, [sets, pageSize])
 
-  return { allFirstLetters, allSetsByFirstLetter, setSearchParams, query, allSetsByYear }
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [pageSize])
+
+  return { pages, currentPage, setCurrentPage, pageSize, setPageSize }
 }
