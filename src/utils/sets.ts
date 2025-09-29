@@ -1,5 +1,6 @@
-import type { Set } from 'scryfall-api'
+import type { Set, SetType } from 'scryfall-api'
 import type { SortingDirection } from '../types/search'
+import type { SetSortingOption } from '../types'
 
 export const sortSets = (
   sets: Set[],
@@ -44,4 +45,59 @@ export const buildPages = (sets: Set[], pageSize: number): Record<number, Set[]>
     pages[i + 1] = sets.slice(i * pageSize, (i + 1) * pageSize)
   }
   return pages
+}
+
+export const getTypeLabel = (type: SetType | null): string => {
+  switch (type) {
+    case 'alchemy':
+      return 'Alchemy'
+    case 'archenemy':
+      return 'Archenemy'
+    case 'arsenal':
+      return 'Arsenal'
+    case 'box':
+      return 'Box'
+    case 'commander':
+      return 'Commander'
+    case 'core':
+      return 'Core'
+    case 'draft_innovation':
+      return 'Draft Innovation'
+    case 'duel_deck':
+      return 'Duel Deck'
+    case 'expansion':
+      return 'Expansion'
+    case 'from_the_vault':
+      return 'From the Vault'
+    case 'funny':
+      return 'Funny'
+    case 'masterpiece':
+      return 'Masterpiece'
+    case 'masters':
+      return 'Masters'
+    case 'memorabilia':
+      return 'Memorabilia'
+    case 'minigame':
+      return 'Minigame'
+    case 'planechase':
+      return 'Planechase'
+    case 'premium_deck':
+      return 'Premium Deck'
+    case 'promo':
+      return 'Promo'
+    case 'spellbook':
+      return 'Spellbook'
+    case 'starter':
+      return 'Starter'
+    case 'token':
+      return 'Token'
+    case 'treasure_chest':
+      return 'Treasure Chest'
+    case 'vanguard':
+      return 'Vanguard'
+    case null:
+      return 'Unknown'
+    default:
+      return 'Unknown'
+  }
 }

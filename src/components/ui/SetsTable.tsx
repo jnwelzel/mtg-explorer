@@ -6,6 +6,7 @@ import { Button } from './Button'
 import { RxDoubleArrowLeft, RxDoubleArrowRight } from 'react-icons/rx'
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl'
 import { LuChevronsUpDown, LuChevronUp } from 'react-icons/lu'
+import { getTypeLabel } from '../../utils'
 
 interface SetsTableProps {
   setsData: Set[]
@@ -148,7 +149,7 @@ export const SetsTable: React.FC<SetsTableProps> = ({ setsData }) => {
                   <Link
                     to={`${routesPath.setView(set.code)}?q=s:${set.code}`}
                     className="flex items-center">
-                    {set.set_type}
+                    {getTypeLabel(set.set_type)}
                   </Link>
                 </td>
               </tr>
