@@ -5,13 +5,23 @@ import { useSets } from '../../hooks'
 import { Button } from './Button'
 import { RxDoubleArrowLeft, RxDoubleArrowRight } from 'react-icons/rx'
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl'
+import { LuChevronsUpDown, LuChevronUp } from 'react-icons/lu'
 
 interface SetsTableProps {
   setsData: Set[]
 }
 
 export const SetsTable: React.FC<SetsTableProps> = ({ setsData }) => {
-  const { pages, currentPage, setCurrentPage, pageSize, setPageSize } = useSets(setsData)
+  const {
+    pages,
+    currentPage,
+    setCurrentPage,
+    pageSize,
+    setPageSize,
+    sortDirection,
+    currentSorting,
+    handleSortingClick,
+  } = useSets(setsData)
 
   return (
     <>
@@ -38,14 +48,74 @@ export const SetsTable: React.FC<SetsTableProps> = ({ setsData }) => {
         <table className="w-full">
           <thead className="bg-gray-100 border-b border-gray-200 text-left">
             <tr>
-              <th className="p-2 whitespace-nowrap">Name</th>
-              <th className="p-2 whitespace-nowrap">Cards</th>
-              <th className="p-2 whitespace-nowrap">Date</th>
-              <th className="p-2 whitespace-nowrap">Type</th>
+              <th className="p-2 whitespace-nowrap flex items-center gap-2">
+                <Button
+                  variant="unstyled"
+                  className="flex items-center cursor-pointer gap-2"
+                  onClick={() => handleSortingClick('name')}>
+                  <span>Name</span>
+                  {currentSorting !== 'name' && (
+                    <LuChevronsUpDown className="w-4 h-4 text-gray-500" />
+                  )}
+                  {currentSorting === 'name' && (
+                    <LuChevronUp
+                      className={`w-4 h-4 text-gray-500 ${sortDirection === 'descending' ? 'rotate-180' : ''}`}
+                    />
+                  )}
+                </Button>
+              </th>
+              <th className="p-2 whitespace-nowrap">
+                <Button
+                  variant="unstyled"
+                  className="flex items-center cursor-pointer gap-2"
+                  onClick={() => handleSortingClick('cards')}>
+                  <span>Cards</span>
+                  {currentSorting !== 'cards' && (
+                    <LuChevronsUpDown className="w-4 h-4 text-gray-500" />
+                  )}
+                  {currentSorting === 'cards' && (
+                    <LuChevronUp
+                      className={`w-4 h-4 text-gray-500 ${sortDirection === 'descending' ? 'rotate-180' : ''}`}
+                    />
+                  )}
+                </Button>
+              </th>
+              <th className="p-2 whitespace-nowrap">
+                <Button
+                  variant="unstyled"
+                  className="flex items-center cursor-pointer gap-2"
+                  onClick={() => handleSortingClick('date')}>
+                  <span>Date</span>
+                  {currentSorting !== 'date' && (
+                    <LuChevronsUpDown className="w-4 h-4 text-gray-500" />
+                  )}
+                  {currentSorting === 'date' && (
+                    <LuChevronUp
+                      className={`w-4 h-4 text-gray-500 ${sortDirection === 'descending' ? 'rotate-180' : ''}`}
+                    />
+                  )}
+                </Button>
+              </th>
+              <th className="p-2 whitespace-nowrap">
+                <Button
+                  variant="unstyled"
+                  className="flex items-center cursor-pointer gap-2"
+                  onClick={() => handleSortingClick('type')}>
+                  <span>Type</span>
+                  {currentSorting !== 'type' && (
+                    <LuChevronsUpDown className="w-4 h-4 text-gray-500" />
+                  )}
+                  {currentSorting === 'type' && (
+                    <LuChevronUp
+                      className={`w-4 h-4 text-gray-500 ${sortDirection === 'descending' ? 'rotate-180' : ''}`}
+                    />
+                  )}
+                </Button>
+              </th>
             </tr>
           </thead>
           <tbody>
-            {pages[currentPage - 1]?.map(set => (
+            {pages[currentPage]?.map(set => (
               <tr key={set.id} className="even:bg-white odd:bg-gray-50">
                 <td className="p-2 whitespace-nowrap">
                   <Link
