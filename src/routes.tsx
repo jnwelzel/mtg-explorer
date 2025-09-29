@@ -13,12 +13,11 @@ export const routesPath = {
 export const routes = createBrowserRouter([
   {
     path: routesPath.home,
+    element: <HomePage />,
+  },
+  {
     element: <Layout />,
     children: [
-      {
-        index: true,
-        element: <HomePage />,
-      },
       {
         path: routesPath.cards,
         element: <CardsPage />,

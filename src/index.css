@@ -5,14 +5,12 @@
   --color-info: var(--color-blue-500);
   --color-success: var(--color-green-600);
   --color-warning: var(--color-yellow-500);
+  --color-brand-yellow: #ffde59;
+  --color-brand-blue: #004aad;
 }
 
-input[type='text'],
-input[type='search'],
-input[type='email'],
-input[type='url'],
-textarea {
-  @apply border border-gray-300 rounded-md p-2 h-10 flex items-center;
+body {
+  @apply h-screen overflow-y-auto scroll-smooth snap-y snap-mandatory;
 }
 
 .skeleton-animation {

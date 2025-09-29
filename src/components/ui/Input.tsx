@@ -8,8 +8,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const Input: React.FC<InputProps> = ({ className = '', ref, ...props }) => (
   <input
     ref={ref}
-    type="text"
-    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
+    className={`w-full border-gray-300 p-2 h-10 flex items-center border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500${className ? ` ${className}` : ''}`}
     {...props}
   />
 )
