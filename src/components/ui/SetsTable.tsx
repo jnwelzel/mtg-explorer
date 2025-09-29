@@ -12,7 +12,6 @@ interface SetsTableProps {
 
 export const SetsTable: React.FC<SetsTableProps> = ({ setsData }) => {
   const { pages, currentPage, setCurrentPage, pageSize, setPageSize } = useSets(setsData)
-  console.log({ pages, currentPage, pageSize })
 
   return (
     <>
@@ -57,18 +56,34 @@ export const SetsTable: React.FC<SetsTableProps> = ({ setsData }) => {
                     <small className="text-gray-400">{set.code.toUpperCase()}</small>
                   </Link>
                 </td>
-                <td className="p-2 whitespace-nowrap">{set.card_count ?? 'N/A'}</td>
                 <td className="p-2 whitespace-nowrap">
-                  {set?.released_at?.toLocaleDateString() ?? 'Unknown'}
+                  <Link
+                    to={`${routesPath.setView(set.code)}?q=s:${set.code}`}
+                    className="flex items-center">
+                    {set.card_count ?? 'N/A'}
+                  </Link>
                 </td>
-                <td className="p-2 whitespace-nowrap">{set.set_type}</td>
+                <td className="p-2 whitespace-nowrap">
+                  <Link
+                    to={`${routesPath.setView(set.code)}?q=s:${set.code}`}
+                    className="flex items-center">
+                    {set?.released_at?.toLocaleDateString() ?? 'Unknown'}
+                  </Link>
+                </td>
+                <td className="p-2 whitespace-nowrap">
+                  <Link
+                    to={`${routesPath.setView(set.code)}?q=s:${set.code}`}
+                    className="flex items-center">
+                    {set.set_type}
+                  </Link>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
       <div className="px-2 whitespace-nowrap">
-        <div className="flex gap-2 justify-center items-center">
+        <div className="flex gap-3 justify-center items-center">
           <Button
             variant="secondary"
             onClick={() => setCurrentPage(1)}
