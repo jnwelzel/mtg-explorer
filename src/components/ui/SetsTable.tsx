@@ -69,7 +69,7 @@ export const SetsTable: React.FC<SetsTableProps> = ({ setsData }) => {
                     />
                   )}
                 </Button>
-                <form className="flex w-full" action={onSearchSubmit}>
+                <form className="flex w-full min-w-64" action={onSearchSubmit}>
                   <Input
                     type="search"
                     name="setName"
@@ -168,6 +168,13 @@ export const SetsTable: React.FC<SetsTableProps> = ({ setsData }) => {
                 </td>
               </tr>
             ))}
+            {Object.keys(pages).length === 0 && (
+              <tr>
+                <td colSpan={4} className="p-2 text-left text-error">
+                  No sets found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
