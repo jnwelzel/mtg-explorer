@@ -13,6 +13,9 @@ type UseSetsResult = {
   sortDirection: SortingDirection
   currentSorting: SetSortingOption
   handleSortingClick: (sortingOption: SetSortingOption) => void
+  searchTerm: string
+  setSearchTerm: (term: string) => void
+  onSearchSubmit: () => void
 }
 
 export const useSets = (sets: Set[]): UseSetsResult => {
@@ -21,11 +24,13 @@ export const useSets = (sets: Set[]): UseSetsResult => {
   const [pages, setPages] = useState<Record<number, Set[]>>(() => buildPages(sets, pageSize))
   const [currentSorting, setCurrentSorting] = useState<SetSortingOption>('date')
   const [sortDirection, setSortDirection] = useState<SortingDirection>('descending')
+  const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
     setCurrentPage(1)
     setCurrentSorting('date')
     setSortDirection('descending')
+    setSearchTerm('')
     setPages(buildPages(sortSets(sets, 'date', 'descending'), pageSize))
   }, [pageSize, sets])
 
@@ -41,6 +46,14 @@ export const useSets = (sets: Set[]): UseSetsResult => {
     setPages(buildPages(sortSets(sets, sortingOption, newSortDirection), pageSize))
   }
 
+  const onSearchSubmit = () => {
+    const filteredSets = sets.filter(set =>
+      set.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    setCurrentPage(1)
+    setPages(buildPages(sortSets(filteredSets, currentSorting, sortDirection), pageSize))
+  }
+
   return {
     pages,
     currentPage,
@@ -50,5 +63,8 @@ export const useSets = (sets: Set[]): UseSetsResult => {
     sortDirection,
     currentSorting,
     handleSortingClick,
+    searchTerm,
+    setSearchTerm,
+    onSearchSubmit,
   }
 }

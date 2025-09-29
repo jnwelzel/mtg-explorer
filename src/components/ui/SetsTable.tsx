@@ -7,6 +7,7 @@ import { RxDoubleArrowLeft, RxDoubleArrowRight } from 'react-icons/rx'
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl'
 import { LuChevronsUpDown, LuChevronUp } from 'react-icons/lu'
 import { getTypeLabel } from '../../utils'
+import { Input } from './Input'
 
 interface SetsTableProps {
   setsData: Set[]
@@ -22,6 +23,9 @@ export const SetsTable: React.FC<SetsTableProps> = ({ setsData }) => {
     sortDirection,
     currentSorting,
     handleSortingClick,
+    searchTerm,
+    setSearchTerm,
+    onSearchSubmit,
   } = useSets(setsData)
 
   return (
@@ -65,6 +69,16 @@ export const SetsTable: React.FC<SetsTableProps> = ({ setsData }) => {
                     />
                   )}
                 </Button>
+                <form className="flex w-full" action={onSearchSubmit}>
+                  <Input
+                    type="search"
+                    name="setName"
+                    placeholder="Search by name"
+                    onChange={e => setSearchTerm(e.target.value)}
+                    className="bg-white font-normal"
+                    value={searchTerm}
+                  />
+                </form>
               </th>
               <th className="p-2 whitespace-nowrap">
                 <Button
