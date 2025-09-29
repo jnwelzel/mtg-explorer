@@ -1,0 +1,1 @@
+export type SetSortingOption = 'name' | 'date' | 'type' | 'cards'

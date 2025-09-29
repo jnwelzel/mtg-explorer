@@ -52,7 +52,8 @@ export const SetsTable: React.FC<SetsTableProps> = ({ setsData }) => {
                 <Button
                   variant="unstyled"
                   className="flex items-center cursor-pointer gap-2"
-                  onClick={() => handleSortingClick('name')}>
+                  onClick={() => handleSortingClick('name')}
+                  aria-label={`Sort by name ${sortDirection === 'ascending' ? 'descending' : 'ascending'}`}>
                   <span>Name</span>
                   {currentSorting !== 'name' && (
                     <LuChevronsUpDown className="w-4 h-4 text-gray-500" />
@@ -68,7 +69,8 @@ export const SetsTable: React.FC<SetsTableProps> = ({ setsData }) => {
                 <Button
                   variant="unstyled"
                   className="flex items-center cursor-pointer gap-2"
-                  onClick={() => handleSortingClick('cards')}>
+                  onClick={() => handleSortingClick('cards')}
+                  aria-label={`Sort by cards ${sortDirection === 'ascending' ? 'descending' : 'ascending'}`}>
                   <span>Cards</span>
                   {currentSorting !== 'cards' && (
                     <LuChevronsUpDown className="w-4 h-4 text-gray-500" />
@@ -84,7 +86,8 @@ export const SetsTable: React.FC<SetsTableProps> = ({ setsData }) => {
                 <Button
                   variant="unstyled"
                   className="flex items-center cursor-pointer gap-2"
-                  onClick={() => handleSortingClick('date')}>
+                  onClick={() => handleSortingClick('date')}
+                  aria-label={`Sort by date ${sortDirection === 'ascending' ? 'descending' : 'ascending'}`}>
                   <span>Date</span>
                   {currentSorting !== 'date' && (
                     <LuChevronsUpDown className="w-4 h-4 text-gray-500" />
@@ -100,7 +103,8 @@ export const SetsTable: React.FC<SetsTableProps> = ({ setsData }) => {
                 <Button
                   variant="unstyled"
                   className="flex items-center cursor-pointer gap-2"
-                  onClick={() => handleSortingClick('type')}>
+                  onClick={() => handleSortingClick('type')}
+                  aria-label={`Sort by type ${sortDirection === 'ascending' ? 'descending' : 'ascending'}`}>
                   <span>Type</span>
                   {currentSorting !== 'type' && (
                     <LuChevronsUpDown className="w-4 h-4 text-gray-500" />
