@@ -29,11 +29,11 @@ export const Layout: React.FC = () => {
           <div className="grid min-h-screen grid-rows-[auto_1fr_auto] bg-white">
             <Header onMenuClick={() => setMenuOpen(!isMenuOpen)} />
             <MobileSideNav isOpen={isMenuOpen} onClose={() => setMenuOpen(false)} />
-            <div className="p-4 overflow-x-auto">
-              <main className="container mx-auto">
+            <main className="p-4 overflow-x-auto">
+              <div className="container mx-auto">
                 <Outlet />
-              </main>
-            </div>
+              </div>
+            </main>
             <Footer />
           </div>
         </RecentCardsContext>

@@ -8,7 +8,7 @@ export const HomePage: React.FC = () => {
   const { cardName, setCardName, handleSearchSubmit } = useHomePage()
 
   return (
-    <main className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-bold mt-32 text-center">MTG Explorer</h1>
       <span>
         <p className="text-gray-700 text-center leading-5">
@@ -32,6 +32,6 @@ export const HomePage: React.FC = () => {
           value={cardName}
         />
       </form>
-    </main>
+    </div>
   )
 }
