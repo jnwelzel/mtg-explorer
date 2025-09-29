@@ -3,6 +3,8 @@ import type { Set } from 'scryfall-api'
 import { routesPath } from '../../routes'
 import { useSets } from '../../hooks'
 import { Button } from './Button'
+import { RxDoubleArrowLeft, RxDoubleArrowRight } from 'react-icons/rx'
+import { SlArrowLeft, SlArrowRight } from 'react-icons/sl'
 
 interface SetsTableProps {
   setsData: Set[]
@@ -67,14 +69,19 @@ export const SetsTable: React.FC<SetsTableProps> = ({ setsData }) => {
       </div>
       <div className="px-2 whitespace-nowrap">
         <div className="flex gap-2 justify-center items-center">
-          <Button size="small" onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>
-            First
+          <Button
+            variant="secondary"
+            onClick={() => setCurrentPage(1)}
+            disabled={currentPage === 1}
+            isCircle>
+            <RxDoubleArrowLeft className="w-4 h-4" />
           </Button>
           <Button
             onClick={() => setCurrentPage(currentPage - 1)}
             disabled={currentPage === 1}
-            size="small">
-            Previous
+            isCircle
+            variant="secondary">
+            <SlArrowLeft className="w-3 h-3" />
           </Button>
           <span className="text-sm text-gray-500">
             {currentPage} / {Object.keys(pages).length}
@@ -82,14 +89,16 @@ export const SetsTable: React.FC<SetsTableProps> = ({ setsData }) => {
           <Button
             onClick={() => setCurrentPage(currentPage + 1)}
             disabled={currentPage === Object.keys(pages).length}
-            size="small">
-            Next
+            isCircle
+            variant="secondary">
+            <SlArrowRight className="w-3 h-3" />
           </Button>
           <Button
             onClick={() => setCurrentPage(Object.keys(pages).length)}
             disabled={currentPage === Object.keys(pages).length}
-            size="small">
-            Last
+            isCircle
+            variant="secondary">
+            <RxDoubleArrowRight className="w-4 h-4" />
           </Button>
         </div>
       </div>
