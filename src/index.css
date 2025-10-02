@@ -9,6 +9,18 @@
   --color-brand-blue: #004aad;
 }
 
+@layer utilities {
+  .text-stroke-2 {
+    -webkit-text-stroke-width: 2px;
+  }
+  .text-stroke-3 {
+    -webkit-text-stroke-width: 3px;
+  }
+  .text-stroke-brand-blue {
+    -webkit-text-stroke-color: var(--color-brand-blue);
+  }
+}
+
 body {
   @apply h-screen overflow-y-auto scroll-smooth snap-y snap-mandatory;
 }
@@ -40,4 +52,25 @@ body {
   100% {
     background-position: 468px 0;
   }
+}
+
+.pattaya-regular {
+  font-family: 'Pattaya', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.text-outline-brand-blue {
+  -webkit-text-fill-color: white;
+  text-shadow:
+    1px 1px 1px var(--color-brand-blue),
+    2px 2px 1px var(--color-brand-blue),
+    3px 3px 1px var(--color-brand-blue),
+    4px 4px 1px var(--color-brand-blue),
+    5px 5px 1px var(--color-brand-blue),
+    6px 6px 1px var(--color-brand-blue),
+    7px 7px 1px var(--color-brand-blue),
+    8px 8px 1px var(--color-brand-blue),
+    9px 9px 1px var(--color-brand-blue),
+    10px 10px 1px var(--color-brand-blue);
 }

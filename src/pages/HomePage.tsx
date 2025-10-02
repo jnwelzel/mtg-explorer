@@ -2,7 +2,6 @@ import { Link } from '../components/ui'
 import { routesPath } from '../routes'
 import { useHomePage } from '../hooks'
 import { useDocumentTitle } from '@uidotdev/usehooks'
-import mtgBrand from '../assets/mtgexplorer_brand.svg'
 import { Footer } from '../components'
 
 export const HomePage: React.FC = () => {
@@ -22,7 +21,9 @@ export const HomePage: React.FC = () => {
         </div>
       </div>
       <section className="h-screen snap-start flex flex-col items-center justify-center gap-4 px-4 bg-brand-yellow">
-        <img src={mtgBrand} alt="MTG Explorer" className="h-20 w-auto" />
+        <h1 className="pattaya-regular text-6xl md:text-8xl z-10 text-transparent text-outline-brand-blue">
+          MTG Explorer
+        </h1>
         <span>
           <p className="text-gray-700 text-center leading-5">
             Explore your favorite Magic: The Gathering <Link to={routesPath.cards}>cards</Link> and
